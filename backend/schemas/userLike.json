@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$id": "http://example.com/userLike.json",
+    "title": "User Likes",
+    "description": "A user can like another user",
+    "type": "object",
+    "properties": {
+        "user_id": {
+            "description": "user_id of the user who liked other user",
+            "type": "integer"
+        },
+        "liked_user_id": {
+            "description": "user_id of user who is being liked",
+            "type": "integer"
+        }
+    },
+    "additionalProperties": false,
+    "required": ["user_id", "liked_user_id"]
+}
