@@ -31,7 +31,7 @@
         "phone": {
             "type": "integer",
             "minLength": 1,
-            "maxLength": 13,
+            "maxLength": 15,
             "description": "The person's phone number."
         },
         "imageUrl": {
