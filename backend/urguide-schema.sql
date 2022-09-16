@@ -47,8 +47,6 @@ CREATE TABLE user_tourist (
 
 
 
-
-
 // user chooses to be a guide or tourist
 CREATE TABLE user_type (
 	id SERIAL PRIMARY KEY,
@@ -140,7 +138,6 @@ CREATE TABLE reviews (
 	user_id INTEGER REFERENCES users(id),
 	guide_id INTEGER REFERENCES users(id),
 	rating INTEGER NOT NULL,
-	review TEXT NOT NULL
 ); 
 
 
