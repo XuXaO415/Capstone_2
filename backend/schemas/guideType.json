@@ -1,8 +1,0 @@
-//create a schema that will store guide data
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id": "http://example.com/guideType.json",
-
-    "type": "object",
-
-}
