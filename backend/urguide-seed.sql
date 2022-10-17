@@ -1,7 +1,10 @@
 
 INSERT INTO users (first_name, last_name, username, password, email, phone, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin)
 VALUES ('test', 'user', 'testuser', '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q', 'testuser@email.com', 1234567890, 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', FALSE),
-('Admin', 'Boss', 'adminisdaboss', '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q', 'admin@email.com', 1234567890, 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', TRUE);
+('Admin', 'Boss', 'adminisdaboss', '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q', 'admin@email.com', 1234567890, 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', TRUE),
+('Lorenza', 'Barnardo', 'lbarnardo2', 'OzM28cthZbM', 'lbarnardo2@ebay.com', 638095445317, 'Tagbina', 'Philippines', '8308', 8.417766, 126.207415, 'https://robohash.org/assumendaestiste.jpg?size=50x50&set=set1', 'facilitate wireless infrastructures', 'Function-based client-server internet solution', FALSE),
+('Carolin', 'Brodeur', 'cbrodeur3', 'vlMpXR', 'cbrodeur3@diigo.com', 850654069335, 'Namyang-dong', 'South Korea', NULL, 41.45, 128.833333, 'https://robohash.org/temporequiased.jpg?size=50x50&set=set1', 'transform magnetic content', 'Distributed solution-oriented neural-net', FALSE),
+('Raeann', 'Labbet', 'rlabbet4', 'JAA6M4o2WL', 'rlabbet4@discovery.com', 3722008245020, 'Jõhvi', 'Estonia', NULL, 59.3573116, 27.4136645, 'https://robohash.org/estnihilquo.jpg?size=50x50&set=set1', 'iterate vertical infomediaries', 'Quality-focused homogeneous help-desk', FALSE);
 
 
 
@@ -109,7 +112,6 @@ VALUES(1, 2, 5),
 (3, 4, 3),
 (4, 5, 1),
 (5, 1, 5);
-
 
 
 -- INSERT INTO user_rating (user_id, rating)

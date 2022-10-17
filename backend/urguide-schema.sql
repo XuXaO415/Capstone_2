@@ -14,7 +14,7 @@ CREATE TABLE users (
 	image_url TEXT, 
 	hobbies TEXT,
 	interests TEXT,
-	is_admin BOOLEAN DEFAULT FALSE,
+	is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 
@@ -64,25 +64,11 @@ CREATE TABLE guide_type (
 );
 
 
--- Probably not needed
--- CREATE TABLE tourist_type (
--- 	id SERIAL PRIMARY KEY,
--- 	tourist_id INTEGER REFERENCES tourist(id),
--- 	type TEXT NOT NULL
--- );
-
 CREATE TABLE user_interests (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
 	interest TEXT NOT NULL
 );
-
-
--- CREATE TABLE user_hobbies (
--- 	id SERIAL PRIMARY KEY,
--- 	user_id INTEGER REFERENCES users(id),
--- 	hobby TEXT NOT NULL
--- );
 
 
 CREATE TABLE user_languages (
@@ -135,48 +121,3 @@ CREATE TABLE ratings (
 	guide_id INTEGER REFERENCES users(id),
 	rating INTEGER NOT NULL
 );
-
-
--- Repetitive rating system
--- CREATE TABLE guide_ratings (
--- 	id SERIAL PRIMARY KEY,
--- 	tourist_id INTEGER REFERENCES users(id),
--- 	guide_id INTEGER REFERENCES users(id),
--- 	rating INTEGER NOT NULL
--- );
-
-
--- CREATE TABLE tourist_ratings (
--- 	id SERIAL PRIMARY KEY,
--- 	tourist_id INTEGER REFERENCES users(id),
--- 	guide_id INTEGER REFERENCES users(id),
--- 	rating INTEGER NOT NULL
--- );
-
-
--- CREATE TABLE reviews (
--- 	id SERIAL PRIMARY KEY,
--- 	user_id INTEGER REFERENCES users(id),
--- 	guide_id INTEGER REFERENCES users(id),
--- 	rating INTEGER NOT NULL
--- ); 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
