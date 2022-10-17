@@ -39,9 +39,28 @@ class UrGuideApi {
             throw Array.isArray(message) ? message : [message];
         }
     }
+
+
+
+    // Individual API calls
+
+    static async getCurrentUser(username, data) {
+        let res = await this.request(`users/${username}`, data, "GET");
+        return res.user;
+    }
+
+    static async login(data) {
+        let res = await this.request(`login`, data, "POST");
+        return res.token;
+    }
+
+    static async signup(data) {
+        let res = await this.request(`signup`, data, "POST");
+        return res.token;
+    }
+
 }
 
-// Individual API calls
 /* ************************************************************* */
 
 
@@ -49,10 +68,6 @@ class UrGuideApi {
 UrGuideApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
     "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
-
-
-
-
 
 
 export default UrGuideApi;
