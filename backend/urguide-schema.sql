@@ -5,63 +5,20 @@ CREATE TABLE users (
 	username TEXT NOT NULL,
 	password TEXT NOT NULL,
 	email VARCHAR(50) NOT NULL,
-	phone INTEGER NOT NULL,
+	phone VARCHAR(15) NOT NULL,
 	city TEXT NOT NULL,
 	country TEXT NOT NULL,
 	zipCode INTEGER,
-	latitude INTEGER,
-	longitude INTEGER,
+	latitude DECIMAL,
+	longitude DECIMAL,
 	image_url TEXT, 
 	hobbies TEXT,
 	interests TEXT,
-	is_admin BOOLEAN NOT NULL DEFAULT FALSE
+	is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+	is_guide BOOLEAN NOT NULL DEFAULT FALSE,
+	is_tourist BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-
-CREATE TABLE guide (
-	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id),
-	is_guide BOOLEAN NOT NULL
-);
-
-
-CREATE TABLE tourist (
-	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id),
-	is_tourist BOOLEAN NOT NULL
-);
-
-
-CREATE TABLE user_guide (
-	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id),
-	guide_id INTEGER REFERENCES guide(id)
-);
-
-CREATE TABLE user_tourist (
-	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id),
-	tourist_id INTEGER REFERENCES tourist(id)
-);
-
-CREATE TABLE guide_tourist (
-	id SERIAL PRIMARY KEY,
-	guide_id INTEGER REFERENCES guide(id),
-	tourist_id INTEGER REFERENCES tourist(id)
-);
-
-
-CREATE TABLE user_type (
-	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id),
-	type TEXT NOT NULL
-); 
-
-CREATE TABLE guide_type (
-	id SERIAL PRIMARY KEY,
-	guide_id INTEGER REFERENCES guide(id),
-	type TEXT NOT NULL
-);
 
 
 CREATE TABLE user_interests (
@@ -82,7 +39,7 @@ CREATE TABLE user_locations (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
 	city TEXT NOT NULL,
-	country TEXT NOT NULL,
+	country TEXT ,
 	zipCode INTEGER
 );
 
@@ -115,9 +72,10 @@ CREATE TABLE user_rating (
 );
 
 
-CREATE TABLE ratings (
+CREATE TABLE guide_tourist (
 	id SERIAL PRIMARY KEY,
 	tourist_id INTEGER REFERENCES users(id),
 	guide_id INTEGER REFERENCES users(id),
-	rating INTEGER NOT NULL
+	tourist_rating INTEGER NOT NULL,
+	guide_rating INTEGER NOT NULL
 );
