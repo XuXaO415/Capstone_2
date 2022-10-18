@@ -53,30 +53,19 @@ VALUES(1, 10),
 (4, 40),
 (5, 50);
 
-INSERT INTO guide_tourist (tourist_id, guide_id, tourist_rating, guide_rating)
+-- INSERT INTO guide_tourist (tourist_id, guide_id, tourist_rating, guide_rating)
+-- VALUES(1, 2, 5, 5),
+-- (2, 3, 4, 2),
+-- (3, 4, 3, 3),
+-- (4, 5, 1, 1),
+-- (5, 1, 2, 4);
+
+INSERT INTO guide_tourist_match (tourist_id, guide_id, tourist_rating, guide_rating)
 VALUES(1, 2, 5, 5),
 (2, 3, 4, 2),
 (3, 4, 3, 3),
 (4, 5, 1, 1),
 (5, 1, 2, 4);
-
-
-
--- INSERT INTO user_rating (user_id, rating)
--- VALUES(1, 5),
--- (2, 4),
--- (3, 3),
--- (4, 1),
--- (5, 5);
-
--- INSERT INTO guide_ratings (tourist_id, guide_id, rating)
--- VALUES(1, 4, 4),
--- (3, 2, 3),
--- (4, 1, 5),
--- (5, 3, 2),
--- (2, 5, 1);
-
-
 
 
 

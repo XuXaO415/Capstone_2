@@ -72,7 +72,16 @@ CREATE TABLE user_rating (
 );
 
 
-CREATE TABLE guide_tourist (
+-- CREATE TABLE guide_tourist (
+-- 	id SERIAL PRIMARY KEY,
+-- 	tourist_id INTEGER REFERENCES users(id),
+-- 	guide_id INTEGER REFERENCES users(id),
+-- 	tourist_rating INTEGER NOT NULL,
+-- 	guide_rating INTEGER NOT NULL
+-- );
+
+
+CREATE TABLE guide_tourist_match (
 	id SERIAL PRIMARY KEY,
 	tourist_id INTEGER REFERENCES users(id),
 	guide_id INTEGER REFERENCES users(id),
