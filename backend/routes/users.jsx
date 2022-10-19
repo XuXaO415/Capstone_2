@@ -12,7 +12,7 @@ const {
 const {
     BadRequestError
 } = require("../expressError");
-const User = require("../models/user");
+// const User = require("../models/user");
 const {
     createToken
 } = require("../helpers/tokens");

@@ -11,7 +11,7 @@ const {
     authenticateJWT
 } = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
-const usersRoutes = require("./routes/users");
+const usersRoutes = require("./routes/users.jsx");
 
 
 const morgan = require("morgan");
