@@ -21,16 +21,45 @@ beforeEach(CommonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
+// describe("authenticate", function () {
+//     test("works", async function () {
+//         const user = await User.authenticate("jdoe", "password");
+//         expect(user).toEqual({
+//             username: "jdoe",
+//             first_name: "Jane",
+//             last_name: "Doe",
+//             email: "test@email.com",
+//             is_admin: true,
+//         });
+//     });
+
 describe("authenticate", function () {
     test("works", async function () {
-        const user = await User.authenticate("jdoe", "password");
+        const user = await User.authenticate("johndoe", "password");
         expect(user).toEqual({
-            username: "jdoe",
-            first_name: "Jane",
+            username: "johndoe",
+            first_name: "John",
             last_name: "Doe",
-            email: "test@email.com",
-            is_admin: true,
+            email: "test2@email.com",
+            is_admin: false
         });
     });
 
+    test("unauthorized if no such user", async function () {
+        try {
+            await User.authenticate("nope", "password");
+            fail();
+        } catch (err) {
+            expect(err instanceof UnauthorizedError).toBeTruthy();
+        }
+    });
+
+    test("unauthorized if wrong password", async function () {
+        try {
+            await User.authenticate("jdoe", "wrong");
+            fail();
+        } catch (err) {
+            expect(err instanceof UnauthorizedError).toBeTruthy();
+        }
+    });
 });
