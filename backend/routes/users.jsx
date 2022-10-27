@@ -79,6 +79,7 @@ router.post("/login", async function (req, res, next) {
     }
 });
 
+
 /** GET / => { users: [ { username, firstName, lastName, email, isAdmin }, ...] }
  *  
  * Returns list of all users.
