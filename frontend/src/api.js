@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:7001";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001";
 
 class UrGuideApi {
     // store API token here 
@@ -58,6 +58,66 @@ class UrGuideApi {
         let res = await this.request(`signup`, data, "POST");
         return res.token;
     }
+
+    /** Guide API routes */
+
+    static async getGuides(data) {
+        let res = await this.request(`guides`, data, "GET");
+        return res.guides;
+    }
+
+    static async getGuides(id) {
+        let res = await this.request(`guides/${id}`, data, "GET");
+        return res.guide;
+    }
+
+    static async createGuide(data) {
+        let res = await this.request(`guides`, data, "POST");
+        return res.guide;
+    }
+
+    /** Get potential matches */
+
+    static async getPotentialMatches(username) {
+        let res = await this.request(`users/${username}/matches`, data, "GET");
+        return res.matches;
+    }
+
+
+    static async getFavorites(username) {
+        let res = await this.request(`users/${username}/favorites`, data, "GET");
+        return res.favorites;
+    }
+
+    static async createFavorite(username, data) {
+        let res = await this.request(`users/${username}/favorites`, data, "POST");
+        return res.favorite;
+    }
+
+    static async deleteFavorite(username, id) {
+        let res = await this.request(`users/${username}/favorites/${id}`, data, "DELETE");
+        return res.message;
+    }
+
+    static async getLikes(id) {
+        let res = await this.request(`guides/${id}/likes`, data, "GET");
+        return res.likes;
+    }
+
+    static async createLike(id, data) {
+        let res = await this.request(`guides/${id}/likes`, data, "POST");
+        return res.like;
+    }
+
+    static async deleteLike(id) {
+        let res = await this.request(`likes/${id}`, data, "DELETE");
+        return res.message;
+    }
+
+
+
+
+
 
 }
 
