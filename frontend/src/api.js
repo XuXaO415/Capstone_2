@@ -59,6 +59,14 @@ class UrGuideApi {
         return res.token;
     }
 
+    /** Create new user  */
+
+    static async createUser(data) {
+        let res = await this.request(`users`, data, "POST");
+        return res.user;
+    }
+
+
     /** Guide API routes */
 
     static async getGuides(data) {
@@ -76,45 +84,101 @@ class UrGuideApi {
         return res.guide;
     }
 
-    /** Get potential matches */
+    /** GET potential matches for guides */
+
+    static async getPotentialMatches(id) {
+        let res = await this.request(`guides/${id}/matches`, data, "GET");
+        return res.matches;
+    }
+
+    /** GET potential matches for users */
 
     static async getPotentialMatches(username) {
         let res = await this.request(`users/${username}/matches`, data, "GET");
         return res.matches;
     }
 
+    /** GET user's guides */
 
-    static async getFavorites(username) {
-        let res = await this.request(`users/${username}/favorites`, data, "GET");
-        return res.favorites;
+    static async getUserGuides(username) {
+        let res = await this.request(`users/${username}/guides`, data, "GET");
+        return res.guides;
     }
 
-    static async createFavorite(username, data) {
-        let res = await this.request(`users/${username}/favorites`, data, "POST");
-        return res.favorite;
+    /** GET matches for users/guides */
+
+    static async getMatches(id) {
+        let res = await this.request(`users/${id}/matches`, data, "GET");
+        return res.matches;
     }
 
-    static async deleteFavorite(username, id) {
-        let res = await this.request(`users/${username}/favorites/${id}`, data, "DELETE");
+    /** Like a potential user match */
+
+    static async likeMatch(id, data) {
+        let res = await this.request(`users/${id}/matches`, data, "POST");
+        return res.match;
+    }
+
+    /** Like a potential guide match */
+
+    static async likeMatch(id, data) {
+        let res = await this.request(`guides/${id}/matches`, data, "POST");
+        return res.match;
+    }
+
+    /** Dislike potential user match  */
+
+    static async dislikeMatch(id) {
+        let res = await this.request(`matches/${id}`, data, "DELETE");
         return res.message;
     }
 
-    static async getLikes(id) {
-        let res = await this.request(`guides/${id}/likes`, data, "GET");
-        return res.likes;
-    }
+    /** Dislike potential guide match  */
 
-    static async createLike(id, data) {
-        let res = await this.request(`guides/${id}/likes`, data, "POST");
-        return res.like;
-    }
-
-    static async deleteLike(id) {
-        let res = await this.request(`likes/${id}`, data, "DELETE");
+    static async dislikeMatch(id) {
+        let res = await this.request(`matches/${id}`, data, "DELETE");
         return res.message;
     }
 
 
+
+
+    /** GET user's favorite */
+
+    // static async getFavorites(username) {
+    //     let res = await this.request(`users/${username}/favorites`, data, "GET");
+    //     return res.favorites;
+    // }
+
+    /** WTH am I doing   */
+    // static async createFavorite(username, data) {
+    //     let res = await this.request(`users/${username}/favorites`, data, "POST");
+    //     return res.favorite;
+    // }
+
+    // static async deleteFavorite(username, id) {
+    //     let res = await this.request(`users/${username}/favorites/${id}`, data, "DELETE");
+    //     return res.message;
+    // }
+
+    // static async getLikes(id) {
+    //     let res = await this.request(`guides/${id}/likes`, data, "GET");
+    //     return res.likes;
+    // }
+
+    // static async createLike(id, data) {
+    //     let res = await this.request(`guides/${id}/likes`, data, "POST");
+    //     return res.like;
+    // }
+
+    // static async deleteLike(id) {
+    //     let res = await this.request(`likes/${id}`, data, "DELETE");
+    //     return res.message;
+    // }
+
+    /**  */
+
+    // need to add route for uploading images
 
 
 
