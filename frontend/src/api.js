@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3000";
+
 
 class UrGuideApi {
     // store API token here 
@@ -96,16 +97,16 @@ class UrGuideApi {
     /** GET potential matches for guides */
 
     static async getPotentialMatches(id, data = {}) {
-        let res = await this.request(`guides/${id}/matches`, data, "GET");
+        let res = await this.request(`/${id}/matches`, data, "GET");
         return res.matches;
     }
 
     /** GET potential matches for users */
 
-    static async getPotentialMatches(username, data = {}) {
-        let res = await this.request(`users/${username}/matches`, data, "GET");
-        return res.matches;
-    }
+    // static async getPotentialMatches(username, data = {}) {
+    //     let res = await this.request(`users/${username}/matches`, data, "GET");
+    //     return res.matches;
+    // }
 
     /** GET user's guides */
 
