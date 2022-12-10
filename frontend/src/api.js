@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3000";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 
 class UrGuideApi {
@@ -17,12 +17,12 @@ class UrGuideApi {
         const headers = {
             Authorization: `Bearer ${UrGuideApi.token}`
         };
-        const response = await axios({
-            url,
-            data,
-            method,
-            headers
-        });
+        // const response = await axios({
+        //     url,
+        //     data,
+        //     method,
+        //     headers
+        // });
         const params = (method === "GET") ? data : {};
         console.debug("API Response:", response.data, params);
 
@@ -50,13 +50,25 @@ class UrGuideApi {
         return res.user;
     }
 
-    static async login(data) {
-        let res = await this.request(`login`, data, "POST");
+    static async login({
+        username,
+        password
+    }) {
+        let res = await this.request(`auth/token`, {
+            username,
+            password
+        }, "POST");
         return res.token;
     }
 
+
+    // static async login(data) {
+    //     let res = await this.request(`login`, data, "POST");
+    //     return res.token;
+    // }
+
     static async signup(data) {
-        let res = await this.request(`signup`, data, "POST");
+        let res = await this.request(`auth/register`, data, "POST");
         return res.token;
     }
 
@@ -64,6 +76,11 @@ class UrGuideApi {
 
     static async createUser(data) {
         let res = await this.request(`users`, data, "POST");
+        return res.user;
+    }
+
+    static async updateUser(username, data) {
+        let res = await this.request(`users/${username}`, data, "PATCH");
         return res.user;
     }
 
