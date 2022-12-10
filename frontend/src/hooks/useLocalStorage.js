@@ -5,8 +5,12 @@ import React, {
 
 
 function useLocalStorage(key, initialValue = null) {
-    const initialValue = localStorage.getItem(key) || initialValue;
-    const [value, setValue] = useState(initialValue);
+    const [value, setValue] = useState(() => {
+        const item = localStorage.getItem(key);
+        return item ? item : initialValue;
+    });
+
+
 
     useEffect(() => {
         console.debug("useLocalStorage useEffect", "value=", value);

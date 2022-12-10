@@ -1,11 +1,13 @@
-import { sign } from "jsonwebtoken";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import JoblyApi from "../api";
+import * as React from "react";
+import { useState } from "react";
+import { useHistory, BrowserRouter } from "react-router-dom";
+import UrGuideApi from "../api";
+import UserContext from "../context/UserContext";
+import jwt from "jsonwebtoken";
 
 function SignupForm() {
-  const history = useHistory();
-  cont[(formData, setFormData)] = useState({
+  const history = BrowserRouter();
+  const [formData, setFormData] = useState({
     username: "",
     password: "",
     firstName: "",
@@ -27,14 +29,20 @@ function SignupForm() {
 
   /** Handle form input. */
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    let result = await signup(formData);
-    if (result.success) {
-      setFormErrors([]);
-    } else {
-      setFormErrors(result.errors);
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    async function signup() {
+      try {
+        let token = await UrGuideApi.signup(formData);
+        localStorage.setItem("urGuide-token", token);
+        let { username } = jwt.decode(token);
+        let currentUser = await UrGuideApi.getCurrentUser(username);
+        history.push("/");
+      } catch (errors) {
+        setFormErrors(errors);
+      }
     }
+    signup();
   }
 
   /** Update form data */
