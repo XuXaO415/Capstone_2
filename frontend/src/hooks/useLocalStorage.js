@@ -3,27 +3,20 @@ import React, {
     useEffect
 } from "react";
 
-
 function useLocalStorage(key, initialValue = null) {
-    const [value, setValue] = useState(() => {
-        const item = localStorage.getItem(key);
-        return item ? item : initialValue;
-    });
+    const firstValue = localStorage.getItem(key) || initialValue;
+    const [storedValue, setStoredValue] = useState(firstValue);
 
-
-
-    useEffect(() => {
-        console.debug("useLocalStorage useEffect", "value=", value);
-
-        if (value === null) {
+    React.useEffect(() => {
+        localStorage.setItem(key, storedValue);
+        console.debug("Hook is running & using 'useLocalStorage', useEffect", "storedValue=", storedValue);
+        if (storedValue === null) {
             localStorage.removeItem(key);
         } else {
-            localStorage.setItem(key, value);
+            localStorage.setItem(key, storedValue);
         }
-    }, [key, value]);
-
-    return [value, setValue];
-
+    }, [key, storedValue]);
+    return [storedValue, setStoredValue];
 }
 
 export default useLocalStorage;

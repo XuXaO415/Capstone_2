@@ -9,7 +9,19 @@ function Navigation({ logout }) {
     return (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <NavLink className="nav-link" to="/"></NavLink>
+          <NavLink className="nav-link" to="/matches">
+            Matches
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/profile">
+            Profile
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/" onClick={logout}>
+            Log out {currentUser.first_name || currentUser.username}
+          </NavLink>
         </li>
       </ul>
     );
