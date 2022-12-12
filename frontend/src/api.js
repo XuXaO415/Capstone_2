@@ -17,12 +17,12 @@ class UrGuideApi {
         const headers = {
             Authorization: `Bearer ${UrGuideApi.token}`
         };
-        // const response = await axios({
-        //     url,
-        //     data,
-        //     method,
-        //     headers
-        // });
+        const response = await axios({
+            url,
+            data,
+            method,
+            headers
+        });
         const params = (method === "GET") ? data : {};
         console.debug("API Response:", response.data, params);
 
