@@ -4,7 +4,7 @@
 
 const jsonschema = require("jsonschema");
 
-const User = require("../models/user.jsx");
+const User = require("../models/users.jsx");
 const express = require("express");
 const router = new express.Router();
 const {
