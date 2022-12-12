@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory, NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 function LoginForm({ login }) {
@@ -11,7 +11,7 @@ function LoginForm({ login }) {
   const [formData, setFormData] = useState(initialState);
   const [formErrors, setFormErrors] = useState([]);
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -35,7 +35,7 @@ function LoginForm({ login }) {
       setSuccess(true);
       setCurrentUser(result.user);
       setIsLoggedIn(true);
-      history.push("/");
+      navigate.push("/");
     } else {
       setFormErrors(result.errors);
     }

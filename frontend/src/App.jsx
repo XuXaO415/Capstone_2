@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import useLocalStorage from "./hooks/useLocalStorage";
 import UrGuideApi from "./api";
 import UserContext from "./context/UserContext";
@@ -11,7 +11,7 @@ export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [infoLoaded, setInfoLoaded] = useState(false);
-  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+  const [token, setToken] = useLocalStorage("token", null);
   const [currentUser, setCurrentUser] = useState(null);
   const [potentialMatches, setPotentialMatches] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,7 +25,7 @@ function App() {
     "currentUser=",
     currentUser,
     "potentialMatches=",
-    potentialMatches,
+    potentialMatches && potentialMatches.length,
     "isLoggedIn=",
     isLoggedIn
   );
@@ -85,10 +85,19 @@ function App() {
   /** Handles site-wide login. */
 
   function login(data) {
-    setToken(data.token);
+    async function loginUser() {
+      try {
+        let token = await UrGuideApi.login(data);
+        setToken(token);
+        return { success: true };
+      } catch (errors) {
+        console.error("login failed", errors);
+        return { success: false, errors };
+      }
+    }
+    loginUser();
   }
 
-  if (!infoLoaded) return "Loading...";
   return (
     <div className="App">
       <UserContext.Provider
@@ -97,11 +106,11 @@ function App() {
           setCurrentUser,
         }}
       >
-        <Router>
-          <Navigation logout={logout} />{" "}
-          <Routes login={login} potentialMatches={potentialMatches} />{" "}
-        </Router>{" "}
-      </UserContext.Provider>{" "}
+        <Route>
+          <Navigation logout={logout} />
+          <Routes login={login} />
+        </Route>
+      </UserContext.Provider>
     </div>
   );
 }

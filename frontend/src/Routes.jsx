@@ -4,7 +4,7 @@ import { matchPath, Route } from "react-router";
 import Homepage from "./homepage/Homepage";
 import LoginForm from "./auth/LoginForm";
 import SignupForm from "./auth/SignupForm";
-import ProfileForm from "./auth/ProfileForm";
+import ProfileForm from "./forms/ProfileForm";
 import PrivateRoute from "./routes/PrivateRoute";
 import UserContext from "./context/UserContext";
 
