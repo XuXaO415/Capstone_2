@@ -79,8 +79,8 @@ class UrGuideApi {
         return res.user;
     }
 
-    static async updateUser(username, data) {
-        let res = await this.request(`users/${username}`, data, "PATCH");
+    static async updateProfile(username, data) {
+        let res = await this.request(`users/${username}/profile`, data, "POST");
         return res.user;
     }
 
@@ -114,8 +114,8 @@ class UrGuideApi {
     /** GET potential matches for guides */
 
     static async getPotentialMatches(id, data = {}) {
-        let res = await this.request(`/${id}/matches`, data, "GET");
-        return res.matches;
+        let res = await this.request(`users/${id}/matches`, data, "GET");
+        return res.status;
     }
 
     /** GET potential matches for users */
@@ -143,29 +143,28 @@ class UrGuideApi {
 
     static async likeMatch(id) {
         let res = await this.request(`users/${id}/matches`, {}, "POST");
-        return res.match;
+        return res.status;
     }
-
-    /** Like a potential guide match */
-
-    static async likeMatch(id, data) {
-        let res = await this.request(`guides/${id}/matches`, data, "POST");
-        return res.match;
-    }
-
-    /** Dislike potential user match  */
 
     static async dislikeMatch(id) {
-        let res = await this.request(`matches/${id}`, {}, "DELETE");
-        return res.message;
+        let res = await this.request(`users/${id}/matches`, {}, "DELETE");
+        return res.status;
     }
 
-    /** Dislike potential guide match  */
+    // /** Like a potential guide match */
 
-    static async dislikeMatch(id) {
-        let res = await this.request(`matches/${id}`, {}, "DELETE");
-        return res.message;
-    }
+    // static async likeMatch(id, data) {
+    //     let res = await this.request(`guides/${id}/matches`, data, "POST");
+    //     return res.match;
+    // }
+
+    // /** Dislike potential user match  */
+
+    // static async dislikeMatch(id) {
+    //     let res = await this.request(`matches/${id}`, {}, "DELETE");
+    //     return res.message;
+    // }
+
 
 
 
