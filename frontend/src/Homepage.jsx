@@ -20,7 +20,7 @@ function Homepage() {
           <h2>Welcome back, {currentUser.username}</h2>
         ) : (
           <center>
-            <Link to="/login" className="btn btn-primary mr-3">
+            <Link to="/login" className="btn btn-primary">
               Log in
             </Link>
             <Link to="/signup" className="btn btn-primary">
