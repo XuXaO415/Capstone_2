@@ -35,10 +35,22 @@ function Navigation({ logout }) {
 
   function loggedOutNav() {
     return (
-      <Nav className="mr-auto">
-        <Nav.Link href="/login">Login</Nav.Link>
-        <Nav.Link href="/signup">Sign Up</Nav.Link>
-      </Nav>
+      // <Nav className="mr-auto">
+      //   <Nav.Link href="/login">Login</Nav.Link>
+      //   <Nav.Link href="/signup">Sign Up</Nav.Link>
+      // </Nav>
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item mr-4">
+          <NavLink className="nav-link" to="/login">
+            Login
+          </NavLink>
+        </li>
+        <li className="nav-item mr-4">
+          <NavLink className="nav-link" to="/signup">
+            Sign Up
+          </NavLink>
+        </li>
+      </ul>
     );
   }
 
@@ -49,7 +61,7 @@ function Navigation({ logout }) {
           <Navbar.Brand as={Link} to="/">
             UrGuide
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
           <Navbar.Collapse id="basic-navbar-nav">
             {currentUser ? loggedInNav() : loggedOutNav()}
           </Navbar.Collapse>
