@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Homepage from "./Homepage";
+// import React from "react";
+// import { BrowserRouter, Route, Switch } from "react-router-dom";
+// import Homepage from "./Homepage";
 
-//Here we are going to create a beautiful navbar using react-bootstrap
+//This is a work in progress, but I hope to create a beautiful and functional navbar once I get the other components working :/
