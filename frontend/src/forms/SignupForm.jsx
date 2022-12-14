@@ -1,17 +1,19 @@
 import * as React from "react";
-import { useContext, useState } from "react";
-import { Link, NavLink, BrowserRouter } from "react-router-dom";
-import UserContext from "../context/UserContext";
+import { useState } from "react";
+import { useHistory, BrowserRouter } from "react-router-dom";
 import UrGuideApi from "../api";
+import UserContext from "../context/UserContext";
+import jwt from "jsonwebtoken";
 
-function SignupForm({ signup }) {
-  const { currentUser } = useContext(UserContext);
+function SignupForm() {
+  const history = BrowserRouter();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     firstName: "",
     lastName: "",
     email: "",
+    //add more fields
   });
   const [formErrors, setFormErrors] = useState([]);
 
@@ -19,37 +21,34 @@ function SignupForm({ signup }) {
     "SignupForm",
     "signup=",
     typeof signup,
-    "currentUser=",
-    currentUser
+    "formData=",
+    formData,
+    "formErrors=",
+    formErrors
   );
 
-  async function handleSubmit(evt) {
+  /** Handle form input. */
+
+  function handleSubmit(evt) {
     evt.preventDefault();
-    let username = formData.username;
-    let password = formData.password;
-    let firstName = formData.firstName;
-    let lastName = formData.lastName;
-    let email = formData.email;
-    let signupData = await signup(
-      username,
-      password,
-      firstName,
-      lastName,
-      email
-    );
-    if (signupData.success) {
-      setFormData((f) => ({ ...f, username, password }));
-    } else {
-      setFormErrors(signupData.errors);
+    async function signup() {
+      try {
+        let token = await UrGuideApi.signup(formData);
+        localStorage.setItem("urGuide-token", token);
+        let { username } = jwt.decode(token);
+        let currentUser = await UrGuideApi.getCurrentUser(username);
+        history.push("/");
+      } catch (errors) {
+        setFormErrors(errors);
+      }
     }
+    signup();
   }
 
-  function handleChange(evt) {
-    const { name, value } = evt.target;
-    setFormData((f) => ({
-      ...f,
-      [name]: value,
-    }));
+  /** Update form data */
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((data) => ({ ...data, [name]: value }));
   }
 
   return (
@@ -62,12 +61,11 @@ function SignupForm({ signup }) {
               <div className="form-group">
                 <label>Username</label>
                 <input
+                  type="text"
                   name="username"
                   className="form-control"
                   value={formData.username}
                   onChange={handleChange}
-                  autoComplete="username"
-                  required
                 />
               </div>
               <div className="form-group">
@@ -78,59 +76,48 @@ function SignupForm({ signup }) {
                   className="form-control"
                   value={formData.password}
                   onChange={handleChange}
-                  autoComplete="new-password"
-                  required
                 />
               </div>
+
               <div className="form-group">
                 <label>First Name</label>
                 <input
+                  type="text"
                   name="firstName"
                   className="form-control"
                   value={formData.firstName}
                   onChange={handleChange}
-                  autoComplete="given-name"
-                  required
                 />
               </div>
+
               <div className="form-group">
                 <label>Last Name</label>
                 <input
+                  type="text"
                   name="lastName"
                   className="form-control"
                   value={formData.lastName}
                   onChange={handleChange}
-                  autoComplete="family-name"
-                  required
                 />
               </div>
+
               <div className="form-group">
                 <label>Email</label>
                 <input
+                  type="text"
                   name="email"
-                  type="email"
                   className="form-control"
                   value={formData.email}
                   onChange={handleChange}
-                  autoComplete="email"
-                  required
                 />
               </div>
-              {formErrors.length ? (
-                <div className="alert alert-danger">
-                  <ul className="mb-0 pl-4">
-                    {formErrors.map((error, idx) => (
-                      <li key={idx}>{error}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
+
               <button
                 type="submit"
                 className="btn btn-primary float-right"
                 onSubmit={handleSubmit}
               >
-                Submit
+                Sign up!
               </button>
             </form>
           </div>

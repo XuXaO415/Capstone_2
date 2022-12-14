@@ -46,7 +46,8 @@ class UrGuideApi {
     // Individual API calls
 
     static async getCurrentUser(username, data) {
-        let res = await this.request(`users/${username}`, data, "GET");
+        let res = await this.request(`users/${username}`, data);
+        console.log("res from getCurrentUser", res);
         return res.user;
     }
 
@@ -58,6 +59,7 @@ class UrGuideApi {
             username,
             password
         }, "POST");
+        console.log(res, "res from login was successful")
         return res.token;
     }
 
@@ -69,6 +71,7 @@ class UrGuideApi {
 
     static async signup(data) {
         let res = await this.request(`auth/register`, data, "POST");
+        console.log(res, "res from signup was successful")
         return res.token;
     }
 
@@ -76,6 +79,7 @@ class UrGuideApi {
 
     static async createUser(data) {
         let res = await this.request(`users`, data, "POST");
+        console.log(res, "res from createUser was successful")
         return res.user;
     }
 
