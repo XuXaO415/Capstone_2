@@ -1,19 +1,21 @@
-import * as React from "react";
-import { useState } from "react";
-import { useHistory, BrowserRouter } from "react-router-dom";
+import React, { Component, useState, useContext } from "react";
+import { useHistory, Redirect, NavLink } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
-import jwt from "jsonwebtoken";
 
-function SignupForm() {
-  const history = BrowserRouter();
+function SignupForm({ signup }) {
+  const history = useHistory();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     firstName: "",
     lastName: "",
     email: "",
-    //add more fields
+    city: "",
+    country: "",
+    zipCode: "",
+    hobbies: "",
+    interest: "",
   });
   const [formErrors, setFormErrors] = useState([]);
 
@@ -27,25 +29,17 @@ function SignupForm() {
     formErrors
   );
 
-  /** Handle form input. */
-
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    async function signup() {
-      try {
-        let token = await UrGuideApi.signup(formData);
-        localStorage.setItem("urGuide-token", token);
-        let { username } = jwt.decode(token);
-        let currentUser = await UrGuideApi.getCurrentUser(username);
-        history.push("/");
-      } catch (errors) {
-        setFormErrors(errors);
-      }
+  async function handleSubmit(e) {
+    e.preventDefault();
+    let result = await signup(formData);
+    if (result.success) {
+      setFormErrors([]);
+      history.push("/");
+    } else {
+      setFormErrors(result.errors);
     }
-    signup();
   }
 
-  /** Update form data */
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((data) => ({ ...data, [name]: value }));
@@ -61,7 +55,6 @@ function SignupForm() {
               <div className="form-group">
                 <label>Username</label>
                 <input
-                  type="text"
                   name="username"
                   className="form-control"
                   value={formData.username}
@@ -80,44 +73,93 @@ function SignupForm() {
               </div>
 
               <div className="form-group">
-                <label>First Name</label>
+                <label>First name</label>
                 <input
-                  type="text"
                   name="firstName"
                   className="form-control"
                   value={formData.firstName}
                   onChange={handleChange}
                 />
               </div>
-
               <div className="form-group">
-                <label>Last Name</label>
+                <label>Last name</label>
                 <input
-                  type="text"
                   name="lastName"
                   className="form-control"
                   value={formData.lastName}
                   onChange={handleChange}
                 />
               </div>
-
               <div className="form-group">
                 <label>Email</label>
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   className="form-control"
                   value={formData.email}
                   onChange={handleChange}
                 />
               </div>
-
+              <div className="form-group">
+                <label>City</label>
+                <input
+                  name="city"
+                  className="form-control"
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Country</label>
+                <input
+                  name="country"
+                  className="form-control"
+                  value={formData.country}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Zip Code</label>
+                <input
+                  name="zipCode"
+                  className="form-control"
+                  value={formData.zipCode}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Hobbies</label>
+                <input
+                  name="hobbies"
+                  className="form-control"
+                  value={formData.hobbies}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Interest</label>
+                <input
+                  name="interest"
+                  className="form-control"
+                  value={formData.interest}
+                  onChange={handleChange}
+                />
+              </div>
+              {formErrors.length ? (
+                <div className="alert alert-danger">
+                  <ul>
+                    {formErrors.map((err, idx) => (
+                      <li key={idx}>{err}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
               <button
                 type="submit"
                 className="btn btn-primary float-right"
                 onSubmit={handleSubmit}
               >
-                Sign up!
+                Submit
               </button>
             </form>
           </div>
