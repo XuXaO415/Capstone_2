@@ -2,6 +2,7 @@ import React, { Component, useState, useContext } from "react";
 import { useHistory, Redirect, NavLink } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
+import "./SignupForm.css";
 
 function SignupForm({ signup }) {
   const history = useHistory();
@@ -145,7 +146,7 @@ function SignupForm({ signup }) {
                   onChange={handleChange}
                 />
               </div>
-              {formErrors.length ? (
+              {/* {formErrors.length ? (
                 <div className="alert alert-danger">
                   <ul>
                     {formErrors.map((err, idx) => (
@@ -153,13 +154,13 @@ function SignupForm({ signup }) {
                     ))}
                   </ul>
                 </div>
-              ) : null}
+              ) : null} */}
               <button
                 type="submit"
                 className="btn btn-primary float-right"
                 onSubmit={handleSubmit}
               >
-                Submit
+                Sign Up
               </button>
             </form>
           </div>

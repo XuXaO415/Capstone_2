@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserContext from "./context/UserContext";
 import "./Homepage.css";
+import { FontAwesome } from "@fortawesome/react-fontawesome";
 
 function Homepage() {
   const { currentUser } = useContext(UserContext);
@@ -9,24 +10,28 @@ function Homepage() {
   console.debug("Homepage", "currentUser=", currentUser);
 
   return (
-    <div className="Homepage App-header mt-5">
+    <div className="Homepage Homepage-background">
       <div className="container text-center">
-        <h1 className="h1-welcome">Welcome to UrGuide</h1>
-        <p className="lead-paragraph">Your Friends are your best guides.</p>
-        <p className="second lead-paragraph">
-          UrGuide is a platform for you to share your favorite places.
-        </p>
+        <h1 className="mb-4 font-weight-bold">UrGuide</h1>
+        <p className="lead-paragraph">Your friends</p>
+
         {currentUser ? (
-          <h2>Welcome back, {currentUser.username}</h2>
+          <h2>
+            Welcome back, {currentUser.firstName || currentUser.username}!
+          </h2>
         ) : (
-          <center>
-            <Link to="/login" className="btn btn-primary">
+          <p>
+            <Link className="btn btn-primary font-weight-bold mr-3" to="/login">
               Log in
             </Link>
-            <Link to="/signup" className="btn btn-primary">
+            <p className="second-paragraph">Your guide to the world.</p>
+            <Link
+              className="btn btn-primary font-weight-bold mr-3"
+              to="/signup"
+            >
               Sign up
             </Link>
-          </center>
+          </p>
         )}
       </div>
     </div>
