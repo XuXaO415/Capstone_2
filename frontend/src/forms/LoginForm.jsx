@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useNavigate, NavLink, Navigation } from "react-router-dom";
+import { useHistory, NavLink, Redirect } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import SignupForm from "../forms/SignupForm";
 import { Form, FormGroup, Button } from "react-bootstrap";
@@ -14,7 +14,7 @@ function LoginForm({ login }) {
   const [error, setError] = useState([]);
   const [success, setSuccess] = useState(null);
   const { currentUser } = useContext(UserContext);
-  const navigate = useNavigate();
+  const history = useHistory();
 
   React.useEffect(() => {
     console.debug(
@@ -26,17 +26,18 @@ function LoginForm({ login }) {
       "formData=",
       formData
     );
-    setFormData((f) => ({ ...f, username: currentUser.username }));
-  }, [currentUser]);
+  }, [login, currentUser, formData]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     let result = await login(formData);
-    if (result.success) {
+    if (result === success) {
       setSuccess(true);
-      navigate.push("/");
+      setFormData(initialState);
+      history.push("/");
     } else {
-      setError(result.error);
+      setSuccess(false);
+      setError(result);
     }
   }
 
