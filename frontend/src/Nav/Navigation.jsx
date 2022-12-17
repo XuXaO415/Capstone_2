@@ -9,6 +9,7 @@ import SignupForm from "../forms/SignupForm";
 import LoginForm from "../forms/LoginForm";
 import Homepage from "../Homepage";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import "./Navigation.css";
 
 function Navigation({ logout }) {
   const { currentUser } = useContext(UserContext);
@@ -55,20 +56,29 @@ function Navigation({ logout }) {
   }
 
   return (
-    <div className="Navigation">
-      <Navbar bg="dark" expand="lg">
-        <Container>
-          <Navbar.Brand as={Link} to="/">
-            UrGuide
-          </Navbar.Brand>
-          {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-          <Navbar.Collapse id="basic-navbar-nav">
-            {currentUser ? loggedInNav() : loggedOutNav()}
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </div>
+    <nav className="Navigation navbar navbar-expand-md navbar-dark bg-light">
+      <NavLink className="navbar-brand" to="/">
+        UrGuide
+      </NavLink>
+      {currentUser ? loggedInNav() : loggedOutNav()}
+    </nav>
   );
+
+  // return (
+  //   <div className="Navigation">
+  //     <Navbar bg="dark" expand="lg">
+  //       <Container>
+  //         <Navbar.Brand as={Link} to="/">
+  //           UrGuide
+  //         </Navbar.Brand>
+  //         {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+  //         <Navbar.Collapse id="basic-navbar-nav">
+  //           {currentUser ? loggedInNav() : loggedOutNav()}
+  //         </Navbar.Collapse>
+  //       </Container>
+  //     </Navbar>
+  //   </div>
+  // );
 }
 
 // function Navigation({ logout }) {
