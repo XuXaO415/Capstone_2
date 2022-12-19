@@ -137,11 +137,11 @@ function SignupForm({ signup }) {
                 />
               </div>
               <div className="form-group">
-                <label>Interest</label>
+                <label>Interests</label>
                 <input
                   name="interest"
                   className="form-control"
-                  value={formData.interests}
+                  value={formData.interest}
                   onChange={handleChange}
                 />
               </div>
