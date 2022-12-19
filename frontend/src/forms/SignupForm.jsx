@@ -1,8 +1,7 @@
 import React, { Component, useState, useContext } from "react";
 import { useHistory, Redirect, NavLink } from "react-router-dom";
-import UrGuideApi from "../api";
-import UserContext from "../context/UserContext";
 import "./SignupForm.css";
+import { Button } from "reactstrap";
 
 function SignupForm({ signup }) {
   const history = useHistory();
@@ -16,19 +15,19 @@ function SignupForm({ signup }) {
     country: "",
     zipCode: "",
     hobbies: "",
-    interest: "",
+    interests: "",
   });
   const [formErrors, setFormErrors] = useState([]);
 
-  console.debug(
-    "SignupForm",
-    "signup=",
-    typeof signup,
-    "formData=",
-    formData,
-    "formErrors=",
-    formErrors
-  );
+  // console.debug(
+  //   "SignupForm",
+  //   "signup=",
+  //   typeof signup,
+  //   "formData=",
+  //   formData,
+  //   "formErrors=",
+  //   formErrors
+  // );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -142,26 +141,17 @@ function SignupForm({ signup }) {
                 <input
                   name="interest"
                   className="form-control"
-                  value={formData.interest}
+                  value={formData.interests}
                   onChange={handleChange}
                 />
               </div>
-              {/* {formErrors.length ? (
-                <div className="alert alert-danger">
-                  <ul>
-                    {formErrors.map((err, idx) => (
-                      <li key={idx}>{err}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null} */}
-              <button
+              <Button
                 type="submit"
                 className="btn btn-primary float-right"
                 onSubmit={handleSubmit}
               >
                 Sign Up
-              </button>
+              </Button>
             </form>
           </div>
         </div>
