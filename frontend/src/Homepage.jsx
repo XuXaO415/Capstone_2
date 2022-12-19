@@ -13,25 +13,19 @@ function Homepage() {
     <div className="Homepage Homepage-background">
       <div className="container text-center">
         <h1 className="mb-4 font-weight-bold">UrGuide</h1>
-        <p className="lead-paragraph">Your friends</p>
+        <p className="lead-paragraph">Your friends, your guides.</p>
 
-        {currentUser ? (
-          <h2>
-            Welcome back, {currentUser.firstName || currentUser.username}!
-          </h2>
-        ) : (
-          <div>
-            <Button
-              color="primary"
-              outline
-              href="/login"
-              className="btn btn-lg font-weight-bold mr-3"
-              value="Login"
-            >
-              Login
-            </Button>
-          </div>
-        )}
+        <Link to="/signup">
+          <Button color="primary" className="btn-lg">
+            Sign Up
+          </Button>
+        </Link>
+
+        <Link to="/login">
+          <Button color="primary" className="btn-lg">
+            Log In
+          </Button>
+        </Link>
       </div>
     </div>
   );
