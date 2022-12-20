@@ -49,7 +49,6 @@
       "description": "The user's country."
     },
     "zipCode": {
-      "type": "integer",
       "minLength": 1,
       "maxLength": 30,
       "description": "The user's zip code."

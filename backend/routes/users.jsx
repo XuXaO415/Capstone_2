@@ -7,7 +7,7 @@ const jsonschema = require("jsonschema");
 const express = require("express");
 const { ensureCorrectUserOrAdmin, ensureAdmin } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
-// const User = require("../models/user");
+const User = require("../models/users");
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
@@ -47,25 +47,25 @@ router.post("/", ensureAdmin, async function (req, res, next) {
 
 /** POST / { user } => { token }
  *
- * user should be { username, password, firstName, lastName, email, phone, city, country, zipCode, latitude, longitude, imageUrl, hobbies, interests, isAdmin, isGuide, isTourist }
+ * user should be { username, password, firstName, lastName, email, phone, city, country, zipCode, latitude, longitude, imageUrl, hobbies, interests }
  *
  * Returns JWT token which can be used to authenticate further requests.
  *
  *  Authorization required: user
  * */
 
-router.post("/login", async function (req, res, next) {
-  try {
-    const { username, password } = req.body;
-    const user = await User.authenticate(username, password);
-    const token = createToken(user);
-    return res.json({
-      token,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.post("/login", async function (req, res, next) {
+//   try {
+//     const { username, password } = req.body;
+//     const user = await User.authenticate(username, password);
+//     const token = createToken(user);
+//     return res.json({
+//       token,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 /** GET / => { users: [ { username, firstName, lastName, email, isAdmin }, ...] }
  *

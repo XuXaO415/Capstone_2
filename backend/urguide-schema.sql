@@ -5,7 +5,6 @@ CREATE TABLE users (
 	username TEXT NOT NULL,
 	password TEXT NOT NULL,
 	email VARCHAR(50) NOT NULL,
-	phone VARCHAR(15) NOT NULL,
 	city TEXT NOT NULL,
 	country TEXT NOT NULL,
 	zipCode INTEGER,
@@ -13,11 +12,16 @@ CREATE TABLE users (
 	longitude DECIMAL,
 	image_url TEXT, 
 	hobbies TEXT,
-	interests TEXT,
-	is_admin BOOLEAN NOT NULL DEFAULT FALSE,
-	is_guide BOOLEAN NOT NULL DEFAULT FALSE,
-	is_tourist BOOLEAN NOT NULL DEFAULT FALSE
+	interests TEXT
+	-- is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+	-- is_guide BOOLEAN NOT NULL DEFAULT FALSE,
+	-- is_tourist BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+
+
+
+
 
 
 
