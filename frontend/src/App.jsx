@@ -1,6 +1,11 @@
 import React, { useState, useEffect, Component } from "react";
 import UrGuideApi from "./api";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  BrowserRouter as Router,
+  Link,
+  Route,
+} from "react-router-dom";
 import Routes from "./Routes";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Navigation from "./Nav/Navigation";
@@ -97,8 +102,30 @@ function App() {
   }
 
   // if (!infoLoaded) return "Loading...";
+  // return (
+  //   <div className="App">
+  //     <UserContext.Provider
+  //       value={{
+  //         currentUser,
+  //         setCurrentUser,
+  //         login,
+  //         signup,
+  //         logout,
+  //         updateProfile,
+  //         isLoggedIn,
+  //         setIsLoggedIn,
+  //       }}
+  //     >
+  //       <Router>
+  //         <Navigation logout={logout} />
+  //         <Routes />
+  //       </Router>
+  //     </UserContext.Provider>
+  //   </div>
+  // );
+
   return (
-    <div className="App">
+    <BrowserRouter>
       <UserContext.Provider
         value={{
           currentUser,
@@ -111,12 +138,17 @@ function App() {
           setIsLoggedIn,
         }}
       >
-        <Router>
+        <div className="App">
           <Navigation logout={logout} />
-          <Routes />
-        </Router>
+          <Routes
+            login={login}
+            signup={signup}
+            logout={logout}
+            updateProfile={updateProfile}
+          />
+        </div>
       </UserContext.Provider>
-    </div>
+    </BrowserRouter>
   );
 }
 
