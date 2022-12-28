@@ -1,4 +1,5 @@
 import axios from "axios";
+import { TOKEN_STORAGE_ID } from "./App";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
@@ -8,6 +9,8 @@ class UrGuideApi {
 
   static async request(endpoint, data = {}, method = "GET") {
     console.debug("API Call:", endpoint, data, method);
+
+    const _token = localStorage.getItem(TOKEN_STORAGE_ID);
 
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {
@@ -60,16 +63,51 @@ class UrGuideApi {
   //   return res.token;
   // }
 
-  static async login(data) {
-    let res = await this.request(`login`, data, "POST");
+  static async login(data = {}) {
+    let res = await this.request(`auth/token`, data, "POST");
+    console.debug(res, "res from login was successful");
     return res.token;
   }
 
-  static async signup(data) {
-    let res = await this.request(`auth/register`, data, "POST");
+  static async signup({
+    username,
+    password,
+    email,
+    firstName,
+    lastName,
+    city,
+    state,
+    zipCode,
+    country,
+    interests,
+    hobbies,
+  }) {
+    let res = await this.request(
+      `auth/register`,
+      {
+        username,
+        password,
+        email,
+        firstName,
+        lastName,
+        city,
+        state,
+        zipCode,
+        country,
+        interests,
+        hobbies,
+      },
+      "POST"
+    );
     console.log(res, "res from signup was successful");
     return res.token;
   }
+
+  // static async signup(data) {
+  //   let res = await this.request(`auth/register`, data, "POST");
+  //   console.log(res, "res from signup was successful");
+  //   return res.token;
+  // }
 
   /** Create new user  */
 
@@ -97,11 +135,6 @@ class UrGuideApi {
     let res = await this.request(`guides/${id}`, data, "GET");
     return res.guide;
   }
-
-  // static async getGuides(id) {
-  //     let res = await this.request(`guides/${id}`, data, "GET");
-  //     return res.guide;
-  // }
 
   static async createGuide(data) {
     let res = await this.request(`guides`, data, "POST");

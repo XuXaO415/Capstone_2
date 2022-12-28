@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import ProfileForm from "../forms/ProfileForm";
@@ -13,16 +13,10 @@ import "./Navigation.css";
 
 function Navigation({ logout }) {
   const { currentUser } = useContext(UserContext);
+  const [token, setToken] = useLocalStorage("token");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  console.debug(
-    "Navigation",
-    "login=",
-    typeof login,
-    "currentUser=",
-    currentUser,
-    "logout=",
-    typeof logout
-  );
+  console.debug("Navigation", "isLoggedIn=", isLoggedIn, "token =", token);
 
   function loggedInNav() {
     return (
