@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import UrGuideApi from "./api";
 import {
   BrowserRouter,
@@ -11,8 +11,6 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import Navigation from "./Nav/Navigation";
 import UserContext from "./context/UserContext";
 import jwt from "jsonwebtoken";
-import ProfileForm from "./forms/ProfileForm";
-// import { User } from "@auth0/auth0-react";
 
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
@@ -22,7 +20,7 @@ function App() {
   const [infoLoaded, setInfoLoaded] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // console.debug("App", { token, currentUser, infoLoaded, isLoggedIn });
+  console.debug("App", { token, currentUser, infoLoaded, isLoggedIn });
 
   useEffect(
     function loadUserInfo() {
@@ -100,29 +98,6 @@ function App() {
       return { success: false, update: false, err };
     }
   }
-
-  // if (!infoLoaded) return "Loading...";
-  // return (
-  //   <div className="App">
-  //     <UserContext.Provider
-  //       value={{
-  //         currentUser,
-  //         setCurrentUser,
-  //         login,
-  //         signup,
-  //         logout,
-  //         updateProfile,
-  //         isLoggedIn,
-  //         setIsLoggedIn,
-  //       }}
-  //     >
-  //       <Router>
-  //         <Navigation logout={logout} />
-  //         <Routes />
-  //       </Router>
-  //     </UserContext.Provider>
-  //   </div>
-  // );
 
   return (
     <BrowserRouter>
