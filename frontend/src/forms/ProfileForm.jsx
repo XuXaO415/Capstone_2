@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import UrGuideApi from "../api";

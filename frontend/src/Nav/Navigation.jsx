@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import ProfileForm from "../forms/ProfileForm";
@@ -13,34 +13,20 @@ import "./Navigation.css";
 
 function Navigation({ logout }) {
   const { currentUser } = useContext(UserContext);
+  const [token, setToken] = useLocalStorage("UrGuide-token");
+  const [infoLoaded, setInfoLoaded] = useState(false);
 
-  console.debug(
-    "Navigation",
-    "login=",
-    typeof login,
-    "currentUser=",
-    currentUser,
-    "logout=",
-    typeof logout
-  );
-
-  function loggedInNav() {
+  const loggedInNav = () => {
     return (
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item mr-4">
-          <NavLink className="nav-link" to="/profile">
-            Profile
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/" onClick={logout}>
-            Log out {currentUser.firstName || currentUser.username}
-          </Link>
-        </li>
-      </ul>
+      <Nav className="mr-auto">
+        <Nav.Link href="/" onClick={logout}>
+          Log out {currentUser.first_name || currentUser.username}
+        </Nav.Link>
+      </Nav>
     );
-  }
-  function loggedOutNav() {
+  };
+
+  const loggedOutNav = () => {
     return (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item mr-4">
@@ -55,14 +41,17 @@ function Navigation({ logout }) {
         </li>
       </ul>
     );
-  }
+  };
 
   return (
-    <nav className="Navigation navbar navbar-expand-md navbar-dark bg-primary">
-      <Link className="navbar-brand" to="/">
+    <nav className="Navigation navbar navbar-expand-md navbar-dark bg-light">
+      <NavLink className="navbar-brand" to="/">
         UrGuide
-      </Link>
-      {currentUser ? loggedInNav() : loggedOutNav()}
+      </NavLink>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        {currentUser ? loggedInNav() : loggedOutNav()}
+      </Navbar.Collapse>
     </nav>
   );
 }
