@@ -18,13 +18,13 @@
     "jsonwebtoken": "^9.0.0",
     "next": "^12.3.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
+    "npm-check": "^6.0.1",
     "package": "^1.0.1",
-    "react": "^16.12.0",
+    "react": "^16.14.0",
     "react-bootstrap": "^2.5.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
-    "reactstrap": "^9.1.5",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
@@ -69,5 +69,9 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.0"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   }
 }
