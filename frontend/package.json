@@ -73,5 +73,19 @@
   "peerDependencies": {
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
+  },
+  "plugins": [
+    "react-app-rewired",
+    "node-polyfill-webpack-plugin",
+    "npm-check",
+    "react-hooks"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "resolutions": {
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   }
 }
