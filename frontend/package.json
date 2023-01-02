@@ -7,7 +7,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.1.0",
@@ -18,13 +18,13 @@
     "jsonwebtoken": "^9.0.0",
     "next": "^12.3.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
-    "npm-check": "^6.0.1",
+    "npm-check": "^3.2.10",
     "package": "^1.0.1",
     "react": "^16.14.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
@@ -71,20 +71,6 @@
     "url": "^0.11.0"
   },
   "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  },
-  "plugins": [
-    "react-app-rewired",
-    "node-polyfill-webpack-plugin",
-    "npm-check",
-    "react-hooks"
-  ],
-  "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
-  },
-  "resolutions": {
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   }
