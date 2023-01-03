@@ -13,19 +13,12 @@ import "./Navigation.css";
 
 function Navigation({ logout }) {
   const { currentUser } = useContext(UserContext);
-<<<<<<< HEAD
-  const [token, setToken] = useLocalStorage("UrGuide-token");
-  const [infoLoaded, setInfoLoaded] = useState(false);
-
-  const loggedInNav = () => {
-=======
   const [token, setToken] = useLocalStorage("token");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   console.debug("Navigation", "isLoggedIn=", isLoggedIn, "token =", token);
 
   function loggedInNav() {
->>>>>>> 11834a3840898125446affa5245bc2d6186c5474
     return (
       <Nav className="mr-auto">
         <Nav.Link href="/" onClick={logout}>
@@ -33,7 +26,7 @@ function Navigation({ logout }) {
         </Nav.Link>
       </Nav>
     );
-  };
+  }
 
   const loggedOutNav = () => {
     return (

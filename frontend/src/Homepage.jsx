@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import UserContext from "./context/UserContext";
 import "./Homepage.css";
-import { Button } from "reactstrap";
+import { Button } from "react-bootstrap";
 
 function Homepage() {
   const { currentUser } = useContext(UserContext);

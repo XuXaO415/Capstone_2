@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory, Redirect, NavLink } from "react-router-dom";
 import "./SignupForm.css";
-import { Button, Card, CardBody, CardColumns } from "reactstrap";
+
+import { Card } from "react-bootstrap";
+
 import { Formik, ErrorMessage, Field, Form, FormikErrors } from "formik";
 import * as Yup from "yup";
 
@@ -120,7 +122,7 @@ function SignupForm({ signup }) {
 
   return (
     <Card className="SignupForm">
-      <CardBody>
+      <Card>
         <Formik
           initialValues={{
             username: "",
@@ -253,7 +255,7 @@ function SignupForm({ signup }) {
             </Form>
           )}
         </Formik>
-      </CardBody>
+      </Card>
     </Card>
   );
 }
