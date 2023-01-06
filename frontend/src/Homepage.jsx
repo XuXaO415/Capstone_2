@@ -19,19 +19,18 @@ function Homepage() {
   return (
     <div className="Homepage Homepage-background">
       <div className="container text-center">
-        <h1 className="mb-4 font-weight-bold">UrGuide</h1>
-        <p className="lead-paragraph">Your friends, your guides.</p>
+        <h1 className="lead-paragraph mb-4 font-weight-bold">UrGuide</h1>
+        <p className="second-paragraph">Your friends, your guides.</p>
 
         <Link to="/signup">
-          <Button color="primary" className="btn-lg">
+          <Button color="primary" className="btn-md font-weight-bold">
             Sign Up
           </Button>
         </Link>
-
-        <span className="mb-4">or</span>
-
+        <br />
+        {currentUser ? null : <p className="mt-3">Already have an account?</p>}
         <Link to="/login">
-          <Button color="primary" className="btn-lg">
+          <Button color="primary" className="btn-md font-weight-bold">
             Log In
           </Button>
         </Link>
