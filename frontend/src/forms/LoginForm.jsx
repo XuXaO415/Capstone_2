@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory, NavLink, Redirect } from "react-router-dom";
-import UserContext from "../context/UserContext";
-// import { Form, FormGroup, FormText, Input, Button, Label } from "reactstrap";
+import { Button } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Alert from "../common/Alert";
 
 /** Form for logging in. */
 
@@ -12,51 +13,91 @@ function LoginForm({ login }) {
     password: "",
   });
   const [formErrors, setFormErrors] = useState([]);
-  const { currentUser } = useContext(UserContext);
+  const [validated, setValidated] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((formData) => ({ ...formData, [name]: value }));
-  };
+  console.debug(
+    "LoginForm",
+    "login=",
+    typeof login,
+    "formData=",
+    formData,
+    "formErrors=",
+    formErrors
+  );
 
-  const handleSubmit = async (e) => {
+  /** Handle form submit:
+   *   - calls login func prop and, if successful, redirect to /profile.
+   *  - if login unsuccessful, shows error messages.
+   * */
+
+  async function handleSubmit(e) {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setValidated(true);
     e.preventDefault();
     let result = await login(formData);
     if (result.success) {
       history.push("/profile");
-    } else {
-      setFormErrors(result.errors);
     }
-  };
 
-  if (currentUser) return <Redirect to="/profile" />;
+    if (!result.success) {
+      setFormErrors(result.errors);
+    } else {
+      setFormErrors([]);
+    }
+  }
+
+  /** Update form data field */
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((fData) => ({ ...fData, [name]: value }));
+  }
+
   return (
     <div className="LoginForm">
       <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
         <h3 className="mb-3">Log In</h3>
-        <div className="LoginForm-errors alert alert-danger"></div>
-        <form onSubmit={handleSubmit}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username: </label>
             <input
               name="username"
+              placeholder="Username"
               className="form-control"
               value={formData.username}
               onChange={handleChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Please enter a username.
+            </Form.Control.Feedback>
           </div>
           <div className="form-group">
             <label>Password: </label>
             <input
               type="password"
+              placeholder="Password"
               name="password"
               className="form-control"
               value={formData.password}
               onChange={handleChange}
+              required
             />
+            <Form.Control.Feedback type="invalid">
+              Please enter a password.
+            </Form.Control.Feedback>
           </div>
-          <button className="btn btn-primary float-right">Login</button>
-        </form>
+          {formErrors.length ? (
+            <Alert type="danger" messages={formErrors} />
+          ) : null}
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
         <p className="mt-3">
           New to UrGuide? <NavLink to="/signup">Sign Up</NavLink>
         </p>
@@ -64,93 +105,5 @@ function LoginForm({ login }) {
     </div>
   );
 }
-
-// function LoginForm({ login }) {
-//   const initialState = {
-//     username: "",
-//     password: "",
-//   };
-
-//   const [formData, setFormData] = useState(initialState);
-//   const [error, setError] = useState([]);
-//   const [success, setSuccess] = useState(null);
-//   const { currentUser } = useContext(UserContext);
-//   const history = useHistory();
-
-//   React.useEffect(() => {
-//     console.debug(
-//       "LoginForm useEffect",
-//       "login=",
-//       typeof login,
-//       "currentUser=",
-//       currentUser,
-//       "formData=",
-//       formData
-//     );
-//   }, [currentUser, formData, login]);
-
-//   async function handleSubmit(e) {
-//     e.preventDefault();
-//     let result = await login(formData);
-//     if (result === success) {
-//       setSuccess(true);
-//       setFormData(initialState);
-//       history.push("/profile");
-//     } else {
-//       setSuccess(false);
-//       setError(result);
-//     }
-//   }
-
-//   function handleChange(e) {
-//     const { name, value } = e.target;
-//     setFormData((f) => ({ ...f, [name]: value }));
-//   }
-
-//   return (
-//     <div className="LoginForm">
-//       <div className="container col-md-6">
-//         <h3 className="mt-3">Log In</h3>
-
-//         <div className="card">
-//           <div className="card-body">
-//             <form onSubmit={handleSubmit}>
-//               <div className="form-group">
-//                 <label>Username</label>
-//                 <input
-//                   name="username"
-//                   className="form-control"
-//                   value={formData.username}
-//                   onChange={handleChange}
-//                 />
-//               </div>
-//               <div className="form-group">
-//                 <label>Password</label>
-//                 <input
-//                   type="password"
-//                   name="password"
-//                   className="form-control"
-//                   value={formData.password}
-//                   onChange={handleChange}
-//                 />
-//               </div>
-//               <button
-//                 className="btn btn-primary float-left mt-3"
-//                 onSubmit={handleSubmit}
-//               >
-//                 Submit
-//               </button>
-//               <div className="mt-3">
-//                 <NavLink to="/signup" activeClassName="active">
-//                   Sign up
-//                 </NavLink>
-//               </div>
-//             </form>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-//}
 
 export default LoginForm;
