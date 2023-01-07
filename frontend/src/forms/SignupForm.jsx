@@ -153,8 +153,6 @@ function SignupForm({ signup }) {
             <Form.Label>Zip</Form.Label>
             <Form.Control
               type="number"
-              min="0"
-              max="10"
               name="zipCode"
               value={formData.zipCode}
               onChange={handleChange}
@@ -217,7 +215,7 @@ function SignupForm({ signup }) {
             </Form.Select>
           </Form.Group>
         </Row>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" onSubmit={handleSubmit}>
           Submit
         </Button>
       </Form>

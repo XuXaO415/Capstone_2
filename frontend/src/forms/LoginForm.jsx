@@ -91,9 +91,7 @@ function LoginForm({ login }) {
               Please enter a password.
             </Form.Control.Feedback>
           </div>
-          {formErrors.length ? (
-            <Alert type="danger" messages={formErrors} />
-          ) : null}
+
           <Button variant="primary" type="submit">
             Submit
           </Button>
