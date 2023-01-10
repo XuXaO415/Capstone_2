@@ -28,6 +28,7 @@ function LoginForm({ login }) {
   /** Handle form submit:
    *   - calls login func prop and, if successful, redirect to /profile.
    *  - if login unsuccessful, shows error messages.
+   *
    * */
 
   async function handleSubmit(e) {
