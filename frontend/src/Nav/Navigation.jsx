@@ -1,21 +1,34 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, Component } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-/** Navigation/Navbar component  */
+/** Navigation/Navbar component
+ *
+ * Props: login function, signup function, logout function
+ * State: none
+ * Context: currentUser
+ * Routes -> Navigation
+ *
+ */
 
 function Navigation({ logout }) {
-  const { currentUser } = useContext(UserContext);
   const history = useHistory();
+  const { currentUser } = useContext(UserContext);
+
+  function handleClick() {
+    logout();
+    history.push("/");
+  }
 
   const loggedInNav = () => {
     return (
       <Nav className="mr-auto">
-        <Nav.Link href="/" onClick={logout}>
-          Log out {currentUser.first_name || currentUser.username}
+        <Nav.Link href="/profile">Profile</Nav.Link>
+        <Nav.Link href="/" onClick={handleClick}>
+          Log out {currentUser.firstName || currentUser.username}
         </Nav.Link>
       </Nav>
     );
