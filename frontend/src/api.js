@@ -50,24 +50,18 @@ class UrGuideApi {
     return res.user;
   }
 
-  // static async login({ username, password }) {
-  //   let res = await this.request(
-  //     `auth/token`,
-  //     {
-  //       username,
-  //       password,
-  //     },
-  //     "POST"
-  //   );
-  //   console.log(res, "res from login was successful");
-  //   return res.token;
-  // }
-
-  static async login({ username, password }) {
-    let res = await this.request(`auth/token`, { username, password }, "POST");
+  static async login(data = {}) {
+    let res = await this.request(`auth/token`, data, "POST");
     console.debug(res, "res from login was successful");
     return res.token;
   }
+
+  /* Why is the API call not working? */
+  // static async login({ username, password }) {
+  //   let res = await this.request(`auth/token`, { username, password }, "POST");
+  //   console.debug(res, "res from login was successful");
+  //   return res.token;
+  // }
 
   static async signup({
     username,
