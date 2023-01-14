@@ -15,7 +15,7 @@ import jwt from "jsonwebtoken";
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
-  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID, "token");
   const [currentUser, setCurrentUser] = useState(null);
   const [infoLoaded, setInfoLoaded] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -59,6 +59,7 @@ function App() {
   }
 
   async function login(data) {
+    console.debug("App login", data);
     try {
       let token = await UrGuideApi.login(data);
       setToken(token);
