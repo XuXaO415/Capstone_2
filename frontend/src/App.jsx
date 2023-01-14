@@ -48,7 +48,7 @@ function App() {
         }
       }
       setInfoLoaded(false);
-      getCurrentUser();
+      return getCurrentUser;
     },
     [token]
   );
@@ -59,7 +59,7 @@ function App() {
   }
 
   async function login(data) {
-    console.debug("App login", data);
+    console.debug("App login", "data=", data);
     try {
       let token = await UrGuideApi.login(data);
       setToken(token);
@@ -95,9 +95,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <UserContext.Provider
-          value={{ currentUser, setCurrentUser, isLoggedIn, setIsLoggedIn }}
-        >
+        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
           <Navigation logout={logout} />
 
           <Routes login={login} signup={signup} updateProfile={updateProfile} />
