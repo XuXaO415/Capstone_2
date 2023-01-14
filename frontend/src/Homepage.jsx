@@ -7,13 +7,12 @@ import Button from "react-bootstrap/Button";
 function Homepage() {
   const { currentUser } = useContext(UserContext);
 
-  /** Add this back later 
-  const history = useHistory();
+  /** Add this back later */
+  // const history = useHistory();
 
-  useEffect(() => {
-    if (currentUser) history.push("/profile");
-  }, [currentUser, history]);
-  */
+  // useEffect(() => {
+  //   if (currentUser) history.push("/profile");
+  // }, [currentUser, history]);
 
   console.debug("Homepage", "currentUser=", currentUser);
 
