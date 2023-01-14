@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory, NavLink, Redirect } from "react-router-dom";
+import UserContext from "../context/UserContext";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Alert from "../common/Alert";
@@ -8,10 +9,12 @@ import Alert from "../common/Alert";
 
 function LoginForm({ login }) {
   const history = useHistory();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+  const { currentUser } = useContext(UserContext);
   const [formErrors, setFormErrors] = useState([]);
   const [validated, setValidated] = useState(false);
 
@@ -25,11 +28,32 @@ function LoginForm({ login }) {
     formErrors
   );
 
-  /** Handle form submit:
-   *   - calls login func prop and, if successful, redirect to /profile.
-   *  - if login unsuccessful, shows error messages.
-   *
-   * */
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await login(formData);
+  //     history.push("/profile");
+  //   } catch (errors) {
+  //     setFormErrors(errors);
+  //   }
+  // };
+
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   const form = e.currentTarget;
+  //   if (form.checkValidity() === false) {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //   }
+  //   setValidated(true);
+  //   e.preventDefault();
+  //   let result = await login(formData);
+  //   if (currentUser === null) {
+  //     result.success ? history.push("/profile") : setFormErrors(result.errors);
+  //   } else {
+  //     history.push("/signup");
+  //   }
+  // }
 
   async function handleSubmit(e) {
     const form = e.currentTarget;
@@ -44,12 +68,12 @@ function LoginForm({ login }) {
       history.push("/profile");
     }
 
-    if (!result.success) {
-      setFormErrors(result.errors);
-    } else {
-      setFormErrors([]);
-    }
-  }
+  //   if (!result.success) {
+  //     setFormErrors(result.errors);
+  //   } else {
+  //     setFormErrors([]);
+  //   }
+  // }
 
   /** Update form data field */
 
