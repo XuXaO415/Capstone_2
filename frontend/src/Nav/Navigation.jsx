@@ -1,4 +1,4 @@
-import React, { useContext, useState, Component } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import Container from "react-bootstrap/Container";
@@ -7,7 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 
 /** Navigation/Navbar component */
 function Navigation({ logout }) {
-  const [currentUser, setCurrentUser] = useState(false);
+  const { currentUser } = useContext(UserContext);
   const history = useHistory();
 
   const loggedInNav = () => {
@@ -16,6 +16,7 @@ function Navigation({ logout }) {
         <Nav.Link href="/" onClick={logout}>
           Log out {currentUser.first_name || currentUser.username}
         </Nav.Link>
+        <Nav.Link href="/profile">Profile</Nav.Link>
       </Nav>
     );
   };
