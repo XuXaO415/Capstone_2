@@ -28,15 +28,15 @@ function LoginForm({ login }) {
     formErrors
   );
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await login(formData);
-  //     history.push("/profile");
-  //   } catch (errors) {
-  //     setFormErrors(errors);
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(formData);
+      history.push("/profile");
+    } catch (errors) {
+      setFormErrors(errors);
+    }
+  };
 
   // async function handleSubmit(e) {
   //   e.preventDefault();
@@ -55,18 +55,18 @@ function LoginForm({ login }) {
   //   }
   // }
 
-  async function handleSubmit(e) {
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setValidated(true);
-    e.preventDefault();
-    let result = await login(formData);
-    if (result.success) {
-      history.push("/profile");
-    }
+  // async function handleSubmit(e) {
+  //   const form = e.currentTarget;
+  //   if (form.checkValidity() === false) {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //   }
+  //   setValidated(true);
+  //   e.preventDefault();
+  //   let result = await login(formData);
+  //   if (result.success) {
+  //     history.push("/profile");
+  //   }
 
   //   if (!result.success) {
   //     setFormErrors(result.errors);
