@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
 import UrGuideApi from "./api";
-import {
-  BrowserRouter,
-  BrowserRouter as Router,
-  Link,
-  Route,
-} from "react-router-dom";
+
 import Routes from "./Routes";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Navigation from "./Nav/Navigation";
@@ -15,9 +11,9 @@ import jwt from "jsonwebtoken";
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
-  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID, "token");
+  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
   const [currentUser, setCurrentUser] = useState(null);
-  const [infoLoaded, setInfoLoaded] = useState(false);
+  //works with this: const [currentUser, setCurrentUser] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   console.debug(
@@ -26,78 +22,91 @@ function App() {
     token,
     "currentUser=",
     currentUser,
-    "infoLoaded=",
-    infoLoaded
+    "isLoggedIn=",
+    isLoggedIn
   );
 
-  useEffect(
-    function loadUserInfo() {
-      console.debug("App useEffect loadUserInfo", "token=", token);
-      async function getCurrentUser() {
-        if (token) {
-          try {
-            UrGuideApi.token = token;
-            let { username } = jwt.decode(token);
-            let currentUser = await UrGuideApi.getCurrentUser(username);
-            setCurrentUser(currentUser);
-          } catch (err) {
-            console.error("App loadUserInfo: problem loading", err);
-            setCurrentUser(null);
-          }
-          setInfoLoaded(true);
+  useEffect(() => {
+    async function getUserInfo() {
+      if (token) {
+        try {
+          //destructured username
+          // let { username } = jwt.decode(token).username;
+          //original
+          let { username } = jwt.decode(token);
+          let currentUser = await UrGuideApi.getCurrentUser(username);
+          setCurrentUser(currentUser);
+        } catch (err) {
+          console.trace("App useEffect getUserInfo error", err);
+          setCurrentUser(null);
         }
       }
-      setInfoLoaded(false);
-      return getCurrentUser;
-    },
-    [token]
-  );
+    }
+    getUserInfo();
+  }, [token]);
 
+  /** Handle logging in of user. */
+
+  const login = async (data) => {
+    try {
+      let token = await UrGuideApi.login(data);
+      setToken(token);
+      return { login: true };
+    } catch (err) {
+      console.trace("login failed", err);
+      // console.error("login failed", err);
+      return { login: false, err };
+    }
+  };
+
+  // const login = (data) => {
+  //   async function loginUser() {
+  //     try {
+  //       let token = await UrGuideApi.login(data);
+  //       setToken(token);
+  //       return { success: true };
+  //     } catch (err) {
+  //       console.error("login failed", err);
+  //       return { success: false, err };
+  //     }
+  //   }
+  //   setIsLoggedIn(true);
+  //   loginUser();
+  // };
+
+  /** Handle logging out of user. */
   function logout() {
     setCurrentUser(null);
     setToken(null);
   }
 
-  async function login(data) {
-    console.debug("App login", "data=", data);
-    try {
-      let token = await UrGuideApi.login(data);
-      setToken(token);
-      return { success: true };
-    } catch (errors) {
-      console.error("login failed", errors);
-      return { success: false, errors };
-    }
-  }
-
-  async function signup(data) {
+  const signup = async (data) => {
     try {
       let token = await UrGuideApi.signup(data);
       setToken(token);
-      return { success: true };
-    } catch (errors) {
-      console.error("signup failed", errors);
-      return { success: false, errors };
+      return { signup: true };
+    } catch (err) {
+      console.error("signup failed", err);
+      return { signup: false, err };
     }
-  }
+  };
 
-  async function updateProfile(data) {
+  const updateProfile = async (data) => {
     try {
-      let user = await UrGuideApi.updateProfile(data);
-      setCurrentUser(user);
-      return { success: true };
-    } catch (errors) {
-      console.error("update user failed", errors);
-      return { success: false, errors };
+      let updatedUser = await UrGuideApi.updateProfile(data);
+      setCurrentUser(updatedUser);
+      return { update: true };
+    } catch (err) {
+      console.error("update failed", err);
+      return { update: false, err };
     }
-  }
+  };
 
   return (
     <div className="App">
       <BrowserRouter>
         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
           <Navigation logout={logout} />
-
           <Routes login={login} signup={signup} updateProfile={updateProfile} />
         </UserContext.Provider>
       </BrowserRouter>
@@ -106,12 +115,20 @@ function App() {
 }
 
 // function App() {
-//   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+//   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID, "token");
 //   const [currentUser, setCurrentUser] = useState(null);
 //   const [infoLoaded, setInfoLoaded] = useState(false);
-//   const [isLoggedIn, setIsLoggedIn] = useState(true);
+//   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-//   console.debug("App", { token, currentUser, infoLoaded, isLoggedIn });
+//   console.debug(
+//     "App",
+//     "token=",
+//     token,
+//     "currentUser=",
+//     currentUser,
+//     "infoLoaded=",
+//     infoLoaded
+//   );
 
 //   useEffect(
 //     function loadUserInfo() {
@@ -121,62 +138,47 @@ function App() {
 //           try {
 //             UrGuideApi.token = token;
 //             let { username } = jwt.decode(token);
-//             let user = await UrGuideApi.getCurrentUser(username);
-//             setCurrentUser(user);
+//             let currentUser = await UrGuideApi.getCurrentUser(username);
+//             setCurrentUser(currentUser);
 //           } catch (err) {
 //             console.error("App loadUserInfo: problem loading", err);
 //             setCurrentUser(null);
 //           }
+//           setInfoLoaded(true);
 //         }
-//         setInfoLoaded(true);
 //       }
 //       setInfoLoaded(false);
-//       getCurrentUser();
+//       return getCurrentUser;
 //     },
 //     [token]
 //   );
 
-//   function login(data) {
-//     async function loginUser() {
-//       try {
-//         let token = await UrGuideApi.login(data);
-//         setToken(token);
-//         return {
-//           success: true,
-//           setInfoLoaded: true,
-//           setIsLoggedIn: true,
-//           login: true,
-//         };
-//       } catch (err) {
-//         console.error("login failed", err);
-//         return { success: false, err };
-//       }
-//     }
-//     setIsLoggedIn(true);
-//     return loginUser();
-//   }
-
-//   function signup(data) {
-//     async function signupUser() {
-//       try {
-//         let token = await UrGuideApi.signup(data);
-//         setToken(token);
-//         return { success: true };
-//       } catch (err) {
-//         console.error("signup failed", err);
-//         return { success: false };
-//       } finally {
-//         setInfoLoaded(true);
-//       }
-//     }
-//     setIsLoggedIn(true);
-//     return signupUser();
-//   }
-
 //   function logout() {
 //     setCurrentUser(null);
 //     setToken(null);
-//     setIsLoggedIn(false);
+//   }
+
+//   async function login(data) {
+//     console.debug("App login", "data=", data);
+//     try {
+//       let token = await UrGuideApi.login(data);
+//       setToken(token);
+//       return { success: true };
+//     } catch (errors) {
+//       console.error("login failed", errors);
+//       return { success: false, errors };
+//     }
+//   }
+
+//   async function signup(data) {
+//     try {
+//       let token = await UrGuideApi.signup(data);
+//       setToken(token);
+//       return { success: true };
+//     } catch (errors) {
+//       console.error("signup failed", errors);
+//       return { success: false, errors };
+//     }
 //   }
 
 //   async function updateProfile(data) {
@@ -184,37 +186,22 @@ function App() {
 //       let user = await UrGuideApi.updateProfile(data);
 //       setCurrentUser(user);
 //       return { success: true };
-//     } catch (err) {
-//       console.error("updateProfile failed", err);
-//       return { success: false, update: false, err };
+//     } catch (errors) {
+//       console.error("update user failed", errors);
+//       return { success: false, errors };
 //     }
 //   }
 
 //   return (
-//     <BrowserRouter>
-//       <UserContext.Provider
-//         value={{
-//           currentUser,
-//           setCurrentUser,
-//           login,
-//           signup,
-//           logout,
-//           updateProfile,
-//           isLoggedIn,
-//           setIsLoggedIn,
-//         }}
-//       >
-//         <div className="App">
+//     <div className="App">
+//       <BrowserRouter>
+//         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
 //           <Navigation logout={logout} />
-//           <Routes
-//             login={login}
-//             signup={signup}
-//             logout={logout}
-//             updateProfile={updateProfile}
-//           />
-//         </div>
-//       </UserContext.Provider>
-//     </BrowserRouter>
+
+//           <Routes login={login} signup={signup} updateProfile={updateProfile} />
+//         </UserContext.Provider>
+//       </BrowserRouter>
+//     </div>
 //   );
 // }
 
