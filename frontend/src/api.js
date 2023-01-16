@@ -46,11 +46,12 @@ class UrGuideApi {
 
   static async getCurrentUser(username) {
     let res = await this.request(`users/${username}`);
-    console.log("res from getCurrentUser", res);
     return res.user;
   }
 
-  static async login(data = {}) {
+  /** auth methods */
+
+  static async login(data) {
     let res = await this.request(`auth/token`, data, "POST");
     console.debug(res, "res from login was successful");
     return res.token;
@@ -63,45 +64,45 @@ class UrGuideApi {
   //   return res.token;
   // }
 
-  static async signup({
-    username,
-    password,
-    email,
-    firstName,
-    lastName,
-    city,
-    state,
-    zipCode,
-    country,
-    interests,
-    hobbies,
-  }) {
-    let res = await this.request(
-      `auth/register`,
-      {
-        username,
-        password,
-        email,
-        firstName,
-        lastName,
-        city,
-        state,
-        zipCode,
-        country,
-        interests,
-        hobbies,
-      },
-      "POST"
-    );
-    console.log(res, "res  from signup was successful");
-    return res.token;
-  }
-
-  // static async signup(data) {
-  //   let res = await this.request(`auth/register`, data, "POST");
-  //   console.log(res, "res from signup was successful");
+  // static async signup({
+  //   username,
+  //   password,
+  //   email,
+  //   firstName,
+  //   lastName,
+  //   city,
+  //   state,
+  //   zipCode,
+  //   country,
+  //   interests,
+  //   hobbies,
+  // }) {
+  //   let res = await this.request(
+  //     `auth/register`,
+  //     {
+  //       username,
+  //       password,
+  //       email,
+  //       firstName,
+  //       lastName,
+  //       city,
+  //       state,
+  //       zipCode,
+  //       country,
+  //       interests,
+  //       hobbies,
+  //     },
+  //     "POST"
+  //   );
+  //   console.log(res, "res  from signup was successful");
   //   return res.token;
   // }
+
+  static async signup(data) {
+    let res = await this.request(`auth/register`, data, "POST");
+    console.log(res, "res from signup was successful");
+    return res.token;
+  }
 
   /** Create new user  */
 
@@ -111,15 +112,23 @@ class UrGuideApi {
     return res.user;
   }
 
-  static async updateProfile(username, { firstName, lastName, email }) {
-    let res = await this.request(
-      `users/${username}`,
-      { firstName, lastName, email },
-      "PATCH"
-    );
+  /* Update user profile */
+
+  static async updateProfile(username, data) {
+    let res = await this.request(`users/${username}`, data, "PATCH");
     console.log(res, "res from updateProfile was successful");
     return res.user;
   }
+
+  // static async updateProfile(username, { firstName, lastName, email }) {
+  //   let res = await this.request(
+  //     `users/${username}`,
+  //     { firstName, lastName, email },
+  //     "PATCH"
+  //   );
+  //   console.log(res, "res from updateProfile was successful");
+  //   return res.user;
+  // }
 
   /** Guide API routes */
 
