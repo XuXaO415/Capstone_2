@@ -13,7 +13,7 @@ import { InputGroup } from "react-bootstrap/InputGroup";
 
 function ProfileForm({ updateProfile }) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  const [formErrors, setFormErrors] = useState([]);
+  const [setFormErrors] = useState([]);
   const [formData, setFormData] = useState({
     username: currentUser.username,
     password: currentUser.password,
