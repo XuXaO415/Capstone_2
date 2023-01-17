@@ -34,8 +34,8 @@ function App() {
           // let { username } = jwt.decode(token).username;
           //original
           let { username } = jwt.decode(token);
-          let currentUser = await UrGuideApi.getCurrentUser(username);
-          setCurrentUser(currentUser);
+          let user = await UrGuideApi.getCurrentUser(username);
+          setCurrentUser(user);
         } catch (err) {
           console.trace("App useEffect getUserInfo error", err);
           setCurrentUser(null);
