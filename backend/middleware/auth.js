@@ -56,6 +56,23 @@ function ensureCorrectUser(req, res, next) {
   }
 }
 
+/** Tweaked code */
+
+// function ensureCorrectUser(req, res, next) {
+//   try {
+//     let jwtStr = req.body._token || req.query._token;
+//     let token = jwt.verify(jwtStr, SECRET_KEY);
+//     req.username = token.username;
+//     if (!(req.username === req.params.username)) {
+//       throw new UnauthorizedError();
+//     } else {
+//       return next();
+//     }
+//   } catch (err) {
+//     return next(err);
+//   }
+// }
+
 /** Middleware to use when they be logged in as an admin user.
  *
  *  If not, raises Unauthorized.
