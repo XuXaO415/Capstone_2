@@ -5,13 +5,18 @@
 const jsonschema = require("jsonschema");
 
 const express = require("express");
-const { ensureCorrectUserOrAdmin, ensureAdmin } = require("../middleware/auth");
+const {
+  ensureCorrectUserOrAdmin,
+  ensureAdmin,
+  authenticateJWT,
+  ensureCorrectUser,
+} = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
 let { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
-const userRegisterSchema = require("../schemas/userRegister.json");
+// const userRegisterSchema = require("../schemas/userRegister.json");
 
 const router = express.Router();
 
@@ -72,15 +77,13 @@ router.post("/login", async function (req, res, next) {
  *
  * Returns list of all users.
  *
- * Authorization required: admin
+ * Authorization required: admin, auth with JWT
  * */
 
-router.get("/", ensureAdmin, async function (req, res, next) {
+router.get("/", ensureAdmin, authenticateJWT, async function (req, res, next) {
   try {
     const users = await User.findAll();
-    return res.json({
-      users,
-    });
+    return res.json({ users });
   } catch (err) {
     return next(err);
   }
@@ -112,9 +115,10 @@ router.get("/", ensureAdmin, async function (req, res, next) {
 router.get(
   "/:username",
   ensureCorrectUserOrAdmin,
+  ensureCorrectUser,
   async function (req, res, next) {
     try {
-      const user = await User.get(req.params.username);
+      let user = await User.get(req.params.username);
       return res.json({ user });
     } catch (err) {
       return next(err);
