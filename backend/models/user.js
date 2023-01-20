@@ -31,7 +31,7 @@ class User {
       [username]
     );
 
-    const user = result.rows[0]; // { username, password, firstName, lastName, email, isAdmin }
+    const user = result.rows[0];
 
     if (user) {
       const isValid = await bcrypt.compare(password, user.password);
@@ -41,6 +41,25 @@ class User {
       }
     }
     throw new UnauthorizedError("Invalid username/password");
+  }
+
+  /** Given a username, return data about users
+   * Returns { username, first_name, last_name, email }
+   * Throws NotFoundError if user not found.
+   *
+   */
+
+  static async get(username) {
+    const userRes = await db.query(
+      `SELECT username, first_name AS "firstName", last_name AS "lastName", email 
+            FROM users
+            WHERE username = $1`,
+      [username]
+    );
+
+    const user = userRes.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
   /** Register user with data.
@@ -173,6 +192,7 @@ class User {
     }
 
     const { setCols, values } = sqlForPartialUpdate(data, {
+      username: "username",
       firstName: "first_name",
       lastName: "last_name",
       isAdmin: "is_admin",
