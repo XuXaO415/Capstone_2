@@ -6,12 +6,28 @@ const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 const { UnauthorizedError } = require("../expressError");
 
+// function authenticateJWT(req, res, next) {
+//   try {
+//     const authHeader = req.headers && req.headers.authorization;
+//     if (authHeader) {
+//       const token = authHeader.replace(/^[Bb]earer /, "").trim();
+//       res.locals.user = jwt.verify(token, SECRET_KEY);
+//     }
+//     return next();
+//   } catch (err) {
+//     return next();
+//   }
+// }
+
+/** Tweaked code line 30  */
+
 function authenticateJWT(req, res, next) {
   try {
     const authHeader = req.headers && req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
       res.locals.user = jwt.verify(token, SECRET_KEY);
+      req.username = res.locals.user.username; // this makes req.username available to other middleware functions
     }
     return next();
   } catch (err) {
