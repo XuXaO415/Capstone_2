@@ -44,14 +44,15 @@ class User {
   }
 
   /** Given a username, return data about users
-   * Returns { username, first_name, last_name, email }
+   * Returns { username, first_name, last_name, email, is_admin }
+   *
    * Throws NotFoundError if user not found.
    *
    */
 
   static async get(username) {
     const userRes = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email 
+      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
             FROM users
             WHERE username = $1`,
       [username]
@@ -60,6 +61,8 @@ class User {
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
+
+    return user;
   }
 
   /** Register user with data.
@@ -107,7 +110,7 @@ class User {
             email,
             city,
             country,
-            zipCode,
+            zip_code,
             latitude,
             longitude,
             image_url,
