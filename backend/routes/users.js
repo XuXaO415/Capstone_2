@@ -78,9 +78,11 @@ router.post("/login", async function (req, res, next) {
  * Returns list of all users.
  *
  * Authorization required: admin, auth with JWT
+ *
+ * ensureAdmin, authenticateJWT,
  * */
 
-router.get("/", ensureAdmin, authenticateJWT, async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   try {
     const users = await User.findAll();
     return res.json({ users });
@@ -106,25 +108,22 @@ router.get("/", ensureAdmin, authenticateJWT, async function (req, res, next) {
 
 /** GET /[username] => { user }
  *  *
- * Returns { username, firstName, lastName, isAdmin, jobs }
- *   where jobs is { id, title, companyHandle, companyName, state }
+ * Returns { username, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests, isAdmin }
  *
  * Authorization required: admin or same user-as-:username
+ *
+ *   ensureCorrectUserOrAdmin,
+ *    ensureCorrectUser,
  **/
 
-router.get(
-  "/:username",
-  ensureCorrectUserOrAdmin,
-  ensureCorrectUser,
-  async function (req, res, next) {
-    try {
-      let user = await User.get(req.params.username);
-      return res.json({ user });
-    } catch (err) {
-      return next(err);
-    }
+router.get("/:username", async function (req, res, next) {
+  try {
+    let user = await User.get(req.params.username);
+    return res.json({ user });
+  } catch (err) {
+    return next(err);
   }
-);
+});
 
 /** PATCH /[username] { fld1, fld2, ... } => { user }
  *
