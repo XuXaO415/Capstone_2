@@ -85,7 +85,7 @@ router.post("/login", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
   try {
     const users = await User.findAll();
-    return res.json({ users });
+    return res.json({ users: users });
   } catch (err) {
     return next(err);
   }
