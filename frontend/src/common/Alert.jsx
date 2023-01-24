@@ -10,15 +10,14 @@ import React from "react";
  * App -> Routes -> ProfileForm -> Alert
  * */
 
-function Alert({ type, messages }) {
-  if (!messages) return null;
+function Alert({ type = "danger", messages = [] }) {
   console.debug("Alert", "type=", type, "messages=", messages);
 
   return (
-    <div className={`alert alert-${type}`}>
-      {messages.map((m) => (
-        <p className="mb-0 small" key={m}>
-          {m}
+    <div className={`alert alert-${type}`} role="alert">
+      {messages.map((error) => (
+        <p className="mb-0 small" key={error}>
+          {error}
         </p>
       ))}
     </div>
