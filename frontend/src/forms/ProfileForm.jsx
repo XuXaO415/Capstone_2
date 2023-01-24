@@ -72,11 +72,13 @@ function ProfileForm() {
       interests: formData.interests,
     };
     let username = currentUser.username;
+    // let updatedUser = await UrGuideApi.updateProfile(username, profileData);
     let updatedUser;
     try {
       updatedUser = await UrGuideApi.updateProfile(username, profileData);
     } catch (err) {
       console.error("ProfileForm: problem updating profile", err);
+      setFormData(err);
       return;
     }
 
