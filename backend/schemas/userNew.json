@@ -34,12 +34,6 @@
       "maxLength": 30,
       "description": "The person's email."
     },
-    "phone": {
-      "type": "integer",
-      "minLength": 1,
-      "maxLength": 13,
-      "description": "The person's phone number."
-    },
     "city": {
       "type": "string",
       "minLength": 1,
@@ -52,7 +46,7 @@
       "maxLength": 60,
       "description": "The person's country."
     },
-    "zipCode": {
+    "zip_code": {
       "type": "integer",
       "minLength": 1,
       "maxLength": 30,
@@ -98,10 +92,9 @@
     "username",
     "password",
     "email",
-    "phone",
     "city",
     "country",
-    "zipCode",
+    "zip_code",
     "latitude",
     "longitude",
     "imageUrl",

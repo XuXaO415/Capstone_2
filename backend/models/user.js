@@ -157,7 +157,7 @@ class User {
             email,
             city,
             country,
-            zipcode AS "zipCode",
+            zip_code AS "zipCode",
             latitude,
             longitude,
             image_url AS "imageUrl",
