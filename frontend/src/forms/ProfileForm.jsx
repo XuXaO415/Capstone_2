@@ -11,7 +11,7 @@ import { InputGroup } from "react-bootstrap/InputGroup";
 
 //create a form for the user to update their profile
 
-function ProfileForm({ updateProfile }) {
+function ProfileForm() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [setFormErrors] = useState([]);
   const [formData, setFormData] = useState({
@@ -26,6 +26,24 @@ function ProfileForm({ updateProfile }) {
     hobbies: currentUser.hobbies,
     interests: currentUser.interests,
   });
+
+  const [saveConfirmed, setSaveConfirmed] = useState(false);
+
+  // function ProfileForm({ updateProfile }) {
+  //   const { currentUser, setCurrentUser } = useContext(UserContext);
+  //   const [setFormErrors] = useState([]);
+  //   const [formData, setFormData] = useState({
+  //     username: currentUser.username,
+  //     password: currentUser.password,
+  //     firstName: currentUser.firstName,
+  //     lastName: currentUser.lastName,
+  //     email: currentUser.email,
+  //     city: currentUser.city,
+  //     country: currentUser.country,
+  //     zipCode: currentUser.zipCode,
+  //     hobbies: currentUser.hobbies,
+  //     interests: currentUser.interests,
+  //   });
 
   console.debug(
     "ProfileForm",

@@ -26,18 +26,13 @@ function SignupForm({ signup }) {
   console.debug(
     "SignupForm",
     "signup=",
-    typeof signup,
     "formData=",
     formData,
     "formErrors=",
     formErrors
   );
 
-  useEffect(function updateTitle() {
-    document.title = "Signup";
-  }, []);
-
-  async function handleChange(e) {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFormData((fData) => ({
       ...fData,
@@ -47,15 +42,25 @@ function SignupForm({ signup }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    let result = await signup(formData);
-    if (result.success) {
+    try {
+      await signup(formData);
       history.push("/profile");
-    } else {
-      setFormErrors(result.errors);
+    } catch (err) {
+      setFormErrors(err);
     }
   }
 
-  if (signup.loggedIn) return <Redirect to="/" />;
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   let result = await signup(formData);
+  //   if (result.success) {
+  //     let mes = "You have successfully signed up!";
+  //     alert(mes);
+  //     history.push("/profile");
+  //   } else {
+  //     setFormErrors(result.errors);
+  //   }
+  // }
 
   // if (formData.interests === formData.hobbies) {
   //   setFormErrors(["Interests and hobbies cannot be the same"]);
