@@ -8,12 +8,13 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Label from "react-bootstrap/FormLabel";
 import { InputGroup } from "react-bootstrap/InputGroup";
+import Alert from "../common/Alert";
 
 //create a form for the user to update their profile
 
 function ProfileForm() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  const [setFormErrors] = useState([]);
+  const [formErrors, setFormErrors] = useState([]);
   const [formData, setFormData] = useState({
     username: currentUser.username,
     password: currentUser.password,
@@ -50,24 +51,66 @@ function ProfileForm() {
     "currentUser=",
     currentUser,
     "formData=",
-    formData
+    formData,
+    "formErrors=",
+    "saveConfirmed=",
+    saveConfirmed
   );
 
   async function handleSubmit(e) {
     e.preventDefault();
-    let result = await updateProfile(formData);
-    if (result.success) {
-      setFormErrors([]);
-      setCurrentUser(result.user);
-    } else {
-      setFormErrors(result.errors);
+    let profileData = {
+      username: formData.username,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      city: formData.city,
+      country: formData.country,
+      zipCode: formData.zipCode,
+      hobbies: formData.hobbies,
+      interests: formData.interests,
+    };
+    let username = currentUser.username;
+    let updatedUser;
+    try {
+      updatedUser = await UrGuideApi.updateProfile(username, profileData);
+    } catch (err) {
+      console.error("ProfileForm: problem updating profile", err);
+      return;
     }
+
+    setFormData((fData) => ({ ...fData }));
+    setFormErrors([]);
+    setSaveConfirmed(true);
+
+    setCurrentUser((currentUser) => ({
+      ...currentUser,
+      data: updatedUser,
+    }));
   }
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((fData) => ({ ...fData, [name]: value }));
+    setFormErrors([]);
   }
+
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   let result = await updateProfile(formData);
+  //   if (result.success) {
+  //     setFormErrors([]);
+  //     setCurrentUser(result.user);
+  //   } else {
+  //     setFormErrors(result.errors);
+  //   }
+  // }
+
+  // function handleChange(e) {
+  //   const { name, value } = e.target;
+  //   setFormData((fData) => ({ ...fData, [name]: value }));
+  // }
 
   return (
     <div className="ProfileForm">
@@ -139,7 +182,9 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalEmail">
-            <Form.Label>Email</Form.Label>
+            <Form.Label column sm={2}>
+              Email
+            </Form.Label>
             <Col sm={10}>
               <Form.Control
                 type="email"
@@ -231,6 +276,14 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
+
+          {formErrors.length ? (
+            <Alert type="danger" messages={formErrors} />
+          ) : null}
+
+          {saveConfirmed ? (
+            <Alert type="success" messages={["Saved."]} />
+          ) : null}
 
           <Form.Group as={Row}>
             <Col sm={{ span: 10, offset: 2 }}>
