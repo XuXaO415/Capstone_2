@@ -10,6 +10,7 @@ const {
   ensureAdmin,
   authenticateJWT,
   ensureCorrectUser,
+  ensureLoggedIn,
 } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
@@ -51,7 +52,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
   }
 });
 
-/** POST / { user } => { token }
+/** POST /users/login { user } => { token }
  *
  * user should be { username, password, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests }
  *
@@ -73,7 +74,7 @@ router.post("/login", async function (req, res, next) {
   }
 });
 
-/** GET / => { users: [ { username, firstName, lastName, email, isAdmin }, ...] }
+/** GET /users => { users: [ { username, firstName, lastName, email, isAdmin }, ...] }
  *
  * Returns list of all users.
  *
@@ -85,7 +86,9 @@ router.post("/login", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
   try {
     const users = await User.findAll();
-    return res.json({ users: users });
+    return res.json({
+      users: users,
+    });
   } catch (err) {
     return next(err);
   }
@@ -106,7 +109,7 @@ router.get("/", async function (req, res, next) {
 //   }
 // );
 
-/** GET /[username] => { user }
+/** GET /users/[username] => { user }
  *  *
  * Returns { username, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests, isAdmin }
  *
@@ -119,7 +122,9 @@ router.get("/", async function (req, res, next) {
 router.get("/:username", async function (req, res, next) {
   try {
     let user = await User.get(req.params.username);
-    return res.json({ user });
+    return res.json({
+      user,
+    });
   } catch (err) {
     return next(err);
   }
