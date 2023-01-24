@@ -2,31 +2,49 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import UrGuideApi from "./api";
 
-import Routes from "./Routes";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Navigation from "./Nav/Navigation";
 import UserContext from "./context/UserContext";
 import jwt from "jsonwebtoken";
+import PrivateRoute from "./routes/PrivateRoute";
+import Routes from "./Routes";
 
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({
+    data: null,
+    isLoaded: false,
+  });
 
   useEffect(
     function loadUserInfo() {
+      console.debug("App loadUserInfo", "loadUserInfo", "token=", token);
+
       async function getCurrentUser() {
         if (token) {
           try {
             let { username } = jwt.decode(token);
             UrGuideApi.token = token;
-            let user = await UrGuideApi.getCurrentUser(username);
-            setCurrentUser(user);
+            let currentUser = await UrGuideApi.getCurrentUser(username);
+
+            setCurrentUser({
+              data: currentUser,
+              isLoaded: true,
+            });
           } catch (err) {
             console.error("App loadUserInfo error", err);
-            setCurrentUser(null);
+            setCurrentUser({
+              data: null,
+              isLoaded: true,
+            });
           }
+        } else {
+          setCurrentUser({
+            data: null,
+            isLoaded: true,
+          });
         }
       }
       getCurrentUser();
@@ -34,66 +52,105 @@ function App() {
     [token]
   );
 
-  /** Handle logging in of user. */
-
-  const login = async (formData) => {
-    if (token) {
-      try {
-        let token = await UrGuideApi.login(formData);
-        setToken(token);
-        let { username } = jwt.decode(token);
-        let user = await UrGuideApi.getCurrentUser(username, token);
-        setCurrentUser(user);
-      } catch (err) {
-        console.error("login failed", err);
-        return { login: false, err };
-      }
-    }
-  };
-
-  const signup = async (data) => {
-    try {
-      let token = await UrGuideApi.signup(data);
-      setToken(token);
-      let { username } = jwt.decode(token);
-      let user = await UrGuideApi.getCurrentUser(username);
-      setCurrentUser(user);
-
-      return { signup: true };
-    } catch (err) {
-      console.error("signup failed", err);
-      return { signup: false, err };
-    }
-  };
-
-  const update = async (data) => {
-    try {
-      let user = await UrGuideApi.updateProfile(data);
-      setCurrentUser(user);
-      return { update: true };
-    } catch (err) {
-      console.error("update failed", err);
-      return { update: false, err };
-    }
-  };
-
-  /** Handle logging out of user. */
-  const logout = () => {
-    setCurrentUser(null);
+  /** Handle site-wide user logout */
+  function logout() {
+    setCurrentUser({
+      data: null,
+      isLoaded: true,
+    });
     setToken(null);
-  };
+  }
+
+  /** Handle site-wide user login */
+
+  async function login(loginData) {
+    let token = await UrGuideApi.login(loginData);
+    setToken(token);
+  }
+
+  /** Handles site-wide new user signup */
+  async function signup(signupData) {
+    let token = await UrGuideApi.signup(signupData);
+    setToken(token);
+  }
 
   return (
     <div className="App">
-      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <UserContext.Provider
+        value={{ currentUser: currentUser.data, setCurrentUser }}
+      >
         <BrowserRouter>
           <Navigation logout={logout} />
-          <Routes login={login} signup={signup} update={update} />
+          <Routes
+            currentUser={currentUser.data}
+            login={login}
+            signup={signup}
+          />
         </BrowserRouter>
       </UserContext.Provider>
     </div>
   );
 }
+
+// const login = async (data) => {
+//   if (token) {
+//     try {
+//       let token = await UrGuideApi.login(data);
+//       setToken(token);
+//       let { username } = jwt.decode(token);
+//       let user = await UrGuideApi.getCurrentUser(username, token);
+//       console.message("user", user);
+//       setCurrentUser(user);
+//     } catch (err) {
+//       console.error("login failed", err);
+//       return { login: false, err };
+//     }
+//   }
+// };
+
+// const signup = async (data) => {
+//   try {
+//     let token = await UrGuideApi.signup(data);
+//     setToken(token);
+//     let { username } = jwt.decode(token);
+//     let user = await UrGuideApi.getCurrentUser(username);
+//     setCurrentUser(user);
+
+//     return { signup: true };
+//   } catch (err) {
+//     console.error("signup failed", err);
+//     return { signup: false, err };
+//   }
+// };
+
+// const update = async (data) => {
+//   try {
+//     let user = await UrGuideApi.updateProfile(data);
+//     setCurrentUser(user);
+//     return { update: true };
+//   } catch (err) {
+//     console.error("update failed", err);
+//     return { update: false, err };
+//   }
+// };
+
+// /** Handle logging out of user. */
+// const logout = () => {
+//   setCurrentUser(null);
+//   setToken(null);
+// };
+
+//   return (
+//     <div className="App">
+//       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+//         <BrowserRouter>
+//           <Navigation logout={logout} />
+//           <Routes login={login} signup={signup} update={update} />
+//         </BrowserRouter>
+//       </UserContext.Provider>
+//     </div>
+//   );
+// }
 
 //   useEffect(
 //     function loadUserInfo() {
