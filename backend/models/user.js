@@ -67,7 +67,7 @@ class User {
 
   /** Register user with data.
    *
-   * Returns { username, first_name, last_name, phone, city, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin }
+   * Returns { username, first_name, last_name, phone, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin }
    *
    * Throws BadRequestError on duplicates.
    */

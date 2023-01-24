@@ -48,26 +48,16 @@
       "maxLength": 60,
       "description": "The user's country."
     },
-    "zipCode": {
+    "zip_code": {
       "minLength": 1,
       "maxLength": 30,
       "description": "The user's zip code."
     },
-    "latitude": {
-      "type": "integer",
-      "minLength": 1,
-      "maxLength": 40,
-      "description": "User's geographical latitude."
-    },
-    "longitude": {
-      "type": "integer",
-      "minLength": 1,
-      "maxLength": 40,
-      "description": "User's geographical longitude."
-    },
+
     "imageUrl": {
       "type": "string",
-      "format": "uri",
+      "minLength": 1,
+      "maxLength": 50,
       "description": "A URL to an image of a user."
     },
     "interests": {
@@ -93,12 +83,11 @@
     "username",
     "password",
     "email",
-    "phone",
+
     "city",
     "country",
-    "zipCode",
-    "latitude",
-    "longitude",
+    "zip_code",
+
     "imageUrl",
     "interests",
     "hobbies"

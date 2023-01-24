@@ -1,57 +1,44 @@
 
-INSERT INTO users (first_name, last_name, username, password, email, phone, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin, is_guide, is_tourist)
-VALUES ('test', 'user', 'testuser', '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q', 'testuser@email.com', '1234567890', 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', FALSE, TRUE, FALSE),
-('Admin', 'Boss', 'adminisdaboss', '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q', 'admin@email.com', '1234567890', 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', TRUE, FALSE,TRUE),
-('Lorenza', 'Barnardo', 'lbarnardo2', 'OzM28cthZbM', 'lbarnardo2@ebay.com', '638095445317', 'Tagbina', 'Philippines', '8308', 8.417766, 126.207415, 'https://robohash.org/assumendaestiste.jpg?size=50x50&set=set1', 'facilitate wireless infrastructures', 'Function-based client-server internet solution', FALSE,  TRUE, TRUE),
-('Carolin', 'Brodeur', 'cbrodeur3', 'vlMpXR', 'cbrodeur3@diigo.com', '850654069335', 'Namyang-dong', 'South Korea', NULL, 41.45, 128.833333, 'https://robohash.org/temporequiased.jpg?size=50x50&set=set1', 'transform magnetic content', 'Distributed solution-oriented neural-net', FALSE, TRUE,FALSE),
-('Raeann', 'Labbet', 'rlabbet4', 'JAA6M4o2WL', 'rlabbet4@discovery.com', '3722008245020', 'Jõhvi', 'Estonia', NULL, 59.3573116, 27.4136645, 'https://robohash.org/estnihilquo.jpg?size=50x50&set=set1', 'iterate vertical infomediaries', 'Quality-focused homogeneous help-desk', FALSE, TRUE, FALSE);
+INSERT INTO users (first_name, last_name, username, password, email, city, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin)
+VALUES ('test', 'user', 'testuser', '123123123', 'testuser@email.com', 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', FALSE),
+('Admin', 'Boss', 'adminisdaboss', 'adminP@ss', 'admin@email.com', 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', TRUE),
+('Lorenza', 'Barnardo', 'lbarnardo2', 'OzM28cthZbM', 'lbarnardo2@ebay.com', 'Tagbina', 'Philippines', '8308', 8.417766, 126.207415, 'https://robohash.org/assumendaestiste.jpg?size=50x50&set=set1', 'facilitate wireless infrastructures', 'Function-based client-server internet solution', FALSE),
+('Carolin', 'Brodeur', 'cbrodeur3', 'vlMpXR', 'cbrodeur3@diigo.com', 'Namyang-dong', 'South Korea', NULL, 41.45, 128.833333, 'https://robohash.org/temporequiased.jpg?size=50x50&set=set1', 'transform magnetic content', 'Distributed solution-oriented neural-net', FALSE),
+('Raeann', 'Labbet', 'rlabbet4', 'JAA6M4o2WL', 'rlabbet4@discovery.com', 'Jõhvi', 'Estonia', NULL, 59.3573116, 27.4136645, 'https://robohash.org/estnihilquo.jpg?size=50x50&set=set1', 'iterate vertical infomediaries', 'Quality-focused homogeneous help-desk', FALSE);
 
 
 
 
-INSERT INTO user_interests (user_id, interest)
-VALUES(1, 'travel'),
-(2, 'hiking'),
-(3, 'sightseeing'),
-(4, 'food'),
-(5, 'shopping');
 
 
-INSERT INTO user_languages (user_id, language)
-VALUES(1, 'English'),
-(2, 'Spanish'),
-(3, 'French'),
-(4, 'Japanese'),
-(5, 'Italian');
 
+-- INSERT  INTO user_locations (user_id, city)
+-- VALUES(1, 'San Francisco'),
+-- (2, 'Paris'),
+-- (3, 'London'),
+-- (4, 'Tokyo'),
+-- (5, 'Rome');
 
-INSERT  INTO user_locations (user_id, city)
-VALUES(1, 'San Francisco'),
-(2, 'Paris'),
-(3, 'London'),
-(4, 'Tokyo'),
-(5, 'Rome');
+-- INSERT INTO user_likes (user_id, liked_user_id)
+-- VALUES(1, 2),
+-- (2, 3),
+-- (3, 4),
+-- (4, 5),
+-- (5, 1);
 
-INSERT INTO user_likes (user_id, liked_user_id)
-VALUES(1, 2),
-(2, 3),
-(3, 4),
-(4, 5),
-(5, 1);
+-- INSERT INTO user_dislikes (user_id, disliked_user_id)
+-- VALUES(2, 4),
+-- (3, 5),
+-- (4, 1),
+-- (5, 2),
+-- (1, 3);
 
-INSERT INTO user_dislikes (user_id, disliked_user_id)
-VALUES(2, 4),
-(3, 5),
-(4, 1),
-(5, 2),
-(1, 3);
-
-INSERT INTO user_distance (user_id, distance)
-VALUES(1, 10),
-(2, 20),
-(3, 30),
-(4, 40),
-(5, 50);
+-- INSERT INTO user_distance (user_id, distance)
+-- VALUES(1, 10),
+-- (2, 20),
+-- (3, 30),
+-- (4, 40),
+-- (5, 50);
 
 -- INSERT INTO guide_tourist (tourist_id, guide_id, tourist_rating, guide_rating)
 -- VALUES(1, 2, 5, 5),
@@ -60,12 +47,12 @@ VALUES(1, 10),
 -- (4, 5, 1, 1),
 -- (5, 1, 2, 4);
 
-INSERT INTO guide_tourist_match (tourist_id, guide_id, tourist_rating, guide_rating)
-VALUES(1, 2, 5, 5),
-(2, 3, 4, 2),
-(3, 4, 3, 3),
-(4, 5, 1, 1),
-(5, 1, 2, 4);
+-- INSERT INTO guide_tourist_match (tourist_id, guide_id, tourist_rating, guide_rating)
+-- VALUES(1, 2, 5, 5),
+-- (2, 3, 4, 2),
+-- (3, 4, 3, 3),
+-- (4, 5, 1, 1),
+-- (5, 1, 2, 4);
 
 
 
