@@ -17,6 +17,7 @@ function SignupForm({ signup }) {
     lastName: "",
     email: "",
     city: "",
+    state: "",
     country: "",
     zipCode: "",
     hobbies: "",
@@ -146,12 +147,12 @@ function SignupForm({ signup }) {
           </Row>
 
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="formGridCountry">
-              <Form.Label>Country</Form.Label>
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>State</Form.Label>
               <Form.Control
                 type="text"
-                name="country"
-                value={formData.country}
+                name="state"
+                value={formData.state}
                 onChange={handleChange}
                 required
               />
