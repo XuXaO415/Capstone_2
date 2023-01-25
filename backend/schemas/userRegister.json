@@ -42,13 +42,19 @@
       "maxLength": 30,
       "description": "The users's city."
     },
+    "state": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30,
+      "description": "The users's state."
+    },
     "country": {
       "type": "string",
       "minLength": 1,
       "maxLength": 60,
       "description": "The user's country."
     },
-    "zip_code": {
+    "zipCode": {
       "minLength": 1,
       "maxLength": 30,
       "description": "The user's zip code."
@@ -85,8 +91,9 @@
     "email",
 
     "city",
+    "state",
     "country",
-    "zip_code",
+    "zipCode",
 
     "imageUrl",
     "interests",

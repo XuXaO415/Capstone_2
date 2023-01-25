@@ -1,19 +1,16 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://example.com/userAuth.json",
-    "title": "User Auth",
-    "type": "object",
-    "properties": {
-        "username": {
-            "type": "string"
-        },
-        "password": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/userAuth.json",
+  "title": "User Auth",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string"
     },
-    "additionalProperties": false,
-    "required": [
-        "username",
-        "password"
-    ]
+    "password": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["username", "password"]
 }

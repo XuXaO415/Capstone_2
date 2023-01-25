@@ -1,9 +1,9 @@
 
-INSERT INTO users (first_name, last_name, username, password, email, city, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin)
-VALUES ('test', 'user', 'testuser', '123123123', 'testuser@email.com', 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', FALSE),
-('Admin', 'Boss', 'adminisdaboss', 'adminP@ss', 'admin@email.com', 'testcity', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', TRUE),
-('Lorenza', 'Barnardo', 'lbarnardo2', 'OzM28cthZbM', 'lbarnardo2@ebay.com', 'Tagbina', 'Philippines', '8308', 8.417766, 126.207415, 'https://robohash.org/assumendaestiste.jpg?size=50x50&set=set1', 'facilitate wireless infrastructures', 'Function-based client-server internet solution', FALSE),
-('Carolin', 'Brodeur', 'cbrodeur3', 'vlMpXR', 'cbrodeur3@diigo.com', 'Namyang-dong', 'South Korea', NULL, 41.45, 128.833333, 'https://robohash.org/temporequiased.jpg?size=50x50&set=set1', 'transform magnetic content', 'Distributed solution-oriented neural-net', FALSE),
+INSERT INTO users (first_name, last_name, username, password, email, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin)
+VALUES ('test', 'user', 'testuser', '123123123', 'testuser@email.com', 'testcity', 'California', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', FALSE),
+('Admin', 'Boss', 'adminisdaboss', 'adminP@ss', 'admin@email.com', 'testcity', 'California', 'testcountry', 12345, 12345, 12345, 'testimageurl', 'testhobbies', 'please work', TRUE),
+('Lorenza', 'Barnardo', 'lbarnardo2', 'OzM28cthZbM', 'lbarnardo2@ebay.com', 'Tagbina', 'Luzon', 'Philippines', '8308', 8.417766, 126.207415, 'https://robohash.org/assumendaestiste.jpg?size=50x50&set=set1', 'facilitate wireless infrastructures', 'Function-based client-server internet solution', FALSE),
+('Carolin', 'Brodeur', 'cbrodeur3', 'vlMpXR', 'cbrodeur3@diigo.com', 'Namyang-dong','Jeonju', 'South Korea', NULL, 41.45, 128.833333, 'https://robohash.org/temporequiased.jpg?size=50x50&set=set1', 'transform magnetic content', 'Distributed solution-oriented neural-net', FALSE),
 ('Raeann', 'Labbet', 'rlabbet4', 'JAA6M4o2WL', 'rlabbet4@discovery.com', 'Jõhvi', 'Estonia', NULL, 59.3573116, 27.4136645, 'https://robohash.org/estnihilquo.jpg?size=50x50&set=set1', 'iterate vertical infomediaries', 'Quality-focused homogeneous help-desk', FALSE);
 
 
