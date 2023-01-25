@@ -67,7 +67,7 @@ class User {
 
   /** Register user with data.
    *
-   * Returns { username, first_name, last_name, phone, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin }
+   * Returns { username, first_name, last_name, phone, city, state, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin }
    *
    * Throws BadRequestError on duplicates.
    */
@@ -79,6 +79,7 @@ class User {
     lastName,
     email,
     city,
+    state,
     country,
     zipCode,
     latitude,
@@ -109,6 +110,7 @@ class User {
             last_name,
             email,
             city,
+            state,
             country,
             zip_code,
             latitude,
@@ -119,7 +121,7 @@ class User {
             is_admin
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-            RETURNING username, first_name AS "firstName", last_name AS "lastName", email, city, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"`,
+            RETURNING username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"`,
       [
         username,
         hashedPassword,
@@ -127,6 +129,7 @@ class User {
         lastName,
         email,
         city,
+        state,
         country,
         zipCode,
         latitude,
@@ -144,7 +147,7 @@ class User {
 
   /** Find all users.
    *
-   * Returns [{ username, first_name, last_name, email, phone, city, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin, is_guide, is_tourist }, ...]
+   * Returns [{ username, first_name, last_name, email, phone, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin, is_guide, is_tourist }, ...]
    *
    * Throws NotFoundError if no users found.
    * */
@@ -156,6 +159,7 @@ class User {
             last_name AS "lastName",
             email,
             city,
+            state,
             country,
             zip_code AS "zipCode",
             latitude,
