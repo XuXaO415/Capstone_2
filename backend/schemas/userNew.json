@@ -43,7 +43,7 @@
     "state": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 30,
+      "maxLength": 50,
       "description": "The person's state."
     },
     "country": {

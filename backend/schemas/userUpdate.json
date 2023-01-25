@@ -34,6 +34,12 @@
       "maxLength": 30,
       "description": "The person's city."
     },
+    "state": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "description": "The person's state."
+    },
     "country": {
       "type": "string",
       "minLength": 1,
