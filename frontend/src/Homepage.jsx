@@ -4,8 +4,12 @@ import UserContext from "./context/UserContext";
 import "./Homepage.css";
 import Button from "react-bootstrap/Button";
 
-const Homepage = () => {
+function Homepage() {
   const { currentUser } = useContext(UserContext);
+  console.debug("Homepage", "currentUser=", currentUser);
+
+  // const Homepage = () => {
+  //   const { currentUser } = useContext(UserContext);
 
   /** Add this back later */
   // const history = useHistory();
@@ -14,7 +18,7 @@ const Homepage = () => {
   //   if (currentUser) history.push("/profile");
   // }, [currentUser, history]);
 
-  console.debug("Homepage", "currentUser=", currentUser);
+  // console.debug("Homepage", "currentUser=", currentUser);
 
   // return (
   //   <div className="Homepage Homepage-background">
@@ -77,6 +81,6 @@ const Homepage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Homepage;

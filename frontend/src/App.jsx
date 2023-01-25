@@ -6,7 +6,6 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import Navigation from "./Nav/Navigation";
 import UserContext from "./context/UserContext";
 import jwt from "jsonwebtoken";
-import PrivateRoute from "./routes/PrivateRoute";
 import Routes from "./Routes";
 
 export const TOKEN_STORAGE_ID = "UrGuide-token";
