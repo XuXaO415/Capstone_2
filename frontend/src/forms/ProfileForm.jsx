@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import UrGuideApi from "../api";
 import Form from "react-bootstrap/Form";
@@ -23,7 +23,7 @@ function ProfileForm() {
     email: currentUser.email,
     city: currentUser.city,
     country: currentUser.country,
-    zipCode: currentUser.zipCode,
+    zip_code: currentUser.zip_code,
     hobbies: currentUser.hobbies,
     interests: currentUser.interests,
   });
@@ -60,20 +60,19 @@ function ProfileForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     let profileData = {
-      username: formData.username,
       password: formData.password,
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
       city: formData.city,
       country: formData.country,
-      zipCode: formData.zipCode,
+      zip_code: formData.zip_code,
       hobbies: formData.hobbies,
       interests: formData.interests,
     };
     let username = currentUser.username;
-    // let updatedUser = await UrGuideApi.updateProfile(username, profileData);
     let updatedUser;
+
     try {
       updatedUser = await UrGuideApi.updateProfile(username, profileData);
     } catch (err) {
@@ -115,7 +114,7 @@ function ProfileForm() {
   // }
 
   return (
-    <div className="ProfileForm">
+    <div className="ProfileForm col-md-6 col-lg-4 offset-md-3 offset-lg-4">
       <h1>Update Profile</h1>
       <div className="container">
         <Form onSubmit={handleSubmit}>
@@ -125,12 +124,9 @@ function ProfileForm() {
             </Form.Label>
             <Col sm={10}>
               <Form.Control
-                type="text"
-                placeholder="username"
+                disabled={true}
+                placeholder={formData.username}
                 name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
               />
             </Col>
           </Form.Group>
@@ -284,7 +280,11 @@ function ProfileForm() {
           ) : null}
 
           {saveConfirmed ? (
-            <Alert type="success" messages={["Saved."]} />
+            <Alert
+              type="success"
+              messages={["Your profile updated successfully."]}
+              timeout={3000}
+            />
           ) : null}
 
           <Form.Group as={Row}>
