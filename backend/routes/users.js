@@ -137,6 +137,8 @@ router.get("/:username", async function (req, res, next) {
  * Returns { username, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests, isAdmin }
  *
  * Authorization required: admin or same-user-as:username
+ *
+ * Removed  for now
  * */
 
 router.patch(

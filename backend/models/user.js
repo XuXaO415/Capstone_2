@@ -67,7 +67,7 @@ class User {
 
   /** Register user with data.
    *
-   * Returns { username, first_name, last_name, phone, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin }
+   * Returns { username, first_name, last_name, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin }
    *
    * Throws BadRequestError on duplicates.
    */
@@ -127,7 +127,6 @@ class User {
         lastName,
         email,
         city,
-
         country,
         zipCode,
         latitude,
@@ -145,7 +144,7 @@ class User {
 
   /** Find all users.
    *
-   * Returns [{ username, first_name, last_name, email, phone, city, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin, is_guide, is_tourist }, ...]
+   * Returns [{ username, first_name, last_name, email, city, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin, is_guide, is_tourist }, ...]
    *
    * Throws NotFoundError if no users found.
    *
