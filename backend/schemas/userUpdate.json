@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "http://example.com/userUpdate.json",
-  "description": "Update user",
+  "description": "Updates user",
   "type": "object",
   "properties": {
     "firstName": {
@@ -34,29 +34,17 @@
       "maxLength": 30,
       "description": "The person's city."
     },
-    "state": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 50,
-      "description": "The person's state."
-    },
     "country": {
       "type": "string",
       "minLength": 1,
       "maxLength": 30,
       "description": "The person's country."
     },
-    "zipCode": {
-      "type": "integer",
+    "zip_code": {
+      "type": "number",
       "minLength": 1,
       "maxLength": 15,
       "description": "The person's zip code."
-    },
-    "phone": {
-      "type": "integer",
-      "minLength": 1,
-      "maxLength": 15,
-      "description": "The person's phone number."
     },
     "imageUrl": {
       "type": "string",
@@ -64,12 +52,9 @@
       "description": "A URL to an image of the person."
     },
     "interests": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 50
-      },
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
       "description": "The person's hobbies."
     },
     "hobbies": {
@@ -79,15 +64,8 @@
       "description": "User's hobbies."
     }
   },
-  "additionalProperties": false,
-  "required": [
-    "firstName",
-    "lastName",
-    "password",
-    "email",
-    "phone",
-    "imageUrl",
-    "interests",
-    "hobbies"
-  ]
+  "additionalProperties": true,
+  "required": ["firstName", "lastName", "password", "email"],
+
+  "optional": ["zip_code", "imageUrl", "interests", "hobbies"]
 }
