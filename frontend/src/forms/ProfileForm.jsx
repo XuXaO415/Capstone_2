@@ -6,8 +6,6 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import Label from "react-bootstrap/FormLabel";
-import { InputGroup } from "react-bootstrap/InputGroup";
 import Alert from "../common/Alert";
 
 //create a form for the user to update their profile
@@ -29,22 +27,6 @@ function ProfileForm() {
   });
 
   const [saveConfirmed, setSaveConfirmed] = useState(false);
-
-  // function ProfileForm({ updateProfile }) {
-  //   const { currentUser, setCurrentUser } = useContext(UserContext);
-  //   const [setFormErrors] = useState([]);
-  //   const [formData, setFormData] = useState({
-  //     username: currentUser.username,
-  //     password: currentUser.password,
-  //     firstName: currentUser.firstName,
-  //     lastName: currentUser.lastName,
-  //     email: currentUser.email,
-  //     city: currentUser.city,
-  //     country: currentUser.country,
-  //     zipCode: currentUser.zipCode,
-  //     hobbies: currentUser.hobbies,
-  //     interests: currentUser.interests,
-  //   });
 
   console.debug(
     "ProfileForm",
@@ -97,29 +79,13 @@ function ProfileForm() {
     setFormErrors([]);
   }
 
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   let result = await updateProfile(formData);
-  //   if (result.success) {
-  //     setFormErrors([]);
-  //     setCurrentUser(result.user);
-  //   } else {
-  //     setFormErrors(result.errors);
-  //   }
-  // }
-
-  // function handleChange(e) {
-  //   const { name, value } = e.target;
-  //   setFormData((fData) => ({ ...fData, [name]: value }));
-  // }
-
   return (
     <div className="ProfileForm col-md-6 col-lg-4 offset-md-3 offset-lg-4">
       <h1>Update Profile</h1>
       <div className="container">
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row} controlId="formHorizontalUsername">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Username
             </Form.Label>
             <Col sm={10}>
@@ -132,7 +98,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalPassword">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Password
             </Form.Label>
             <Col sm={10}>
@@ -148,7 +114,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalFirstName">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               First Name
             </Form.Label>
             <Col sm={10}>
@@ -164,7 +130,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalLastName">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Last Name
             </Form.Label>
             <Col sm={10}>
@@ -180,7 +146,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalEmail">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Email
             </Form.Label>
             <Col sm={10}>
@@ -196,7 +162,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalCity">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               City
             </Form.Label>
             <Col sm={10}>
@@ -212,7 +178,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalCity">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Country
             </Form.Label>
             <Col sm={10}>
@@ -228,7 +194,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalCity">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Zip Code
             </Form.Label>
             <Col sm={10}>
@@ -244,7 +210,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalCity">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Hobbies
             </Form.Label>
             <Col sm={10}>
@@ -260,7 +226,7 @@ function ProfileForm() {
           </Form.Group>
 
           <Form.Group as={Row} controlId="formHorizontalCity">
-            <Form.Label column sm={2}>
+            <Form.Label column sm={4}>
               Interests
             </Form.Label>
             <Col sm={10}>
@@ -287,9 +253,9 @@ function ProfileForm() {
             />
           ) : null}
 
-          <Form.Group as={Row}>
-            <Col sm={{ span: 10, offset: 2 }}>
-              <Button type="submit">Save Changes</Button>
+          <Form.Group as={Row} className="mb-3">
+            <Col sm={{ span: 20, offset: 4 }}>
+              <Button type="submit">Save</Button>
             </Col>
           </Form.Group>
         </Form>
