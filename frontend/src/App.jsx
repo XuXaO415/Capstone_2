@@ -16,6 +16,10 @@ function App() {
     data: null,
     isLoaded: false,
   });
+  const [currentUserId, setCurrentUserId] = useState({
+    data: null,
+    isLoaded: false,
+  });
 
   useEffect(
     function loadUserInfo() {
@@ -25,11 +29,20 @@ function App() {
         if (token) {
           try {
             let { username } = jwt.decode(token);
+
+            let { id } = jwt.decode(token);
+
             UrGuideApi.token = token;
+
             let currentUser = await UrGuideApi.getCurrentUser(username);
+            let currentUserId = await UrGuideApi.getCurrentUserId(id);
 
             setCurrentUser({
               data: currentUser,
+              isLoaded: true,
+            });
+            setCurrentUserId({
+              data: currentUserId,
               isLoaded: true,
             });
           } catch (err) {
@@ -38,9 +51,17 @@ function App() {
               data: null,
               isLoaded: true,
             });
+            setCurrentUserId({
+              data: null,
+              isLoaded: true,
+            });
           }
         } else {
           setCurrentUser({
+            data: null,
+            isLoaded: true,
+          });
+          setCurrentUserId({
             data: null,
             isLoaded: true,
           });

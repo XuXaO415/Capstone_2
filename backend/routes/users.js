@@ -138,7 +138,7 @@ router.get("/:username", async function (req, res, next) {
  *
  * Authorization required: admin or same-user-as:username
  *
- * Removed  for now
+ *
  * */
 
 router.patch(
@@ -181,5 +181,18 @@ router.delete(
     }
   }
 );
+
+/** Find user by id */
+
+router.get("/:id", async function (req, res, next) {
+  try {
+    const user = await User.findByUserId(req.body, req.params.id);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 module.exports = router;
