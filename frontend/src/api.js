@@ -49,6 +49,11 @@ class UrGuideApi {
     return res.user;
   }
 
+  static async getCurrentUserById(user_id) {
+    let res = await this.request(`users/${user_id}`);
+    return res.user;
+  }
+
   /** auth methods */
 
   static async login(data) {
@@ -57,58 +62,16 @@ class UrGuideApi {
     return res.token;
   }
 
-  /* Why is the API call not working? */
-  // static async login({ username, password }) {
-  //   let res = await this.request(`auth/token`, { username, password }, "POST");
-  //   console.debug(res, "res from login was successful");
-  //   return res.token;
-  // }
-
-  // static async signup({
-  //   username,
-  //   password,
-  //   email,
-  //   firstName,
-  //   lastName,
-  //   city,
-  //   state,
-  //   zipCode,
-  //   country,
-  //   interests,
-  //   hobbies,
-  // }) {
-  //   let res = await this.request(
-  //     `auth/register`,
-  //     {
-  //       username,
-  //       password,
-  //       email,
-  //       firstName,
-  //       lastName,
-  //       city,
-  //       state,
-  //       zipCode,
-  //       country,
-  //       interests,
-  //       hobbies,
-  //     },
-  //     "POST"
-  //   );
-  //   console.log(res, "res  from signup was successful");
-  //   return res.token;
-  // }
-
   static async signup(data) {
     let res = await this.request(`auth/register`, data, "POST");
     console.log(res, "res from signup was successful");
     return res.token;
   }
 
-  /** Create new user  */
+  /** Create a new user  */
 
   static async createUser(data) {
     let res = await this.request(`users`, data, "POST");
-    console.log(res, "res from createUser was successful");
     return res.user;
   }
 
@@ -120,41 +83,52 @@ class UrGuideApi {
     return res.user;
   }
 
-  // static async updateProfile(username, { firstName, lastName, email }) {
-  //   let res = await this.request(
-  //     `users/${username}`,
-  //     { firstName, lastName, email },
-  //     "PATCH"
-  //   );
-  //   console.log(res, "res from updateProfile was successful");
-  //   return res.user;
-  // }
+  /** Setup for potential matches */
+
+  static async getPotentialMatches(username, data = {}) {
+    let res = await this.request(`users/${username}/matches`, data, "GET");
+    return res.matches;
+  }
+
+  /** Like a potential user => match */
+
+  static async likeMatch(username, data) {
+    let res = await this.request(`users/like/${username}`, data, "POST");
+    return res.status;
+  }
+
+  /** Dislike potential user =>un-match  */
+
+  static async dislikeMatch(username, data) {
+    let res = await this.request(`users/dislike/${username}`, data, "POST");
+    return res.status;
+  }
 
   /** Guide API routes */
 
-  static async getGuides(data) {
-    let res = await this.request(`guides`, data, "GET");
-    return res.guides;
-  }
+  // static async getGuides(data) {
+  //   let res = await this.request(`guides`, data, "GET");
+  //   return res.guides;
+  // }
 
   /** GET guide by id */
 
-  static async getGuide(id, data) {
-    let res = await this.request(`guides/${id}`, data, "GET");
-    return res.guide;
-  }
+  // static async getGuide(id, data) {
+  //   let res = await this.request(`guides/${id}`, data, "GET");
+  //   return res.guide;
+  // }
 
-  static async createGuide(data) {
-    let res = await this.request(`guides`, data, "POST");
-    return res.guide;
-  }
+  // static async createGuide(data) {
+  //   let res = await this.request(`guides`, data, "POST");
+  //   return res.guide;
+  // }
 
   /** GET potential matches for guides */
 
-  static async getPotentialMatches(id, data = {}) {
-    let res = await this.request(`users/${id}/matches`, data, "GET");
-    return res.status;
-  }
+  // static async getPotentialMatches(id, data = {}) {
+  //   let res = await this.request(`users/${id}/matches`, data, "GET");
+  //   return res.status;
+  // }
 
   /** GET potential matches for users */
 
@@ -165,29 +139,29 @@ class UrGuideApi {
 
   /** GET user's guides */
 
-  static async getUserGuides(username, data = {}) {
-    let res = await this.request(`users/${username}/guides`, data, "GET");
-    return res.guides;
-  }
+  // static async getUserGuides(username, data = {}) {
+  //   let res = await this.request(`users/${username}/guides`, data, "GET");
+  //   return res.guides;
+  // }
 
   /** GET matches for users/guides */
 
-  static async getMatches(id) {
-    let res = await this.request(`users/${id}/matches`, {}, "GET");
-    return res.matches;
-  }
+  // static async getMatches(id) {
+  //   let res = await this.request(`users/${id}/matches`, {}, "GET");
+  //   return res.matches;
+  // }
 
-  /** Like a potential user match */
+  // /** Like a potential user match */
 
-  static async likeMatch(id) {
-    let res = await this.request(`users/${id}/matches`, {}, "POST");
-    return res.status;
-  }
+  // static async likeMatch(id) {
+  //   let res = await this.request(`users/${id}/matches`, {}, "POST");
+  //   return res.status;
+  // }
 
-  static async dislikeMatch(id) {
-    let res = await this.request(`users/${id}/matches`, {}, "DELETE");
-    return res.status;
-  }
+  // static async dislikeMatch(id) {
+  //   let res = await this.request(`users/${id}/matches`, {}, "DELETE");
+  //   return res.status;
+  // }
 
   // /** Like a potential guide match */
 
@@ -208,12 +182,6 @@ class UrGuideApi {
   // static async getFavorites(username) {
   //     let res = await this.request(`users/${username}/favorites`, data, "GET");
   //     return res.favorites;
-  // }
-
-  /** WTH am I doing   */
-  // static async createFavorite(username, data) {
-  //     let res = await this.request(`users/${username}/favorites`, data, "POST");
-  //     return res.favorite;
   // }
 
   // static async deleteFavorite(username, id) {
