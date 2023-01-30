@@ -170,6 +170,7 @@ class User {
     );
 
     return result.rows;
+    // return result.rows[0].id;
   }
 
   /** Update user data with `data`.
@@ -252,7 +253,7 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
-  /* Find user by id */
+  /** Find user in db by user_id */
   static async findByUserId(id) {
     const result = await db.query(
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
@@ -263,6 +264,19 @@ class User {
     const user = result.rows[0];
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
+  }
+
+  /* Match users randomly */
+  static async matchUsers() {
+    const result = await db.query(
+      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+            FROM users
+            ORDER BY RANDOM()
+            LIMIT 2`
+    );
+    const users = result.rows;
+    if (!users) throw new NotFoundError(`No users found`);
+    return users;
   }
 }
 

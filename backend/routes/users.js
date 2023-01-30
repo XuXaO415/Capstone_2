@@ -17,6 +17,7 @@ const User = require("../models/user");
 let { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
+const { route } = require("../app");
 // const userRegisterSchema = require("../schemas/userRegister.json");
 
 const router = express.Router();
@@ -184,9 +185,22 @@ router.delete(
 
 /** Find user by id */
 
-router.get("/:id", async function (req, res, next) {
+router.get("/:username/:id", async function (req, res, next) {
   try {
-    const user = await User.findByUserId(req.body, req.params.id);
+    let user = await User.findByUserId(req.params.id, req.params.username);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Route for matching users */
+
+router.get("/:username/match/:id", async function (req, res, next) {
+  try {
+    let user = await User.matchUsers(req.body, req.params.id);
     return res.json({
       user,
     });
