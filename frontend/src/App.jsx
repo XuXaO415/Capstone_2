@@ -12,11 +12,8 @@ export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+  const [potentialMatches, setPotentialMatches] = useState([]);
   const [currentUser, setCurrentUser] = useState({
-    data: null,
-    isLoaded: false,
-  });
-  const [currentUserId, setCurrentUserId] = useState({
     data: null,
     isLoaded: false,
   });
@@ -30,38 +27,27 @@ function App() {
           try {
             let { username } = jwt.decode(token);
 
-            let { id } = jwt.decode(token);
-
             UrGuideApi.token = token;
 
             let currentUser = await UrGuideApi.getCurrentUser(username);
-            let currentUserId = await UrGuideApi.getCurrentUserId(id);
-
             setCurrentUser({
               data: currentUser,
               isLoaded: true,
             });
-            setCurrentUserId({
-              data: currentUserId,
-              isLoaded: true,
-            });
+
+            let potentialMatches = await UrGuideApi.getPotentialMatches(
+              username
+            );
+            setPotentialMatches(potentialMatches);
           } catch (err) {
             console.error("App loadUserInfo error", err);
-            setCurrentUser({
-              data: null,
+            setCurrentUser((currUser) => ({
+              ...currUser,
               isLoaded: true,
-            });
-            setCurrentUserId({
-              data: null,
-              isLoaded: true,
-            });
+            }));
           }
         } else {
           setCurrentUser({
-            data: null,
-            isLoaded: true,
-          });
-          setCurrentUserId({
             data: null,
             isLoaded: true,
           });
@@ -94,10 +80,40 @@ function App() {
     setToken(token);
   }
 
+  /** Handles liking a potential user */
+  async function likeUser(username) {
+    try {
+      await UrGuideApi.likeUser(username);
+      let newPotentialMatches = await UrGuideApi.getPotentialMatches(
+        currentUser.data.username
+      );
+      setPotentialMatches(newPotentialMatches);
+    } catch (err) {
+      console.error("likeUser failed", err);
+    }
+  }
+
+  /** Handles unliking a potential user */
+  async function unlikeUser(username) {
+    try {
+      await UrGuideApi.unlikeUser(username);
+      let newPotentialMatches = await UrGuideApi.getPotentialMatches(
+        currentUser.data.username
+      );
+      setPotentialMatches(newPotentialMatches);
+    } catch (err) {
+      console.error("unlikeUser failed", err);
+    }
+  }
+
   return (
     <div className="App">
       <UserContext.Provider
-        value={{ currentUser: currentUser.data, setCurrentUser }}
+        value={{
+          currentUser: currentUser.data,
+          setCurrentUser,
+          potentialMatches,
+        }}
       >
         <BrowserRouter>
           <Navigation logout={logout} />
@@ -105,6 +121,9 @@ function App() {
             currentUser={currentUser.data}
             login={login}
             signup={signup}
+            potentialMatches={potentialMatches}
+            likeUser={likeUser}
+            unlikeUser={unlikeUser}
           />
         </BrowserRouter>
       </UserContext.Provider>

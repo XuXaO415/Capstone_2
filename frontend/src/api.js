@@ -85,8 +85,8 @@ class UrGuideApi {
 
   /** Setup for potential matches */
 
-  static async getPotentialMatches(username, data = {}) {
-    let res = await this.request(`users/${username}/matches`, data, "GET");
+  static async getPotentialMatches(username, data) {
+    let res = await this.request(`users/${username}/match`, data, "GET");
     return res.matches;
   }
 
