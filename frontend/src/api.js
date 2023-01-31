@@ -85,22 +85,34 @@ class UrGuideApi {
 
   /** Setup for potential matches */
 
-  static async getPotentialMatches(username, data) {
-    let res = await this.request(`users/${username}/match`, data, "GET");
-    return res.matches;
+  // static async getPotentialMatches(username, data) {
+  //   let res = await this.request(`users/${username}/match/:id`, data, "GET");
+  //   return res.matches;
+  // }
+
+  /** Setup for liking a potential match */
+
+  // static async getPotentialMatches(user_id) {
+  //   let res = await this.request(`users/like/match/${user_id}`, {}, "POST");
+  //   return res.status;
+  // }
+
+  static async getPotentialMatches(user_id, data) {
+    let res = await this.request(`users/like/${user_id}`, data, "POST");
+    return res.status;
   }
 
   /** Like a potential user => match */
 
-  static async likeMatch(username, data) {
-    let res = await this.request(`users/like/${username}`, data, "POST");
-    return res.status;
-  }
+  // static async likeMatch(username, data) {
+  //   let res = await this.request(`users/like/${username}/:id`, data, "POST");
+  //   return res.status;
+  // }
 
   /** Dislike potential user =>un-match  */
 
   static async dislikeMatch(username, data) {
-    let res = await this.request(`users/dislike/${username}`, data, "POST");
+    let res = await this.request(`users/dislike/${username}/:id`, data, "POST");
     return res.status;
   }
 

@@ -81,11 +81,12 @@ function App() {
   }
 
   /** Handles liking a potential user */
-  async function likeUser(username) {
+  async function likeUser(username, user_id) {
     try {
-      await UrGuideApi.likeUser(username);
+      await UrGuideApi.likeUser(username, user_id);
       let newPotentialMatches = await UrGuideApi.getPotentialMatches(
-        currentUser.data.username
+        currentUser.data.username,
+        user_id // this is the user_id of the user that was liked
       );
       setPotentialMatches(newPotentialMatches);
     } catch (err) {

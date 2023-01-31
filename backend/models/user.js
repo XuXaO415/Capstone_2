@@ -278,6 +278,19 @@ class User {
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }
+
+  /** Setup for users to like each other based on user_id */
+  static async likeUser(id, username) {
+    const result = await db.query(
+      `INSERT INTO likes (user_id, liked_user)
+            VALUES ($1, $2)
+            RETURNING user_id, liked_user`,
+      [id, username]
+    );
+    const user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
+  }
 }
 
 module.exports = User;
