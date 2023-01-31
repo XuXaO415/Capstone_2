@@ -15,27 +15,25 @@ CREATE TABLE users (
 	hobbies TEXT,
 	interests TEXT,
 	is_admin BOOLEAN NOT NULL DEFAULT FALSE
-	-- is_guide BOOLEAN NOT NULL DEFAULT FALSE,
-	-- is_tourist BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 
-CREATE TABLE user_dislikes (
+CREATE TABLE dislikes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	disliked_user_id INTEGER REFERENCES users(id)
+	disliked_user INTEGER REFERENCES users(id)
 );
 
-CREATE TABLE user_likes (
+CREATE TABLE likes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	liked_user_id INTEGER REFERENCES users(id)
+	liked_user INTEGER REFERENCES users(id)
 );
 
-CREATE TABLE user_matches (
+CREATE TABLE matches (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	matched_user_id INTEGER REFERENCES users(id)
+	matched_user INTEGER REFERENCES users(id)
 );
 
 
