@@ -17,6 +17,7 @@ const User = require("../models/user");
 let { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
+const userLikeSchema = require("../schemas/userLike.json");
 const { route } = require("../app");
 // const userRegisterSchema = require("../schemas/userRegister.json");
 
@@ -201,6 +202,22 @@ router.get("/:username/:id", async function (req, res, next) {
 router.get("/:username/match/:id", async function (req, res, next) {
   try {
     let user = await User.matchUsers(req.body, req.params.id);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Route for User like */
+router.post("/:username/like/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.likeUser(
+      req.body,
+      req.params.user_id,
+      userLikeSchema
+    );
     return res.json({
       user,
     });
