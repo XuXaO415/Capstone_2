@@ -58,19 +58,12 @@ function Homepage() {
             !
           </h2>
         ) : (
-          <p>
-            <Link to="/login">
-              <Button color="primary" className="btn-md font-weight-bold">
-                Log In
-              </Button>
-            </Link>
-          </p>
+          <Link to="/signup">
+            <Button color="primary" className="btn-md font-weight-bold">
+              Sign Up
+            </Button>
+          </Link>
         )}
-        <Link to="/signup">
-          <Button color="primary" className="btn-md font-weight-bold">
-            Sign Up
-          </Button>
-        </Link>
         <br />
         <p className="mt-3">Already have an account?</p>
         <Link to="/login">
