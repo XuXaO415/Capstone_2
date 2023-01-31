@@ -157,6 +157,17 @@ function SignupForm({ signup }) {
               />
             </Form.Group>
 
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>State</Form.Label>
+              <Form.Control
+                type="text"
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
             <Form.Group as={Col} controlId="formGridZipCode">
               <Form.Label>Zip</Form.Label>
               <Form.Control
