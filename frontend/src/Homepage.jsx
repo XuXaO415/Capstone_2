@@ -47,8 +47,10 @@ function Homepage() {
   return (
     <div className="Homepage Homepage-background">
       <div className="container text-center">
-        <h1 className="lead-paragraph mb-4 font-weight-bold">UrGuide</h1>
-        <p className="second-paragraph">Your friends, your guides.</p>
+        <h1 className="lead-paragraph mb-1 font-weight-bold">UrGuide</h1>
+        <p className="second-paragraph font-weight-bold font-italic">
+          Your friends, your guides.
+        </p>
         {currentUser ? (
           <h2>
             Welcome back,{" "}
@@ -65,7 +67,7 @@ function Homepage() {
           </Link>
         )}
         <br />
-        <p className="mt-3">Already have an account?</p>
+        <p className="mt-3 font-weight-bold">Already have an account?</p>
         <Link to="/login">
           <Button color="primary" className="btn-md font-weight-bold">
             Log In
