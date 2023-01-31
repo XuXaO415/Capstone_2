@@ -34,9 +34,9 @@ function App() {
               data: currentUser,
               isLoaded: true,
             });
-
+            let { user_id } = jwt.decode(token);
             let potentialMatches = await UrGuideApi.getPotentialMatches(
-              username
+              user_id
             );
             setPotentialMatches(potentialMatches);
           } catch (err) {
