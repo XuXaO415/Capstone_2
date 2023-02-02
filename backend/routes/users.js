@@ -199,29 +199,29 @@ router.delete(
 
 /** Route for getting a list of potential user --working */
 
-router.get("username/:user_id/match", async function (req, res, next) {
-  try {
-    let user = await User.matchUsers(req.body, req.params.id);
-    return res.json({
-      user,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get("username/:user_id/match", async function (req, res, next) {
+//   try {
+//     let user = await User.matchUsers(req.body, req.params.id);
+//     return res.json({
+//       user,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 /** Route When user likes another user, post to database */
 
-router.post("/:username/like/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.likeUser(req.body, req.params.id);
-    return res.json({
-      user,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.post("/:username/like/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.likeUser(req.body, req.params.id);
+//     return res.json({
+//       user,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 /** Route for matching users */
 
@@ -237,37 +237,57 @@ router.post("/:username/like/:user_id", async function (req, res, next) {
 // });
 
 //get a list of potential matches for a user
-router.get("/:username/match", async function (req, res, next) {
-  try {
-    let user = await User.matchUsers(req.body, req.params.username);
-    return res.json({
-      user,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get("/:username/match", async function (req, res, next) {
+//   try {
+//     let user = await User.matchUsers(req.body, req.params.username);
+//     return res.json({
+//       user,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 /** Route for User dislike */
 
-router.get("/:username/dislike/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.dislikeUser(req.body, req.params.id);
-    return res.json({
-      user,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get("/:username/dislike/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.dislikeUser(req.body, req.params.id);
+//     return res.json({
+//       user,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 /** Route for User match */
 
 router.get("/:username/match/:user_id", async function (req, res, next) {
   try {
-    let user = await User.matchUsers(req.body, req.params.id);
+    let user = await User.matchUsers(
+      req.body,
+      req.params.user_id,
+      currentUser,
+      req.params.username
+    );
     return res.json({
       user,
+      currentUser: req.params.username,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Route for Posting User match */
+
+router.post("/:username/match/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.matchUsers(req.username, req.params.id);
+    return res.json({
+      user,
+      username: req.params.username,
     });
   } catch (err) {
     return next(err);

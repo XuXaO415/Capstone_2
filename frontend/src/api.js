@@ -99,8 +99,12 @@ class UrGuideApi {
 
   /** Setup for getting a list of potential user matches */
 
-  static async getPotentialMatches(user_id) {
-    let res = await this.request(`users/${user_id}/match`, {}, "GET");
+  static async getPotentialMatches(username, user_id) {
+    let res = await this.request(
+      `users/${username}/match/${user_id}`,
+      {},
+      "GET"
+    );
     return res.matches;
   }
 
@@ -122,10 +126,14 @@ class UrGuideApi {
 
   /** Dislike potential user =>un-match  */
 
-  static async dislikeMatch(username, data) {
-    let res = await this.request(`users/dislike/${username}/:id`, data, "POST");
-    return res.status;
-  }
+  // static async dislikeMatch(username, data) {
+  //   let res = await this.request(
+  //     `users/dislike/${username}/:user_id`,
+  //     data,
+  //     "POST"
+  //   );
+  //   return res.status;
+  // }
 
   /** Guide API routes */
 
