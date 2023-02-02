@@ -260,7 +260,7 @@ class User {
   /** Find user in db by user_id */
   static async findByUserId(id) {
     const result = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
             FROM users
             WHERE id = $1`,
       [id]
@@ -276,7 +276,7 @@ class User {
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
             FROM users
             ORDER BY RANDOM()
-            LIMIT 2`
+            LIMIT 5`
     );
     const users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
@@ -284,6 +284,19 @@ class User {
   }
 
   /** Setup for users to like each other based on user_id */
+  // static async likeUser(id, username) {
+  //   const result = await db.query(
+  //     `INSERT INTO likes (user_id, liked_user)
+  //           VALUES ($1, $2)
+  //           RETURNING user_id, liked_user`,
+  //     [id, username]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
+
+  /** When users like each other, store user_ids in database so later on when can show a list of all the likes of a user */
   static async likeUser(id, username) {
     const result = await db.query(
       `INSERT INTO likes (user_id, liked_user)
