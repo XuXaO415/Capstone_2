@@ -32,7 +32,7 @@ function LoginForm({ login }) {
     e.preventDefault();
     try {
       await login(formData);
-      history.push("/profile");
+      history.push("/:username/match/:user_id");
     } catch (errors) {
       setFormErrors(errors);
     }

@@ -186,20 +186,20 @@ router.delete(
 
 /** Find user by id */
 
-router.get("/:username/:id", async function (req, res, next) {
-  try {
-    let user = await User.findByUserId(req.params.id, req.params.username);
-    return res.json({
-      user,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get("/:username/:id", async function (req, res, next) {
+//   try {
+//     let user = await User.findByUserId(req.params.id, req.params.username);
+//     return res.json({
+//       user,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
-/** Route for matching users */
+/** Route for getting a list of potential user --working */
 
-router.get("/:username/match/:id", async function (req, res, next) {
+router.get("username/:user_id/match", async function (req, res, next) {
   try {
     let user = await User.matchUsers(req.body, req.params.id);
     return res.json({
@@ -210,14 +210,62 @@ router.get("/:username/match/:id", async function (req, res, next) {
   }
 });
 
-/** Route for User like */
+/** Route When user likes another user, post to database */
+
 router.post("/:username/like/:user_id", async function (req, res, next) {
   try {
-    let user = await User.likeUser(
-      req.body,
-      req.params.user_id,
-      userLikeSchema
-    );
+    let user = await User.likeUser(req.body, req.params.id);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Route for matching users */
+
+// router.get("/:username/match/:id", async function (req, res, next) {
+//   try {
+//     let user = await User.matchUsers(req.body, req.params.id);
+//     return res.json({
+//       user,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
+//get a list of potential matches for a user
+router.get("/:username/match", async function (req, res, next) {
+  try {
+    let user = await User.matchUsers(req.body, req.params.username);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Route for User dislike */
+
+router.get("/:username/dislike/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.dislikeUser(req.body, req.params.id);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Route for User match */
+
+router.get("/:username/match/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.matchUsers(req.body, req.params.id);
     return res.json({
       user,
     });

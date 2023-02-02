@@ -97,8 +97,19 @@ class UrGuideApi {
   //   return res.status;
   // }
 
-  static async getPotentialMatches(user_id, data) {
-    let res = await this.request(`users/like/${user_id}`, data, "POST");
+  /** Setup for getting a list of potential user matches */
+
+  static async getPotentialMatches(user_id) {
+    let res = await this.request(`users/${user_id}/match`, {}, "GET");
+    return res.matches;
+  }
+
+  static async PotentialMatches(username, user_id) {
+    let res = await this.request(
+      `users/${username}/like/${user_id}`,
+      {},
+      "POST"
+    );
     return res.status;
   }
 
