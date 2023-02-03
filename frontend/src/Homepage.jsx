@@ -43,7 +43,6 @@ function Homepage() {
   //   </div>
   // );
 
-  //Fix this later
   return (
     <div className="Homepage Homepage-background">
       <div className="container text-center">
@@ -56,8 +55,13 @@ function Homepage() {
             Welcome back,{" "}
             <span className="font-weight-bold">
               {currentUser.firstName || currentUser.userName}!
+              <h3>Let's get started</h3>
+              <Link to="/profile">
+                <Button color="primary" className="btn-sm font-weight-bold">
+                  Profile
+                </Button>
+              </Link>
             </span>
-            !
           </h2>
         ) : (
           <Link to="/signup">
