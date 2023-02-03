@@ -18,7 +18,7 @@ let { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
 const userLikeSchema = require("../schemas/userLike.json");
-const { route } = require("../app");
+const userMatchSchema = require("../schemas/userMatch.json");
 // const userRegisterSchema = require("../schemas/userRegister.json");
 
 const router = express.Router();
@@ -96,21 +96,6 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-// router.get(
-//   "/login/user",
-//   ensureCorrectUserOrAdmin,
-//   async function (req, res, next) {
-//     try {
-//       const user = await User.get(req.user.username);
-//       return res.json({
-//         user,
-//       });
-//     } catch (err) {
-//       return next(err);
-//     }
-//   }
-// );
-
 /** GET /users/[username] => { user }
  *  *
  * Returns { username, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests, isAdmin }
@@ -184,20 +169,25 @@ router.delete(
   }
 );
 
-/** Find user by id */
+/** GET /users/[user_id] = {user_id}
+ *
+ * Returns {username, user_id}
+ *
+ * Authorization required: admin
+ * */
 
-// router.get("/:username/:id", async function (req, res, next) {
-//   try {
-//     let user = await User.findByUserId(req.params.id, req.params.username);
-//     return res.json({
-//       user,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
+router.get("/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.getUserById(req.params.user_id);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
 
-/** Route for getting a list of potential user --working */
+/** Route for getting a list of potential user (semi-working) */
 
 // router.get("username/:user_id/match", async function (req, res, next) {
 //   try {
@@ -248,19 +238,6 @@ router.delete(
 //   }
 // });
 
-/** Route for User dislike */
-
-// router.get("/:username/dislike/:user_id", async function (req, res, next) {
-//   try {
-//     let user = await User.dislikeUser(req.body, req.params.id);
-//     return res.json({
-//       user,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
 /** Route for User match */
 
 router.get("/:username/match/:user_id", async function (req, res, next) {
@@ -268,7 +245,6 @@ router.get("/:username/match/:user_id", async function (req, res, next) {
     let user = await User.matchUsers(
       req.body,
       req.params.user_id,
-      currentUser,
       req.params.username
     );
     return res.json({

@@ -12,7 +12,10 @@ export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
-  const [potentialMatches, setPotentialMatches] = useState([]);
+  const [potentialMatches, setPotentialMatches] = useState({
+    data: null,
+    isLoaded: false,
+  });
   const [currentUser, setCurrentUser] = useState({
     data: null,
     isLoaded: false,
@@ -34,11 +37,6 @@ function App() {
               data: currentUser,
               isLoaded: true,
             });
-            let { user_id } = jwt.decode(token);
-            let potentialMatches = await UrGuideApi.getPotentialMatches(
-              user_id
-            );
-            setPotentialMatches(potentialMatches);
           } catch (err) {
             console.error("App loadUserInfo error", err);
             setCurrentUser((currUser) => ({
@@ -54,6 +52,40 @@ function App() {
         }
       }
       getCurrentUser();
+    },
+    [token]
+  );
+
+  /** Handle getting user matches  */
+  useEffect(
+    function loadPotentialMatches() {
+      console.debug("App loadPotentialMatches", "loadPotentialMatches");
+      async function getPotentialMatches() {
+        if (token) {
+          try {
+            let { username } = jwt.decode(token);
+            let potentialMatches = await UrGuideApi.getPotentialMatches(
+              username
+            );
+            setPotentialMatches({
+              data: potentialMatches,
+              isLoaded: true,
+            });
+          } catch (err) {
+            console.error("App loadPotentialMatches error", err);
+            setPotentialMatches((currPotentialMatches) => ({
+              ...currPotentialMatches,
+              isLoaded: true,
+            }));
+          }
+        } else {
+          setPotentialMatches({
+            data: null,
+            isLoaded: true,
+          });
+        }
+      }
+      getPotentialMatches();
     },
     [token]
   );
@@ -94,7 +126,7 @@ function App() {
     }
   }
 
-  /** Handles unliking a potential user */
+  /** Handles un-liking a potential user */
   async function unlikeUser(username) {
     try {
       await UrGuideApi.unlikeUser(username);
