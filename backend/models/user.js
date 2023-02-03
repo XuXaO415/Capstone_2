@@ -43,6 +43,27 @@ class User {
     throw new UnauthorizedError("Invalid username/password");
   }
 
+  /** Given a user_id, return data about user
+   * Returns { username, first_name, last_name, email }
+   *
+   * Throws NotFoundError if user not found.
+   */
+
+  static async getUserById(user_id) {
+    const userRes = await db.query(
+      `SELECT username, first_name AS "firstName", last_name AS "lastName", email
+            FROM users
+            WHERE user_id = $1`,
+      [user_id]
+    );
+
+    const user = userRes.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${user_id}`);
+
+    return user;
+  }
+
   /** Given a username, return data about users
    * Returns { username, first_name, last_name, email, is_admin }
    *
@@ -257,7 +278,8 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
-  /** Find user in db by user_id */
+  /** Find user in db by id/ Get user by id */
+
   static async findByUserId(id) {
     const result = await db.query(
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
@@ -269,6 +291,18 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
+
+  // static async findByUserId(id) {
+  //   const result = await db.query(
+  //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           WHERE id = $1`,
+  //     [id]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
 
   /* Match users randomly */
   static async matchUsers() {
