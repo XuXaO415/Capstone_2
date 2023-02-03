@@ -49,8 +49,8 @@ class UrGuideApi {
     return res.user;
   }
 
-  static async getCurrentUserById(user_id) {
-    let res = await this.request(`users/${user_id}`);
+  static async getCurrentUserById(id) {
+    let res = await this.request(`users/${id}`, {}, "GET");
     return res.user;
   }
 
@@ -100,12 +100,8 @@ class UrGuideApi {
   /** Setup for getting a list of potential user matches */
 
   static async getPotentialMatches(username, user_id) {
-    let res = await this.request(
-      `users/${username}/match/${user_id}`,
-      {},
-      "GET"
-    );
-    return res.matches;
+    let res = await this.request(`users/${username}/match/${user_id}`);
+    return res.user;
   }
 
   static async PotentialMatches(username, user_id) {
