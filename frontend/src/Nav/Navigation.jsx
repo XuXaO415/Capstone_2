@@ -18,6 +18,9 @@ function Navigation({ logout }) {
             <Nav.Link className="nav-link" href="/profile">
               Profile
             </Nav.Link>
+            <Nav.Link className="nav-link" href="/matches">
+              Matches
+            </Nav.Link>
             <Nav.Link href="/" onClick={logout}>
               Log out {currentUser.first_name || currentUser.username}
             </Nav.Link>
