@@ -312,7 +312,7 @@ class User {
             ORDER BY RANDOM()
             LIMIT 5`
     );
-    const users = result.rows;
+    let users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }

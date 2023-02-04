@@ -238,9 +238,21 @@ router.get("/:user_id", async function (req, res, next) {
 //   }
 // });
 
+// router.get("/:username/users/match/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.matchUsers(req.body, req.params.user_id);
+//     return res.json({
+//       user,
+//       currentUser: req.params.username,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
 /** Route for User match */
 
-router.get("/:username/match/:user_id", async function (req, res, next) {
+router.get("/:username/matches/:user_id", async function (req, res, next) {
   try {
     let user = await User.matchUsers(
       req.body,
@@ -258,7 +270,7 @@ router.get("/:username/match/:user_id", async function (req, res, next) {
 
 /** Route for Posting User match */
 
-router.post("/:username/match/:user_id", async function (req, res, next) {
+router.post("/:username/matches/:user_id", async function (req, res, next) {
   try {
     let user = await User.matchUsers(req.username, req.params.id);
     return res.json({
