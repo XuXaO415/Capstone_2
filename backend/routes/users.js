@@ -282,4 +282,17 @@ router.post("/:username/matches/:user_id", async function (req, res, next) {
   }
 });
 
+/** Route for getting a list of potential user (semi-working) */
+
+router.get("/:username/matches", async function (req, res, next) {
+  try {
+    let user = await User.matchUsers(req.body, req.params.username);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 module.exports = router;
