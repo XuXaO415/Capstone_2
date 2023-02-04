@@ -102,6 +102,11 @@ class UrGuideApi {
     return res.user;
   }
 
+  static async matchList(username) {
+    let res = await this.request(`users/${username}/matches`, {}, "GET");
+    return res.user;
+  }
+
   /** Setup for liking a potential match */
 
   // static async getPotentialMatches(user_id) {

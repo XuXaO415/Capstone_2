@@ -31,7 +31,13 @@ function MatchDetail() {
   useEffect(
     function getPotentialUserMatches() {
       async function getPotentialMatches() {
-        setMatchInfo(await UrGuideApi.getPotentialMatches(username, user_id));
+        let matchInfo = await UrGuideApi.getPotentialMatches(username, user_id);
+        console.debug(
+          "MatchDetail useEffect getPotentialMatches",
+          "matchInfo=",
+          matchInfo
+        );
+        // setMatchInfo(await UrGuideApi.getPotentialMatches(username, user_id));
       }
       getPotentialMatches();
     },
@@ -39,6 +45,7 @@ function MatchDetail() {
   );
 
   if (!matchInfo) return <p>Loading...</p>;
+
   return (
     <div className="MatchDetail">
       <Card>
