@@ -310,7 +310,7 @@ class User {
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
             FROM users
             ORDER BY RANDOM()
-            LIMIT 5`
+            LIMIT 3`
     );
     let users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
