@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "./context/UserContext";
-import "./Homepage.css";
 import Button from "react-bootstrap/Button";
+import "./Homepage.css";
 
 function Homepage() {
   const { currentUser } = useContext(UserContext);
@@ -21,16 +21,10 @@ function Homepage() {
             <span className="font-weight-bold">
               {currentUser.firstName || currentUser.userName}!
               <h5>Ready to see your matches?</h5>
-              <Link to="/profile">
-                <Button color="primary" className="btn-sm font-weight-bold">
-                  Profile
+              <Link to="/matches">
+                <Button color="info" className="btn-sm font-weight-bold">
+                  Matches
                 </Button>
-                <br></br>
-                {/* <Link to="/matches">
-                  <Button color="primary" className="btn-sm font-weight-bold">
-                    Let's go!
-                  </Button>
-                </Link> */}
               </Link>
             </span>
           </h2>
