@@ -330,12 +330,25 @@ class User {
   //   return user;
   // }
 
-  /** When users like each other, store user_ids in database so later on when can show a list of all the likes of a user */
+  /** User likes a match */
   static async likeUser(id, username) {
     const result = await db.query(
       `INSERT INTO likes (user_id, liked_user)
             VALUES ($1, $2)
             RETURNING user_id, liked_user`,
+      [id, username]
+    );
+    const user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
+  }
+
+  /** User dislikes a match */
+  static async dislikeMatch(id, username) {
+    const result = await db.query(
+      `INSERT INTO dislikes (user_id, disliked_user)
+            VALUES ($1, $2)
+            RETURNING user_id, disliked_user`,
       [id, username]
     );
     const user = result.rows[0];
