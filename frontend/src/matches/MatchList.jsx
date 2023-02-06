@@ -9,7 +9,7 @@ import MatchCard from "./MatchCard";
  * On mount, loads list of potential matches and updates via setMatches
  * Re-loads list of potential matches upon "like" or "dislike"
  *
- * Routed at /users/:username/matches/user_id
+ * Routed at /users/:username/matches
  *
  * Routes -> MatchList -> {MatchDetail, MatchCard}
  *
@@ -18,34 +18,76 @@ import MatchCard from "./MatchCard";
 function MatchList() {
   const { currentUser } = useContext(UserContext);
   const [matches, setMatches] = useState(null);
+  const [matchInfo, setMatchInfo] = useState(null);
 
-  console.debug("MatchList", "currentUser=", currentUser, "matches=", matches);
+  console.debug("MatchList", "currentUser=", currentUser);
 
   useEffect(
     function getPotentialUserMatches() {
       async function getPotentialMatches() {
-        setMatches(await UrGuideApi.getPotentialMatches(currentUser.username));
+        let matches = await UrGuideApi.getPotentialMatches(
+          currentUser.username
+        );
+        console.debug(
+          "MatchList useEffect getPotentialMatches",
+          "matches=",
+          matches
+        );
+        setMatches(matches);
       }
       getPotentialMatches();
     },
     [currentUser.username]
   );
 
+  function like(username) {
+    async function likeUser() {
+      let matches = await UrGuideApi.likeMatch(currentUser.username, username);
+      setMatches(matches);
+    }
+    likeUser();
+  }
+
+  function dislike(username) {
+    async function dislikeUser() {
+      let matches = await UrGuideApi.dislikeMatch(
+        currentUser.username,
+        username
+      );
+      setMatches(matches);
+    }
+    dislikeUser();
+  }
+
   if (!matches) return <p>Loading...</p>;
 
   return (
     <div className="MatchList">
-      <h3 className="text-center">Here are some of your matches</h3>
+      <h3 className="text-center">Potential Matches</h3>
       {matches.map((m) => (
         <MatchCard
-          key={m.id}
+          key={m.username}
           username={m.username}
           first_name={m.first_name}
           last_name={m.last_name}
+          matchInfo={m}
           city={m.city}
-          image_url={m.image_url}
+          state={m.state}
+          //   image_url={m.image_url}
+          interests={m.interests}
+          hobbies={m.hobbies}
+          setMatchInfo={setMatchInfo}
+          like={like}
+          dislike={dislike}
         />
       ))}
+      {matchInfo && (
+        <MatchDetail
+          username={currentUser.username}
+          matchInfo={matchInfo}
+          setMatchInfo={setMatchInfo}
+        />
+      )}
     </div>
   );
 }

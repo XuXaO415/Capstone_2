@@ -72,21 +72,3 @@ function MatchCard({
 }
 
 export default MatchCard;
-
-//{
-/* <h3 className="text-center">
-        {first_name} {last_name}
-      </h3> */
-//}
-//{
-/* <img src={image_url} alt={first_name} />
-      <p>
-        <li className="list-group">
-          <strong>City:</strong> {city}
-        </li>
-
-        <li className="list-group">
-          <strong>Username:</strong> {username}
-        </li>
-      </p> */
-//}
