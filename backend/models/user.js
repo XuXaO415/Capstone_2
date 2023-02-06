@@ -307,7 +307,7 @@ class User {
   /* Match users randomly */
   static async matchUsers() {
     const result = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
             FROM users
             ORDER BY RANDOM()
             LIMIT 3`
@@ -316,19 +316,6 @@ class User {
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }
-
-  /** Setup for users to like each other based on user_id */
-  // static async likeUser(id, username) {
-  //   const result = await db.query(
-  //     `INSERT INTO likes (user_id, liked_user)
-  //           VALUES ($1, $2)
-  //           RETURNING user_id, liked_user`,
-  //     [id, username]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
 
   /** User likes a match */
   static async likeUser(id, username) {

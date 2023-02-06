@@ -274,6 +274,7 @@ router.get("/:username/matches/:user_id", async function (req, res, next) {
     return res.json({
       users,
       currentUser: req.params.username,
+      user_id: req.params.id,
     });
   } catch (err) {
     return next(err);
@@ -303,6 +304,7 @@ router.get("/:username/matches", async function (req, res, next) {
     return res.json({
       user,
       currentUser: req.params.username,
+      user_id: req.params.id,
     });
   } catch (err) {
     return next(err);

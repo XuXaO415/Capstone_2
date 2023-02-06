@@ -17,7 +17,7 @@ function Routes({
   unlike,
   potentialMatches,
 }) {
-  console.debug("Routes", `login=${typeof login}`, `signup=${typeof signup}`);
+  console.debug("Routes", "login=", login, `signup=${typeof signup}`);
 
   return (
     <div className="Routes">
@@ -48,7 +48,11 @@ function Routes({
               <MatchList potentialMatches={potentialMatches} />
             </PrivateRoute>
 
-            <PrivateRoute exact path="/matches">
+            <PrivateRoute exact path="/matches/:username/matches">
+              <MatchDetail like={like} dislike={unlike} />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/matches/:username/matches">
               <MatchDetail like={like} dislike={unlike} />
             </PrivateRoute>
           </>
