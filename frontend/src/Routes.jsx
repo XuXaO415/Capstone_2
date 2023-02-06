@@ -6,8 +6,17 @@ import SignupForm from "./forms/SignupForm";
 import ProfileForm from "./forms/ProfileForm";
 import PrivateRoute from "./routes/PrivateRoute";
 import MatchDetail from "./matches/MatchDetail";
+import MatchList from "./matches/MatchList";
 
-function Routes({ login, signup, updateProfile, currentUser, like, dislike }) {
+function Routes({
+  login,
+  signup,
+  updateProfile,
+  currentUser,
+  like,
+  unlike,
+  potentialMatches,
+}) {
   console.debug("Routes", `login=${typeof login}`, `signup=${typeof signup}`);
 
   return (
@@ -35,9 +44,12 @@ function Routes({ login, signup, updateProfile, currentUser, like, dislike }) {
               <ProfileForm updateProfile={updateProfile} />
             </PrivateRoute>
 
-            {/* <PrivateRoute exact path="/match/:id"> */}
-            <PrivateRoute exact path="/match">
-              <MatchDetail like={like} dislike={dislike} />
+            <PrivateRoute exact path="/matches">
+              <MatchList potentialMatches={potentialMatches} />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/matches">
+              <MatchDetail like={like} dislike={unlike} />
             </PrivateRoute>
           </>
         )}
