@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 /** Show limited information about a user
  *
@@ -21,17 +22,28 @@ function MatchCard({
   interests,
   hobbies,
 }) {
-  console.debug("MatchCard", "username=", username);
+  console.debug(
+    "MatchCard",
+    "username=",
+    "first_name=",
+    first_name,
+    "last_name=",
+    "city=",
+    city,
+    "state=",
+    state,
+    "interests=",
+    interests,
+    "hobbies=",
+    hobbies
+  );
 
   return (
     <div className="MatchCard" to={`/users/${username}/matches`}>
       <Link to={`/users/${username}/matches`}>
         <div className="card-body">
-          <h3>
-            You matched with: {first_name} {last_name}
-          </h3>
+          <h3>You matched with: {username}</h3>
           <h6 className="card-title">
-            {username}
             {image_url && (
               <img
                 src={image_url}
@@ -40,12 +52,19 @@ function MatchCard({
               />
             )}
           </h6>
-          <p>First Name: {first_name}</p>
+          <p>
+            Name: {first_name} {last_name}
+          </p>
           <p>City: {city}</p>
           <p>State: {state}</p>
-          <p>Hobbies: {hobbies}</p>
           <p>Interests: {interests}</p>
           <p>Hobbies: {hobbies}</p>
+          <Button color="primary" size="sm">
+            Like
+          </Button>{" "}
+          <Button color="danger" size="sm">
+            Dislike
+          </Button>
         </div>
       </Link>
     </div>
