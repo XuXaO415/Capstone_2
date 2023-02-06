@@ -68,12 +68,11 @@ function MatchList() {
         <MatchCard
           key={m.username}
           username={m.username}
-          first_name={m.first_name}
-          last_name={m.last_name}
+          first_name={m.firstName}
+          last_name={m.lastName}
           matchInfo={m}
           city={m.city}
           state={m.state}
-          //   image_url={m.image_url}
           interests={m.interests}
           hobbies={m.hobbies}
           setMatchInfo={setMatchInfo}

@@ -21,6 +21,8 @@ function MatchCard({
   state,
   interests,
   hobbies,
+  like,
+  dislike,
 }) {
   console.debug(
     "MatchCard",
@@ -59,10 +61,10 @@ function MatchCard({
           <p>State: {state}</p>
           <p>Interests: {interests}</p>
           <p>Hobbies: {hobbies}</p>
-          <Button color="primary" size="sm">
+          <Button color="primary" size="sm" onClick={like}>
             Like
           </Button>{" "}
-          <Button color="danger" size="sm">
+          <Button color="danger" size="sm" onClick={dislike}>
             Dislike
           </Button>
         </div>

@@ -99,7 +99,7 @@ class UrGuideApi {
 
   static async getPotentialMatches(username, user_id) {
     let res = await this.request(`users/${username}/matches/${user_id}`);
-    return res.user;
+    return res.users;
   }
 
   static async matchList(username) {
