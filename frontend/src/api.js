@@ -107,6 +107,28 @@ class UrGuideApi {
     return res.user;
   }
 
+  /* Setup for liking a potential match */
+
+  static async likeMatch(username, data) {
+    let res = await this.request(
+      `users/${username}/matches/like`,
+      data,
+      "POST"
+    );
+    return res.status;
+  }
+
+  /** Setup disliking a matched user */
+
+  static async dislikeMatch(username, data) {
+    let res = await this.request(
+      `users/${username}/match/dislike`,
+      data,
+      "POST"
+    );
+    return res.status;
+  }
+
   /** Setup for liking a potential match */
 
   // static async getPotentialMatches(user_id) {
