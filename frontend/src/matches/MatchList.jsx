@@ -77,7 +77,7 @@ function MatchList() {
 
   return (
     <div className="MatchList">
-      <h3 className="text-center">Potential Matches</h3>
+      <h3 className="text-center">Here are some of your matches</h3>
       {matches.map((m) => (
         <MatchCard
           key={m.username}
@@ -93,6 +93,7 @@ function MatchList() {
           hobbies={m.hobbies}
           setMatchInfo={setMatchInfo}
           matches={matches}
+          image_url={m.image_url}
           like={like}
           dislike={dislike}
         />

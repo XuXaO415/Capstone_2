@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import "./MatchCard.css";
 
 /** Show limited information about a user
  *
@@ -53,7 +54,7 @@ function MatchCard({
   }
 
   return (
-    <div className="MatchCard" to={`/users/${username}/matches`}>
+    <div className="MatchCard card" to={`/users/${username}/matches`}>
       <Link to={`/users/${username}/matches`}>
         <div className="card-body">
           <h3>You matched with: {username}</h3>
@@ -61,7 +62,7 @@ function MatchCard({
             {image_url && (
               <img
                 src={image_url}
-                alt={first_name}
+                alt={`User {first_name}`}
                 className="float-end ms-5"
               />
             )}

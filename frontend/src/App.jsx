@@ -137,6 +137,7 @@ function App() {
       let likePotentialMatches = await UrGuideApi.getPotentialMatches(
         // currentUser.data.username,
         currentUser.username,
+        username,
         user_id
       );
       setPotentialMatches(likePotentialMatches);
@@ -151,6 +152,7 @@ function App() {
       let unlikePotentialMatches = await UrGuideApi.getPotentialMatches(
         // currentUser.data.username,
         currentUser.username,
+        username,
         user_id
       );
       setPotentialMatches(unlikePotentialMatches);
