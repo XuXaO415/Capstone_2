@@ -112,28 +112,48 @@ function App() {
     setToken(token);
   }
 
-  /** Handles liking a potential user */
+  async function matchUsers(username, user_id) {
+    try {
+      let potentialMatches = await UrGuideApi.getPotentialMatches(
+        username,
+        user_id
+      );
+      setPotentialMatches(potentialMatches);
+    } catch (err) {
+      console.error("matchUsers failed", err);
+    }
+  }
+
+  /** Check if user was already liked */
+  function hasUserBeenLiked(user_id) {
+    if (currentUser.data.matches) {
+      return currentUser.data.matches.some((match) => match.id === user_id);
+    }
+  }
+
   async function likeUser(username, user_id) {
     try {
-      await UrGuideApi.likeUser(username, user_id);
-      let newPotentialMatches = await UrGuideApi.getPotentialMatches(
-        currentUser.data.username,
-        user_id // this is the user_id of the user that was liked
+      // await UrGuideApi.likeMatch(username, user_id);
+      let likePotentialMatches = await UrGuideApi.getPotentialMatches(
+        // currentUser.data.username,
+        currentUser.username,
+        user_id
       );
-      setPotentialMatches(newPotentialMatches);
+      setPotentialMatches(likePotentialMatches);
     } catch (err) {
       console.error("likeUser failed", err);
     }
   }
 
-  /** Handles un-liking a potential user */
-  async function unlikeUser(username) {
+  async function unlikeUser(username, user_id) {
     try {
-      await UrGuideApi.unlikeUser(username);
-      let newPotentialMatches = await UrGuideApi.getPotentialMatches(
-        currentUser.data.username
+      // await UrGuideApi.dislikeMatch(username, user_id);
+      let unlikePotentialMatches = await UrGuideApi.getPotentialMatches(
+        // currentUser.data.username,
+        currentUser.username,
+        user_id
       );
-      setPotentialMatches(newPotentialMatches);
+      setPotentialMatches(unlikePotentialMatches);
     } catch (err) {
       console.error("unlikeUser failed", err);
     }
@@ -146,6 +166,8 @@ function App() {
           currentUser: currentUser.data,
           setCurrentUser,
           potentialMatches,
+          // matchUsers,
+          hasUserBeenLiked,
         }}
       >
         <BrowserRouter>
@@ -155,6 +177,7 @@ function App() {
             login={login}
             signup={signup}
             potentialMatches={potentialMatches}
+            matchUsers={matchUsers}
             likeUser={likeUser}
             unlikeUser={unlikeUser}
           />

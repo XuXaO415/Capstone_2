@@ -330,6 +330,19 @@ class User {
     return user;
   }
 
+  /** Return user's liked matches */
+  static async getLikedMatches(id) {
+    const result = await db.query(
+      `SELECT liked_user
+            FROM likes
+            WHERE user_id = $1`,
+      [id]
+    );
+    let users = result.rows;
+    if (!users) throw new NotFoundError(`No users found`);
+    return users;
+  }
+
   /** User dislikes a match */
   static async dislikeMatch(id, username) {
     const result = await db.query(

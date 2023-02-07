@@ -34,7 +34,8 @@ function MatchList() {
     function getPotentialUserMatches() {
       async function getPotentialMatches() {
         let matches = await UrGuideApi.getPotentialMatches(
-          currentUser.username
+          currentUser.username,
+          currentUser.user_id
         );
         console.debug(
           "MatchList useEffect getPotentialMatches",
@@ -45,7 +46,7 @@ function MatchList() {
       }
       getPotentialMatches();
     },
-    [currentUser.username]
+    [currentUser.username, currentUser.user_id]
   );
 
   function like(username, data) {
