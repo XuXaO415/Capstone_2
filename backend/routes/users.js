@@ -317,6 +317,7 @@ router.post("/:username/matches", async function (req, res, next) {
     return res.json({
       user,
       currentUser: req.params.username,
+      user_id: req.params.id,
     });
   } catch (err) {
     return next(err);
@@ -325,23 +326,28 @@ router.post("/:username/matches", async function (req, res, next) {
 
 /** Route for POST -- Liking a match */
 
-router.post("/:username/matches/like", async function (req, res, next) {
-  try {
-    let user = await User.likeUser(req.body, req.params.id);
-    return res.json({
-      user,
-      username: req.params.username,
-    });
-  } catch (err) {
-    return next(err);
+router.post(
+  "/:username/matches/like/:user_id",
+  async function (req, res, next) {
+    try {
+      let user = await User.likeUser(req.body, req.params.id);
+      return res.json({
+        user,
+        username: req.params.username,
+        user_id: req.params.id,
+      });
+    } catch (err) {
+      if (err.res) {
+        return res.status(err.res.status).json(err.res.data);
+        // return next(err);
+      }
+    }
   }
-});
+);
 
-/** Route for POST -- Disliking a match */
-
-router.post("/:username/matches/dislike", async function (req, res, next) {
+router.get("/:username/matches/liked", async function (req, res, next) {
   try {
-    let user = await User.dislikeMatch(req.body, req.params.id);
+    let user = await User.getLikedMatches(req.params.username);
     return res.json({
       user,
       username: req.params.username,
@@ -351,5 +357,36 @@ router.post("/:username/matches/dislike", async function (req, res, next) {
     return next(err);
   }
 });
+
+// router.post("/:username/matches/like", async function (req, res, next) {
+//   try {
+//     let user = await User.likeUser(req.body, req.params.id, req.data);
+//     return res.json({
+//       user,
+//       username: req.params.username,
+//       user_id,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
+/** Route for POST -- Disliking a match */
+
+router.post(
+  "/:username/matches/dislike/:user_id",
+  async function (req, res, next) {
+    try {
+      let user = await User.dislikeMatch(req.body, req.params.id);
+      return res.json({
+        user,
+        username: req.params.username,
+        user_id: req.params.id,
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+);
 
 module.exports = router;

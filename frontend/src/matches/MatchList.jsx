@@ -20,7 +20,15 @@ function MatchList() {
   const [matches, setMatches] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
 
-  console.debug("MatchList", "currentUser=", currentUser);
+  console.debug(
+    "MatchList",
+    "matches=",
+    matches,
+    "matchInfo=",
+    matchInfo,
+    "currentUser=",
+    currentUser
+  );
 
   useEffect(
     function getPotentialUserMatches() {
@@ -40,19 +48,24 @@ function MatchList() {
     [currentUser.username]
   );
 
-  function like(username) {
+  function like(username, data) {
     async function likeUser() {
-      let matches = await UrGuideApi.likeMatch(currentUser.username, username);
+      let matches = await UrGuideApi.likeMatch(
+        currentUser.username,
+        username,
+        data
+      );
       setMatches(matches);
     }
     likeUser();
   }
 
-  function dislike(username) {
+  function dislike(username, data) {
     async function dislikeUser() {
       let matches = await UrGuideApi.dislikeMatch(
         currentUser.username,
-        username
+        username,
+        data
       );
       setMatches(matches);
     }
@@ -67,6 +80,8 @@ function MatchList() {
       {matches.map((m) => (
         <MatchCard
           key={m.username}
+          user_id={m.user_id}
+          id={m.id}
           username={m.username}
           first_name={m.firstName}
           last_name={m.lastName}
@@ -76,6 +91,7 @@ function MatchList() {
           interests={m.interests}
           hobbies={m.hobbies}
           setMatchInfo={setMatchInfo}
+          matches={matches}
           like={like}
           dislike={dislike}
         />
@@ -85,6 +101,7 @@ function MatchList() {
           username={currentUser.username}
           matchInfo={matchInfo}
           setMatchInfo={setMatchInfo}
+          matches={matches}
         />
       )}
     </div>

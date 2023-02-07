@@ -40,6 +40,18 @@ function MatchCard({
     hobbies
   );
 
+  /** Handle onClick for liking a user */
+  function handleLike(e) {
+    e.preventDefault();
+    like(username);
+  }
+
+  /** Handle onClick for disliking a user */
+  function handleDislike(e) {
+    e.preventDefault();
+    dislike(username);
+  }
+
   return (
     <div className="MatchCard" to={`/users/${username}/matches`}>
       <Link to={`/users/${username}/matches`}>
@@ -61,10 +73,10 @@ function MatchCard({
           <p>State: {state}</p>
           <p>Interests: {interests}</p>
           <p>Hobbies: {hobbies}</p>
-          <Button color="primary" size="sm" onClick={like}>
+          <Button color="primary" size="sm" onClick={handleLike}>
             Like
           </Button>{" "}
-          <Button color="danger" size="sm" onClick={dislike}>
+          <Button color="danger" size="sm" onClick={handleDislike}>
             Dislike
           </Button>
         </div>

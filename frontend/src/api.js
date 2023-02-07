@@ -107,22 +107,39 @@ class UrGuideApi {
     return res.user;
   }
 
-  /* Setup for liking a potential match */
+  /** like user match -- POST matched user data */
 
-  static async likeMatch(username, data) {
+  static async likeMatch(username, id) {
     let res = await this.request(
-      `users/${username}/matches/like`,
-      data,
+      `users/${username}/matches/like/${id}`,
       "POST"
     );
     return res.status;
   }
 
+  /** Setup for return all user's liked matches */
+
+  static async getLikedMatches(username) {
+    let res = await this.request(`users/${username}/matches/liked`, "GET");
+    return res.user;
+  }
+
+  /* Setup for liking a potential match */
+
+  // static async likeMatch(username, data) {
+  //   let res = await this.request(
+  //     `users/${username}/matches/like`,
+  //     data,
+  //     "POST"
+  //   );
+  //   return res.status;
+  // }
+
   /** Setup disliking a matched user */
 
-  static async dislikeMatch(username, data) {
+  static async dislikeMatch(username, id, data) {
     let res = await this.request(
-      `users/${username}/match/dislike`,
+      `users/${username}/matches/dislike/${id}`,
       data,
       "POST"
     );
