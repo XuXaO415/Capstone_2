@@ -49,20 +49,20 @@ class User {
    * Throws NotFoundError if user not found.
    */
 
-  static async getUserById(user_id) {
-    const userRes = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email
-            FROM users
-            WHERE user_id = $1`,
-      [user_id]
-    );
+  // static async getUserById(user_id) {
+  //   const userRes = await db.query(
+  //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email
+  //           FROM users
+  //           WHERE user_id = $1`,
+  //     [user_id]
+  //   );
 
-    const user = userRes.rows[0];
+  //   const user = userRes.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${user_id}`);
+  //   if (!user) throw new NotFoundError(`No user: ${user_id}`);
 
-    return user;
-  }
+  //   return user;
+  // }
 
   /** Given a username, return data about users
    * Returns { username, first_name, last_name, email, is_admin }
@@ -71,12 +71,43 @@ class User {
    *
    */
 
+  // static async get(username, id) {
+  //   const userRes = await db.query(
+  //     `SELECT username, id
+  //           FROM users
+  //           WHERE username = $1 AND id = $2`,
+  //     [username, id]
+  //   );
+
+  //   const user = userRes.rows[0];
+
+  //   if (!user) throw new NotFoundError(`No user: ${username}`);
+
+  //   return user;
+  // }
   static async get(username) {
     const userRes = await db.query(
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
             FROM users
             WHERE username = $1`,
       [username]
+    );
+
+    const user = userRes.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+
+    return user;
+  }
+
+  /** Get user by their id and username  */
+
+  static async getUserById(id, username) {
+    const userRes = await db.query(
+      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
+            FROM users
+            WHERE id = $1 AND username = $2`,
+      [id, username]
     );
 
     const user = userRes.rows[0];
@@ -304,7 +335,8 @@ class User {
   //   return user;
   // }
 
-  /* Match users randomly */
+  /** Match users randomly by their user id */
+
   static async matchUsers() {
     const result = await db.query(
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
@@ -316,6 +348,21 @@ class User {
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }
+
+  /* Match users randomly */
+  // static async matchUsers(id) {
+  //   const result = await db.query(
+  //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           WHERE id != $1
+  //           ORDER BY RANDOM()
+  //           LIMIT 3`,
+  //     [id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
 
   /** User likes a match */
   static async likeUser(id, username) {

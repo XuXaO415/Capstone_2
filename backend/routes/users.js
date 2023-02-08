@@ -108,9 +108,10 @@ router.get("/", async function (req, res, next) {
 
 router.get("/:username", async function (req, res, next) {
   try {
-    let user = await User.get(req.params.username);
+    let user = await User.get(req.params.username, req.params.id);
     return res.json({
       user,
+      user_id: req.params.id,
     });
   } catch (err) {
     return next(err);
@@ -169,127 +170,20 @@ router.delete(
   }
 );
 
-/** GET /users/[user_id] = {user_id}
+/** GET /users/:username/[user_id] = {user_id}
  *
- * Returns {username, user_id}
+ * Returns basic user info
  *
  * Authorization required: admin
  * */
 
-router.get("/:user_id", async function (req, res, next) {
+router.get("/:username/:user_id", async function (req, res, next) {
   try {
-    let user = await User.getUserById(req.params.user_id);
+    let user = await User.getUserById(req.params.user_id, req.params.username);
     return res.json({
-      user,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** Route for getting a list of potential user (semi-working) */
-
-// router.get("username/:user_id/match", async function (req, res, next) {
-//   try {
-//     let user = await User.matchUsers(req.body, req.params.id);
-//     return res.json({
-//       user,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-/** Route When user likes another user, post to database */
-
-// router.post("/:username/like/:user_id", async function (req, res, next) {
-//   try {
-//     let user = await User.likeUser(req.body, req.params.id);
-//     return res.json({
-//       user,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-/** Route for matching users */
-
-// router.get("/:username/match/:id", async function (req, res, next) {
-//   try {
-//     let user = await User.matchUsers(req.body, req.params.id);
-//     return res.json({
-//       user,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-//get a list of potential matches for a user
-// router.get("/:username/match", async function (req, res, next) {
-//   try {
-//     let user = await User.matchUsers(req.body, req.params.username);
-//     return res.json({
-//       user,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-// router.get("/:username/users/match/:user_id", async function (req, res, next) {
-//   try {
-//     let user = await User.matchUsers(req.body, req.params.user_id);
-//     return res.json({
-//       user,
-//       currentUser: req.params.username,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-/** Route for User match */
-
-// router.get("/:username/matches/:user_id", async function (req, res, next) {
-//   try {
-//     let user = await User.matchUsers(
-//       req.body,
-//       req.params.user_id,
-//       req.params.username
-//     );
-//     return res.json({
-//       user,
-//       currentUser: req.params.username,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-router.get("/:username/matches/:user_id", async function (req, res, next) {
-  try {
-    let users = await User.matchUsers(req.body, req.params.id);
-    return res.json({
-      users,
       currentUser: req.params.username,
-      user_id: req.params.id,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** Route for Posting User match */
-
-router.post("/:username/matches/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.matchUsers(req.username, req.params.id);
-    return res.json({
-      user,
-      username: req.params.username,
-      user_id: req.params.id,
+      userInfo: user,
+      user_id: req.params.user_id,
     });
   } catch (err) {
     return next(err);
@@ -300,7 +194,13 @@ router.post("/:username/matches/:user_id", async function (req, res, next) {
 
 router.get("/:username/matches", async function (req, res, next) {
   try {
-    let user = await User.matchUsers(req.body, req.params.username);
+    let user = await User.matchUsers(
+      req.body,
+      req.params.username,
+      req.params.id,
+      req.params.user_id
+    );
+    console.log(req.params.username, req.params.id, req.params.user_id);
     return res.json({
       user,
       currentUser: req.params.username,
@@ -317,6 +217,35 @@ router.post("/:username/matches", async function (req, res, next) {
     return res.json({
       user,
       currentUser: req.params.username,
+      user_id: req.params.id,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.get("/:username/matches/:user_id", async function (req, res, next) {
+  try {
+    let users = await User.matchUsers(req.body, req.params.user_id);
+    console.log(req.params.user_id);
+    return res.json({
+      users,
+      currentUser: req.params.username,
+      user_id: req.params.user_id,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Route for Posting User match */
+
+router.post("/:username/matches/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.matchUsers(req.username, req.params.id);
+    return res.json({
+      user,
+      username: req.params.username,
       user_id: req.params.id,
     });
   } catch (err) {
