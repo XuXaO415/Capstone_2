@@ -15,7 +15,7 @@ import MatchCard from "./MatchCard";
  *
  */
 
-function MatchList() {
+function MatchList({ match, history }) {
   const { currentUser } = useContext(UserContext);
   const [matches, setMatches] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
@@ -49,12 +49,26 @@ function MatchList() {
     [currentUser.username, currentUser.user_id]
   );
 
-  function like(username, data) {
+  // function like(username, data) {
+  //   async function likeUser() {
+  //     let matches = await UrGuideApi.likeMatch(
+  //       currentUser.username,
+  //       username,
+  //       data
+  //     );
+  //     setMatches(matches);
+  //   }
+  //   likeUser();
+  // }
+
+  /** Semi working */
+
+  function like(username, user_id) {
     async function likeUser() {
       let matches = await UrGuideApi.likeMatch(
         currentUser.username,
         username,
-        data
+        user_id
       );
       setMatches(matches);
     }
@@ -72,6 +86,8 @@ function MatchList() {
     }
     dislikeUser();
   }
+
+  //remove dislike user from match list
 
   if (!matches) return <p>Loading...</p>;
 

@@ -23,6 +23,7 @@ function MatchCard({
   interests,
   hobbies,
   like,
+  user_id,
   dislike,
 }) {
   console.debug(
@@ -42,10 +43,14 @@ function MatchCard({
   );
 
   /** Handle onClick for liking a user */
-  function handleLike(e) {
+  async function handleLike(e) {
     e.preventDefault();
-    like(username);
+    like(username, user_id);
   }
+  // function handleLike(e) {
+  //   e.preventDefault();
+  //   like(username, user_id);
+  // }
 
   /** Handle onClick for disliking a user */
   function handleDislike(e) {

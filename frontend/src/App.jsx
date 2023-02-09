@@ -125,15 +125,25 @@ function App() {
   }
 
   /** Check if user was already liked */
-  function hasUserBeenLiked(user_id) {
-    if (currentUser.data.matches) {
-      return currentUser.data.matches.some((match) => match.id === user_id);
-    }
+  // function hasUserBeenLiked(user_id) {
+  //   if (currentUser.data.matches) {
+  //     return currentUser.data.matches.some((match) => match.id === user_id);
+  //   }
+  // }
+
+  function hasUserBeenLiked(user_id, username) {
+    if (currentUser.data.matches(username, user_id)) return;
+    UrGuideApi.getPotentialMatches(
+      currentUser.data.username,
+      username,
+      user_id
+    );
+    setPotentialMatches(potentialMatches);
   }
 
   async function likeUser(username, user_id) {
     try {
-      // await UrGuideApi.likeMatch(username, user_id);
+      await UrGuideApi.likeMatch(username, user_id);
       let likePotentialMatches = await UrGuideApi.getPotentialMatches(
         // currentUser.data.username,
         currentUser.username,
@@ -148,7 +158,7 @@ function App() {
 
   async function unlikeUser(username, user_id) {
     try {
-      // await UrGuideApi.dislikeMatch(username, user_id);
+      await UrGuideApi.dislikeMatch(username, user_id);
       let unlikePotentialMatches = await UrGuideApi.getPotentialMatches(
         // currentUser.data.username,
         currentUser.username,
@@ -170,6 +180,8 @@ function App() {
           potentialMatches,
           // matchUsers,
           hasUserBeenLiked,
+          likeUser,
+          unlikeUser,
         }}
       >
         <BrowserRouter>
@@ -180,8 +192,8 @@ function App() {
             signup={signup}
             potentialMatches={potentialMatches}
             matchUsers={matchUsers}
-            likeUser={likeUser}
-            unlikeUser={unlikeUser}
+            // likeUser={likeUser}
+            // unlikeUser={unlikeUser}
           />
         </BrowserRouter>
       </UserContext.Provider>

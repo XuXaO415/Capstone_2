@@ -226,7 +226,12 @@ router.post("/:username/matches", async function (req, res, next) {
 
 router.get("/:username/matches/:user_id", async function (req, res, next) {
   try {
-    let users = await User.matchUsers(req.body, req.params.user_id);
+    let users = await User.matchUsers(
+      req.body,
+      req.params.user_id,
+      req.params.username,
+      req.params.id
+    );
     console.log(req.params.user_id);
     return res.json({
       users,
@@ -242,7 +247,7 @@ router.get("/:username/matches/:user_id", async function (req, res, next) {
 
 router.post("/:username/matches/:user_id", async function (req, res, next) {
   try {
-    let user = await User.matchUsers(req.username, req.params.id);
+    let user = await User.matchUsers(req.body, req.username, req.params.id);
     return res.json({
       user,
       username: req.params.username,
