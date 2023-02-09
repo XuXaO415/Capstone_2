@@ -96,7 +96,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalPassword">
             <Form.Label column sm={4}>
               Password
@@ -112,7 +111,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalFirstName">
             <Form.Label column sm={4}>
               First Name
@@ -128,7 +126,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalLastName">
             <Form.Label column sm={4}>
               Last Name
@@ -144,7 +141,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalEmail">
             <Form.Label column sm={4}>
               Email
@@ -160,7 +156,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalCity">
             <Form.Label column sm={4}>
               City
@@ -176,7 +171,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalCity">
             <Form.Label column sm={4}>
               Country
@@ -192,7 +186,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalCity">
             <Form.Label column sm={4}>
               Zip Code
@@ -208,7 +201,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalCity">
             <Form.Label column sm={4}>
               Hobbies
@@ -224,7 +216,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} controlId="formHorizontalCity">
             <Form.Label column sm={4}>
               Interests
@@ -240,7 +231,6 @@ function ProfileForm() {
               />
             </Col>
           </Form.Group>
-
           {formErrors.length ? (
             <Alert type="danger" messages={formErrors} />
           ) : null}
@@ -252,6 +242,7 @@ function ProfileForm() {
               timeout={3000}
             />
           ) : null}
+          {saveConfirmed ? <Redirect to="/matches" /> : null}
 
           <Form.Group as={Row} className="mb-3">
             <Col sm={{ span: 20, offset: 4 }}>
