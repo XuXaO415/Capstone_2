@@ -18,23 +18,47 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE dislikes (
+CREATE TABLE user_likes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	disliked_user INTEGER REFERENCES users(id)
+	liked_user_id INTEGER REFERENCES users(id)
 );
 
-CREATE TABLE likes (
+
+CREATE TABLE user_dislikes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	liked_user INTEGER REFERENCES users(id)
+	disliked_user_id INTEGER REFERENCES users(id)
 );
 
-CREATE TABLE matches (
+
+CREATE TABLE user_matches (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	matched_user INTEGER REFERENCES users(id)
+	matched_user_id INTEGER REFERENCES users(id)
 );
+
+
+
+
+-- CREATE TABLE likes (
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INTEGER REFERENCES users(id),
+-- 	liked_user INTEGER REFERENCES users(id)
+-- );
+
+
+-- CREATE TABLE dislikes (
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INTEGER REFERENCES users(id),
+-- 	disliked_user INTEGER REFERENCES users(id)
+-- );
+
+-- CREATE TABLE matches (
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INTEGER REFERENCES users(id),
+-- 	matched_user INTEGER REFERENCES users(id)
+-- );
 
 
 
