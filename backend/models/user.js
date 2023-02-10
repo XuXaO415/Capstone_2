@@ -85,6 +85,7 @@ class User {
 
   //   return user;
   // }
+
   static async get(username) {
     const userRes = await db.query(
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
@@ -336,7 +337,6 @@ class User {
   // }
 
   /** Match users randomly by their user id */
-
   static async matchUsers() {
     const result = await db.query(
       `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
@@ -358,6 +358,21 @@ class User {
   //           ORDER BY RANDOM()
   //           LIMIT 3`,
   //     [id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
+  // static async matchUsers(user_id) {
+  //   const sqlData = sqlForPartialUpdate({ user_id: user_id }, {});
+  //   const result = await db.query(
+  //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           WHERE user_id = $${sqlData.values.length + 1}
+  //           ORDER BY RANDOM()
+  //           LIMIT 3`,
+  //     [...sqlData.values, user_id]
   //   );
   //   let users = result.rows;
   //   if (!users) throw new NotFoundError(`No users found`);
