@@ -226,12 +226,7 @@ router.post("/:username/matches", async function (req, res, next) {
 
 router.get("/:username/matches/:user_id", async function (req, res, next) {
   try {
-    let users = await User.matchUsers(
-      req.body,
-      req.params.user_id,
-      req.params.username,
-      req.params.id
-    );
+    let users = await User.matchUsers(req.params.user_id);
     console.log(req.params.user_id);
     return res.json({
       users,
@@ -252,6 +247,25 @@ router.post("/:username/matches/:user_id", async function (req, res, next) {
       user,
       username: req.params.username,
       user_id: req.params.id,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.get("/:username/matches/like/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.likeUser(
+      req.body,
+      req.params.user_id,
+      req.params.username,
+      req.params.id
+    );
+    console.log(req.params.user_id);
+    return res.json({
+      user,
+      currentUser: req.params.username,
+      user_id: req.params.user_id,
     });
   } catch (err) {
     return next(err);
