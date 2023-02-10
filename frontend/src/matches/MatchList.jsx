@@ -15,9 +15,9 @@ import MatchCard from "./MatchCard";
  *
  */
 
-function MatchList({ match, history }) {
+function MatchList() {
   const { currentUser } = useContext(UserContext);
-  const [matches, setMatches] = useState(null);
+  const [matches, setMatches] = useState([]);
   const [matchInfo, setMatchInfo] = useState(null);
 
   console.debug(
@@ -63,16 +63,65 @@ function MatchList({ match, history }) {
 
   /** Semi working */
 
-  function like(username, user_id) {
+  // function like(username) {
+  //   let data = {
+  //     username: username,
+  //     user_id: currentUser.user_id,
+  //   };
+  //   async function likeUser() {
+  //     let matches = await UrGuideApi.likeMatch(
+  //       currentUser.username,
+  //       username,
+  //       data
+  //     );
+  //     setMatches(matches);
+  //   }
+  //   likeUser();
+  // }
+
+  // function like(username) {
+  //   try {
+  //     async function likeUser() {
+  //       let match = await UrGuideApi.likeMatch(
+  //         currentUser.username,
+  //         username,
+  //         matchInfo
+  //       );
+  //       setMatches(match);
+  //     }
+  //     return likeUser();
+  //   } catch (err) {
+  //     console.error("MatchList like: problem with like", err);
+  //   }
+  // }
+
+  // async function like(username) {
+  //   try {
+  //     let matches = await UrGuideApi.likeMatch(currentUser.username, username);
+  //     setMatches(matches);
+  //   } catch (err) {
+  //     console.error("MatchList like: problem with like", err);
+  //   }
+  // }
+
+  // function like(username) {
+  //   async function likeUser() {
+  //     await UrGuideApi.likeMatch(currentUser.username, username);
+  //     setMatches(matches);
+  //   }
+  //   return likeUser();
+  // }
+
+  function like(username) {
     async function likeUser() {
-      let matches = await UrGuideApi.likeMatch(
-        currentUser.username,
-        username,
-        user_id
-      );
-      setMatches(matches);
+      try {
+        const res = await UrGuideApi.likeMatch(currentUser.username, username);
+        setMatches(res.data);
+      } catch (err) {
+        console.error(err);
+      }
     }
-    likeUser();
+    return likeUser();
   }
 
   function dislike(username, data) {

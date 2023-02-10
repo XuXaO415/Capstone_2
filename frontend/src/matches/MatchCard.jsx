@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import UserContext from "../context/UserContext";
 import "./MatchCard.css";
 
 /** Show limited information about a user
@@ -23,7 +24,6 @@ function MatchCard({
   interests,
   hobbies,
   like,
-  user_id,
   dislike,
 }) {
   console.debug(
@@ -42,14 +42,27 @@ function MatchCard({
     hobbies
   );
 
+  const handleLike = (e) => {
+    try {
+      e.preventDefault();
+      like(username);
+    } catch (err) {
+      console.error("MatchCard like: problem with like", err);
+    }
+  };
   /** Handle onClick for liking a user */
-  async function handleLike(e) {
-    e.preventDefault();
-    like(username, user_id);
-  }
-  // function handleLike(e) {
+  // async function handleLike(e) {
   //   e.preventDefault();
-  //   like(username, user_id);
+  //   like(username);
+  // }
+
+  // function handleLike(e) {
+  //   try {
+  //     e.preventDefault();
+  //     like(username);
+  //   } catch (err) {
+  //     console.error("MatchCard like: problem with like", err);
+  //   }
   // }
 
   /** Handle onClick for disliking a user */
