@@ -255,7 +255,7 @@ router.post("/:username/matches/:user_id", async function (req, res, next) {
 
 router.get("/:username/matches/like/:user_id", async function (req, res, next) {
   try {
-    let user = await User.likeUser(
+    let user = await User.likeMatch(
       req.body,
       req.params.user_id,
       req.params.username,
@@ -278,7 +278,7 @@ router.post(
   "/:username/matches/like/:user_id",
   async function (req, res, next) {
     try {
-      let user = await User.likeUser(req.body, req.params.id);
+      let user = await User.likeMatch(req.body, req.params.id);
       return res.json({
         user,
         username: req.params.username,
