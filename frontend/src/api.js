@@ -92,36 +92,56 @@ class UrGuideApi {
 
   // static async getPotentialMatches(username, data) {
   //   let res = await this.request(`users/${username}/match/:id`, data, "GET");
-  //   return res.user;
+  //   return res.users;
   // }
+
+  /** Get details on potential matches by username/ user_id */
+
+  static async matchList(username) {
+    let res = await this.request(`users/${username}/matches`);
+    return res.users;
+  }
 
   /** Get details on potential matches by username/ user_id */
 
   static async getPotentialMatches(username, user_id) {
     let res = await this.request(`users/${username}/matches/${user_id}`);
+    console.log(
+      "res users",
+      res.users,
+      "username",
+      username,
+      "res.currentUser= ",
+      res.currentUser,
+      "res.currentUser.username= ",
+      res.currentUser.username
+    );
     return res.users;
-  }
-
-  static async matchList(username) {
-    let res = await this.request(`users/${username}/matches`, {});
-    return res.user;
   }
 
   /** like user match -- POST matched user data */
 
-  static async likeMatch(username, id) {
+  static async likeMatch(currentUser, username) {
     let res = await this.request(
-      `users/${username}/matches/like/${id}`,
+      `users/${currentUser}/matches/like/${username}`,
       "POST"
     );
     return res.status;
   }
 
+  // static async likeMatch(username, user_id) {
+  //   let res = await this.request(
+  //     `users/${username}/matches/like/${user_id}`,
+  //     "POST"
+  //   );
+  //   return res.status;
+  // }
+
   /** Setup for return all user's liked matches */
 
   static async getLikedMatches(username) {
     let res = await this.request(`users/${username}/matches/liked`, "GET");
-    return res.user;
+    return res.users;
   }
 
   /* Setup for liking a potential match */
