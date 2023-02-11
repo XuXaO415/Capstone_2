@@ -380,7 +380,7 @@ class User {
   // }
 
   /** User likes a match */
-  static async likeUser(id, username) {
+  static async likeMatch(id, username) {
     const result = await db.query(
       `INSERT INTO likes (user_id, liked_user)
             VALUES ($1, $2)
