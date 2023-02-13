@@ -14,7 +14,7 @@ import { Card } from "react-bootstrap";
  */
 
 function MatchDetail() {
-  const { username, user_id } = useParams();
+  const { user_id } = useParams();
   const { currentUser } = useContext(UserContext);
   const [matchInfo, setMatchInfo] = useState(null);
 
@@ -22,16 +22,19 @@ function MatchDetail() {
     "MatchDetail",
     "currentUser=",
     currentUser,
-    "username=",
-    username,
     "user_id=",
     user_id
   );
 
+  console.log("currentUser.username=", currentUser.username);
+
   useEffect(
     function getPotentialUserMatches() {
       async function getPotentialMatches() {
-        let matchInfo = await UrGuideApi.getPotentialMatches(username, user_id);
+        let matchInfo = await UrGuideApi.getPotentialMatches(
+          currentUser.username,
+          user_id
+        );
         console.debug(
           "MatchDetail useEffect getPotentialMatches",
           "matchInfo=",
@@ -41,7 +44,7 @@ function MatchDetail() {
       }
       getPotentialMatches();
     },
-    [username, user_id]
+    [user_id, currentUser.username]
   );
 
   if (!matchInfo) return <p>Loading...</p>;
@@ -49,7 +52,9 @@ function MatchDetail() {
   return (
     <div className="MatchDetail">
       <Card>
-        <h3 className="text-center">You matched with: {matchInfo.username}</h3>
+        <h3 className="text-center">
+          Hey {currentUser.username}, you matched with: {matchInfo.username}
+        </h3>
         <Card.Img variant="top" src={matchInfo.image_url} />
         <Card.Body>
           <Card.Title>

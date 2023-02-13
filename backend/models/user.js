@@ -339,7 +339,7 @@ class User {
   /** Match users randomly by their user id */
   static async matchUsers() {
     const result = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
             FROM users
             ORDER BY RANDOM()
             LIMIT 3`

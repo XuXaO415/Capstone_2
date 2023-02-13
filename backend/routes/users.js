@@ -308,14 +308,14 @@ router.post(
   async function (req, res, next) {
     try {
       let user = await User.likeMatch(
-        req.body,
+        req.params.user_id,
         req.params.username,
-        req.params.user_id
+    
       );
       return res.json({
         user,
-        username: req.params.username,
         user_id: req.params.user_id,
+        username: req.params.username,
       });
     } catch (err) {
       if (err.res) {

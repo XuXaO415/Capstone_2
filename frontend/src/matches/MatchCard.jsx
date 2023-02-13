@@ -116,18 +116,10 @@ function MatchCard({
           <p>State: {state}</p>
           <p>Interests: {interests}</p>
           <p>Hobbies: {hobbies}</p>
-          <Button
-            color="primary"
-            size="sm"
-            onClick={() => like(username, user_id)}
-          >
+          <Button color="primary" size="sm" onClick={() => like(user_id)}>
             Like
           </Button>{" "}
-          <Button
-            color="danger"
-            size="sm"
-            onClick={() => dislike(username, user_id)}
-          >
+          <Button color="danger" size="sm" onClick={() => dislike(user_id)}>
             Dislike
           </Button>
         </div>
