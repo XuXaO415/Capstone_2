@@ -217,26 +217,27 @@ router.get("/:username/matches", async function (req, res, next) {
   }
 });
 
-router.post("/:username/matches", async function (req, res, next) {
-  try {
-    let user = await User.matchUsers(
-      req.body,
-      req.params.username,
-      req.params.id
-    );
-    return res.json({
-      user,
-      currentUser: req.params.username,
-      user_id: req.params.id,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.post("/:username/matches", async function (req, res, next) {
+//   try {
+//     let user = await User.matchUsers(
+//       req.body,
+//       req.params.username,
+//       req.params.id
+//     );
+//     console.log(req.params.username, req.params.id);
+//     return res.json({
+//       user,
+//       currentUser: req.params.username,
+//       user_id: req.params.id,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 router.get("/:username/matches/:user_id", async function (req, res, next) {
   try {
-    let users = await User.matchUsers(req.params.user_id, req.params.username);
+    let users = await User.matchUsers(req.params.username, req.params.user_id);
     console.log(req.params.user_id);
     return res.json({
       users,
@@ -252,11 +253,15 @@ router.get("/:username/matches/:user_id", async function (req, res, next) {
 
 router.post("/:username/matches/:user_id", async function (req, res, next) {
   try {
-    let user = await User.matchUsers(req.body, req.username, req.params.id);
+    let user = await User.matchUsers(
+      req.body,
+      req.username,
+      req.params.user_id
+    );
     return res.json({
       user,
       username: req.params.username,
-      user_id: req.params.id,
+      user_id: req.params.user_id,
     });
   } catch (err) {
     return next(err);
@@ -287,11 +292,11 @@ router.post(
   "/:username/matches/like/:user_id",
   async function (req, res, next) {
     try {
-      let user = await User.likeMatch(req.body, req.params.id);
+      let user = await User.likeMatch(req.body, req.params.user_id);
       return res.json({
         user,
         username: req.params.username,
-        user_id: req.params.id,
+        user_id: req.params.user_id,
       });
     } catch (err) {
       if (err.res) {
