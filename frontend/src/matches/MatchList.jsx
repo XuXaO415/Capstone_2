@@ -16,9 +16,10 @@ import MatchCard from "./MatchCard";
  */
 
 function MatchList() {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, user_id } = useContext(UserContext);
   const [matches, setMatches] = useState([]);
   const [matchInfo, setMatchInfo] = useState(null);
+  // const [likeMatch, setLikeMatch] = useState(null);
 
   console.debug(
     "MatchList",
@@ -35,7 +36,7 @@ function MatchList() {
       async function getPotentialMatches() {
         let matches = await UrGuideApi.getPotentialMatches(
           currentUser.username,
-          currentUser.user_id
+          user_id
         );
         console.debug(
           "MatchList useEffect getPotentialMatches",
@@ -46,7 +47,7 @@ function MatchList() {
       }
       getPotentialMatches();
     },
-    [currentUser.username, currentUser.user_id]
+    [currentUser.username, user_id]
   );
 
   // function like(username, data) {
@@ -115,26 +116,50 @@ function MatchList() {
   function like(username) {
     async function likeUser() {
       try {
-        const res = await UrGuideApi.likeMatch(currentUser.username, username);
-        setMatches(res.data);
+        let likeMatch = await UrGuideApi.likeMatch(
+          currentUser.username,
+          username
+        );
+        console.log(
+          "matches=",
+          "currentUser.username=",
+          currentUser.username,
+          "username=",
+          username
+        );
+        setMatches(likeMatch);
       } catch (err) {
         console.error(err);
       }
     }
-    return likeUser();
+    likeUser(username);
   }
 
-  function dislike(username, data) {
+  function dislike(user_id) {
     async function dislikeUser() {
-      let matches = await UrGuideApi.dislikeMatch(
-        currentUser.username,
-        username,
-        data
-      );
-      setMatches(matches);
+      try {
+        let dislikeMatch = await UrGuideApi.dislikeMatch(
+          currentUser.username,
+          user_id
+        );
+        setMatches(dislikeMatch);
+      } catch (err) {
+        console.error(err);
+      }
     }
-    dislikeUser();
+    return dislikeUser();
   }
+
+  // function dislike(user_id) {
+  //   async function dislikeUser() {
+  //     let matches = await UrGuideApi.dislikeMatch(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     setMatches(matches);
+  //   }
+  //   return dislikeUser();
+  // }
 
   //remove dislike user from match list
 
@@ -142,7 +167,9 @@ function MatchList() {
 
   return (
     <div className="MatchList">
-      <h3 className="text-center">Here are some of your matches</h3>
+      <h3 className="text-center">
+        Hey {currentUser.username}, are some of your matches
+      </h3>
       {matches.map((m) => (
         <MatchCard
           key={m.username}
@@ -161,7 +188,7 @@ function MatchList() {
           image_url={m.image_url}
           like={like}
           dislike={dislike}
-        />
+        ></MatchCard>
       ))}
       {matchInfo && (
         <MatchDetail

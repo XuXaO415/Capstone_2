@@ -32,9 +32,9 @@ function App() {
 
             UrGuideApi.token = token;
 
-            let currentUser = await UrGuideApi.getCurrentUser(username);
+            let getUser = await UrGuideApi.getCurrentUser(username);
             setCurrentUser({
-              data: currentUser,
+              data: getUser,
               isLoaded: true,
             });
           } catch (err) {
@@ -63,9 +63,10 @@ function App() {
       async function getPotentialMatches() {
         if (token) {
           try {
-            let { username } = jwt.decode(token);
+            let { username, user_id } = jwt.decode(token);
             let potentialMatches = await UrGuideApi.getPotentialMatches(
-              username
+              username,
+              user_id
             );
             setPotentialMatches({
               data: potentialMatches,
@@ -118,6 +119,7 @@ function App() {
         username,
         user_id
       );
+      console.log("potentialMatches", potentialMatches, "user_id", user_id);
       setPotentialMatches(potentialMatches);
     } catch (err) {
       console.error("matchUsers failed", err);
@@ -141,15 +143,16 @@ function App() {
     setPotentialMatches(potentialMatches);
   }
 
-  async function likeUser(username, user_id) {
+  async function likeMatch(username, user_id) {
     try {
       await UrGuideApi.likeMatch(username, user_id);
-      let likePotentialMatches = await UrGuideApi.getPotentialMatches(
-        // currentUser.data.username,
+      //change
+      let likePotentialMatches = await UrGuideApi.likeMatch(
         currentUser.username,
         username,
         user_id
-      );
+      ); // await API likeMatch
+
       setPotentialMatches(likePotentialMatches);
     } catch (err) {
       console.error("likeUser failed", err);
@@ -180,7 +183,7 @@ function App() {
           potentialMatches,
           // matchUsers,
           hasUserBeenLiked,
-          likeUser,
+          likeMatch,
           unlikeUser,
         }}
       >

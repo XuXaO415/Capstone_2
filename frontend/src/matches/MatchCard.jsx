@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import UserContext from "../context/UserContext";
+import UrGuideApi from "../api";
 import "./MatchCard.css";
 
 /** Show limited information about a user
@@ -25,36 +26,52 @@ function MatchCard({
   hobbies,
   like,
   dislike,
+  user_id,
 }) {
-  console.debug(
-    "MatchCard",
-    "username=",
-    "first_name=",
-    first_name,
-    "last_name=",
-    "city=",
-    city,
-    "state=",
-    state,
-    "interests=",
-    interests,
-    "hobbies=",
-    hobbies
-  );
+  const { currentUser } = useContext(UserContext);
+  const [matchInfo, setMatchInfo] = useState(null);
 
-  const handleLike = (e) => {
-    try {
-      e.preventDefault();
-      like(username);
-    } catch (err) {
-      console.error("MatchCard like: problem with like", err);
+  // console.debug(
+  //   "MatchCard",
+  //   "username=",
+  //   "first_name=",
+  //   first_name,
+  //   "last_name=",
+  //   "city=",
+  //   city,
+  //   "state=",
+  //   state,
+  //   "interests=",
+  //   interests,
+  //   "hobbies=",
+  //   hobbies,
+  //   "like=",
+  //   like,
+  //   "dislike=",
+  //   dislike,
+  //   "id=",
+  //   id
+  // );
+
+  const getPotentialUserMatches = () => {
+    async function getPotentialMatches() {
+      let matchInfo = await UrGuideApi.getPotentialMatches(
+        currentUser.username,
+        user_id
+      );
+      console.debug(
+        "MatchCard useEffect getPotentialMatches",
+        "matchInfo=",
+        matchInfo
+      );
+      setMatchInfo(matchInfo);
     }
+    getPotentialMatches();
   };
+
+  /** Working */
+
   /** Handle onClick for liking a user */
-  // async function handleLike(e) {
-  //   e.preventDefault();
-  //   like(username);
-  // }
 
   // function handleLike(e) {
   //   try {
@@ -66,16 +83,23 @@ function MatchCard({
   // }
 
   /** Handle onClick for disliking a user */
-  function handleDislike(e) {
-    e.preventDefault();
-    dislike(username);
-  }
+  // function handleDislike(e) {
+  //   try {
+  //     e.preventDefault();
+  //     dislike(username);
+  //   } catch (err) {
+  //     console.error("MatchCard dislike: problem with dislike", err);
+  //   }
+  // }
 
   return (
-    <div className="MatchCard card" to={`/users/${username}/matches`}>
-      <Link to={`/users/${username}/matches`}>
+    <div className="MatchCard card" to={`${username}/matches`}>
+      <Link to={`users/${currentUser.username}/info/${username}`}>
         <div className="card-body">
-          <h3>You matched with: {username}</h3>
+          <h3>
+            You matched with: {username}
+            {user_id}
+          </h3>
           <h6 className="card-title">
             {image_url && (
               <img
@@ -92,10 +116,18 @@ function MatchCard({
           <p>State: {state}</p>
           <p>Interests: {interests}</p>
           <p>Hobbies: {hobbies}</p>
-          <Button color="primary" size="sm" onClick={handleLike}>
+          <Button
+            color="primary"
+            size="sm"
+            onClick={() => like(username, user_id)}
+          >
             Like
           </Button>{" "}
-          <Button color="danger" size="sm" onClick={handleDislike}>
+          <Button
+            color="danger"
+            size="sm"
+            onClick={() => dislike(username, user_id)}
+          >
             Dislike
           </Button>
         </div>

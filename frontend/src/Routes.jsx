@@ -7,6 +7,7 @@ import ProfileForm from "./forms/ProfileForm";
 import PrivateRoute from "./routes/PrivateRoute";
 import MatchDetail from "./matches/MatchDetail";
 import MatchList from "./matches/MatchList";
+import MatchCard from "./matches/MatchCard";
 
 function Routes({
   login,
@@ -14,10 +15,18 @@ function Routes({
   updateProfile,
   currentUser,
   like,
-  unlike,
+  dislike,
   potentialMatches,
 }) {
-  console.debug("Routes", "login=", login, `signup=${typeof signup}`);
+  // console.debug(
+  //   "Routes",
+  //   "login=",
+  //   login,
+  //   "signup=",
+  //   signup,
+  //   "currentUser=",
+  //   currentUser
+  // );
 
   return (
     <div className="Routes">
@@ -47,13 +56,17 @@ function Routes({
             <PrivateRoute exact path="/matches">
               <MatchList potentialMatches={potentialMatches} />
             </PrivateRoute>
-
+            {/* 
             <PrivateRoute exact path="/matches/:username/matches">
-              <MatchDetail like={like} dislike={unlike} />
+              <MatchDetail like={like} dislike={dislike} />
+            </PrivateRoute> */}
+
+            <PrivateRoute exact path="/matches/:user_id">
+              <MatchDetail />
             </PrivateRoute>
 
-            <PrivateRoute exact path="/matches/:username/matches">
-              <MatchDetail like={like} dislike={unlike} />
+            <PrivateRoute exact path=":username/matches/">
+              <MatchCard like={like} dislike={dislike} />
             </PrivateRoute>
           </>
         )}
@@ -64,67 +77,5 @@ function Routes({
     </div>
   );
 }
-
-// return (
-//   <div className="Routes">
-//     <Switch>
-//       <Route exact path="/">
-//         <Homepage />
-//       </Route>
-
-//       <Route exact path="/login">
-//         <LoginForm login={login} />
-//       </Route>
-
-//       <Route exact path="/signup">
-//         <SignupForm signup={signup} />
-//       </Route>
-//       <PrivateRoute exact path="/profile">
-//         <ProfileForm updateProfile={updateProfile} />
-//       </PrivateRoute>
-//       <Route>
-//         <Redirect to="/" />
-//       </Route>
-//     </Switch>
-//   </div>
-// );
-//}
-
-// function Routes({ login, signup, currentUser }) {
-//   console.debug(
-//     "PrivateRoute",
-//     "login=",
-//     login,
-//     "signup=",
-//     signup,
-//     "currentUser=",
-//     currentUser
-//   );
-
-//   return (
-//     <div className="pt-5">
-//       <Switch>
-//         {!currentUser && (
-//           <>
-//             <Route exact path="/login" element={<LoginForm login={login} />} />
-//             <Route
-//               exact
-//               path="/signup"
-//               element={<SignupForm signup={signup} />}
-//             />
-//           </>
-//         )}
-//         <Route exact path="/" element={<Homepage />} />
-
-//         {currentUser && (
-//           <>
-//             <Route exact path="/profile" element={<ProfileForm />} />
-//           </>
-//         )}
-//         <Route exact path="*" element={<Homepage />} />
-//       </Switch>
-//     </div>
-//   );
-// }
 
 export default Routes;

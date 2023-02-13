@@ -89,7 +89,7 @@ router.get("/", async function (req, res, next) {
   try {
     const users = await User.findAll();
     return res.json({
-      users: users,
+      users,
     });
   } catch (err) {
     return next(err);
@@ -109,10 +109,10 @@ router.get("/", async function (req, res, next) {
 router.get("/:username", async function (req, res, next) {
   try {
     let user = await User.get(req.params.username);
-    console.log("req.params.username=", req.params.username);
+    console.log("req.params.username=" + req.params.username.currentUser);
     return res.json({
       user,
-      username: req.params.username,
+      currentUser: req.params.username,
     });
   } catch (err) {
     return next(err);
@@ -203,7 +203,6 @@ router.get("/:username/matches", async function (req, res, next) {
     let user = await User.matchUsers(
       req.body,
       req.params.username,
-      req.params.id,
       req.params.user_id
     );
     console.log(req.params.username, req.params.id, req.params.user_id);
@@ -261,6 +260,22 @@ router.post("/:username/matches/:user_id", async function (req, res, next) {
     return res.json({
       user,
       username: req.params.username,
+      user_id: req.params.user_id,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Leave this blank for now */
+
+router.get("/:username/info/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.getUserById(req.params.user_id, req.params.username);
+    console.log(req.params.username, req.params.user_id);
+    return res.json({
+      user,
+      currentUser: req.params.username,
       user_id: req.params.user_id,
     });
   } catch (err) {
