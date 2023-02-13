@@ -49,8 +49,8 @@ class UrGuideApi {
     return res.user;
   }
 
-  static async getCurrentUserById(id) {
-    let res = await this.request(`users/${id}`, {}, "GET");
+  static async getCurrentUserById(currentUser, user_id) {
+    let res = await this.request(`users/${currentUser}/${user_id}`, "GET");
     return res.user;
   }
 
@@ -166,59 +166,13 @@ class UrGuideApi {
 
   /** Setup disliking a matched user */
 
-  static async dislikeMatch(username, id, data) {
+  static async dislikeMatch(currentUser, user_id) {
     let res = await this.request(
-      `users/${username}/matches/dislike/${id}`,
-      data,
+      `users/${currentUser}/matches/dislike/${user_id}`,
       "POST"
     );
     return res.status;
   }
-
-  /** Setup for liking a potential match */
-
-  // static async getPotentialMatches(user_id) {
-  //   let res = await this.request(`users/like/match/${user_id}`, {}, "POST");
-  //   return res.status;
-  // }
-
-  /** Setup for getting a list of potential user matches */
-
-  // static async getPotentialMatches(username, user_id) {
-  //   let res = await this.request(
-  //     `users/${username}/match/${user_id}`,
-  //     {},
-  //     "GET"
-  //   );
-  //   return res.user;
-  // }
-
-  // static async PotentialMatches(username, user_id) {
-  //   let res = await this.request(
-  //     `users/${username}/like/${user_id}`,
-  //     {},
-  //     "POST"
-  //   );
-  //   return res.status;
-  // }
-
-  /** Like a potential user => match */
-
-  // static async likeMatch(username, data) {
-  //   let res = await this.request(`users/like/${username}/:id`, data, "POST");
-  //   return res.status;
-  // }
-
-  /** Dislike potential user => un-match   */
-
-  // static async dislikeMatch(username, data) {
-  //   let res = await this.request(
-  //     `users/unlike/${username}/:user_id`,
-  //     data,
-  //     "POST"
-  //   );
-  //   return res.status;
-  // }
 }
 
 /* ************************************************************* */
