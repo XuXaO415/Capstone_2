@@ -336,7 +336,52 @@ class User {
   //   return user;
   // }
 
-  /** Match users randomly by their user id */
+  /** Following the router.get("/:username/matches/:user_id, we match define user_id and then match users using these parameters  */
+
+  // static async matchUsers(user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           WHERE id != $1
+  //           ORDER BY RANDOM()
+  //           LIMIT 3`,
+  //     [user_id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
+  //Get user_ids from sql likes table matching user_id this is routed from router.get("/:username/matches/like/:user_id").
+  //This is the route that will be used to get user_id from sql likes table and then we can use that user_id to match users to username
+
+  // static async getLikes(user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           WHERE id != $1 AND id IN (SELECT user_id FROM likes WHERE liked_user = $1)
+  //           ORDER BY RANDOM()
+  //           LIMIT 3`,
+  //     [user_id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
+  // static async matchUsers() {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           WHERE id != $1
+  //           ORDER BY RANDOM()
+  //           LIMIT 3`
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
   static async matchUsers() {
     const result = await db.query(
       `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
@@ -349,10 +394,9 @@ class User {
     return users;
   }
 
-  /* Match users randomly */
-  // static async matchUsers(id) {
+  // static async getUsers(id) {
   //   const result = await db.query(
-  //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
   //           FROM users
   //           WHERE id != $1
   //           ORDER BY RANDOM()
@@ -364,19 +408,28 @@ class User {
   //   return users;
   // }
 
-  // static async matchUsers(user_id) {
-  //   const sqlData = sqlForPartialUpdate({ user_id: user_id }, {});
+  static async getUserLikes() {
+    const result = await db.query(
+      `SELECT user_id, liked_user
+            FROM likes
+            ORDER BY user_id`
+    );
+    let users = result.rows;
+    if (!users) throw new NotFoundError(`No users found`);
+    return users;
+  }
+
+  /** After Getting user_id sql query, insert user_id and liked_user_id into database */
+  // static async insertUserLikes(user_id, liked_user_id) {
   //   const result = await db.query(
-  //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-  //           FROM users
-  //           WHERE user_id = $${sqlData.values.length + 1}
-  //           ORDER BY RANDOM()
-  //           LIMIT 3`,
-  //     [...sqlData.values, user_id]
+  //     `INSERT INTO likes (user_id, liked_user_id)
+  //           VALUES ($1, $2)
+  //           RETURNING user_id, liked_user_id`,
+  //     [user_id, liked_user_id]
   //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
   // }
 
   /** User likes a match */

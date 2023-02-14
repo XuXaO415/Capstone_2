@@ -109,7 +109,7 @@ router.get("/", async function (req, res, next) {
 router.get("/:username", async function (req, res, next) {
   try {
     let user = await User.get(req.params.username);
-    console.log("req.params.username=" + req.params.username.currentUser);
+    console.log("req.params.username=", req.params.username);
     return res.json({
       user,
       currentUser: req.params.username,
@@ -237,6 +237,7 @@ router.get("/:username/matches", async function (req, res, next) {
 router.get("/:username/matches/:user_id", async function (req, res, next) {
   try {
     let users = await User.matchUsers(req.params.username, req.params.user_id);
+
     console.log("currentUser=", req.params.username, req.params.user_id);
     return res.json({
       users,
@@ -269,10 +270,30 @@ router.post("/:username/matches/:user_id", async function (req, res, next) {
 
 /** Leave this blank for now */
 
-router.get("/:username/info/:user_id", async function (req, res, next) {
+// router.get("/:username/info/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.getUserById(req.params.user_id, req.params.username);
+//     console.log(req.params.username, req.params.user_id);
+//     return res.json({
+//       user,
+//       currentUser: req.params.username,
+//       user_id: req.params.user_id,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
+router.get("/:username/matches/like/:user_id", async function (req, res, next) {
   try {
-    let user = await User.getUserById(req.params.user_id, req.params.username);
-    console.log(req.params.username, req.params.user_id);
+    let user = await User.getUserLikesById(
+      // req.params.user_id,
+      // req.params.username,
+      // req.params.id
+      req.params.currentUser,
+      req.params.user_id
+    );
+    console.log(req.params.user_id);
     return res.json({
       user,
       currentUser: req.params.username,
@@ -301,17 +322,39 @@ router.get("/:username/info/:user_id", async function (req, res, next) {
 //   }
 // });
 
-/** Route for POST -- Liking a match */
+/** This route is posting but I don't see it in the DB???? */
+// router.post(
+//   "/:username/matches/like/:user_id",
+//   async function (req, res, next) {
+//     try {
+//       let user = await User.getUserLikes(
+//         req.params.username,
+//         req.params.user_id
+//       );
+//       // let user = await User.addUserLikes(
+//       //   req.params.user_id,
+//       //   req.params.username,
+//       //   req.params.liked_user_id
+//       // );
+//       return res.json({
+//         user,
+//         user_id: req.params.user_id,
+//         username: req.params.username,
+//       });
+//     } catch (err) {
+//       if (err.res) {
+//         return res.status(err.res.status).json(err.res.data);
+//         // return next(err);
+//       }
+//     }
+//   }
+// );
 
 router.post(
   "/:username/matches/like/:user_id",
   async function (req, res, next) {
     try {
-      let user = await User.likeMatch(
-        req.params.user_id,
-        req.params.username,
-    
-      );
+      let user = await User.likeMatch(req.params.user_id, req.params.username);
       return res.json({
         user,
         user_id: req.params.user_id,
@@ -325,6 +368,31 @@ router.post(
     }
   }
 );
+
+/** Route for POST -- Liking a match */
+
+// router.post(
+//   "/:username/matches/like/:user_id",
+//   async function (req, res, next) {
+//     try {
+//       let user = await User.likeMatch(
+//         req.params.user_id,
+//         req.params.username,
+
+//       );
+//       return res.json({
+//         user,
+//         user_id: req.params.user_id,
+//         username: req.params.username,
+//       });
+//     } catch (err) {
+//       if (err.res) {
+//         return res.status(err.res.status).json(err.res.data);
+//         // return next(err);
+//       }
+//     }
+//   }
+// );
 
 router.get("/:username/matches/liked", async function (req, res, next) {
   try {
