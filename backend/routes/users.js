@@ -180,15 +180,16 @@ router.delete(
 
 router.get("/:username/:user_id", async function (req, res, next) {
   try {
-    let user = await User.getUserById(req.params.user_id, req.params.username);
+    let user = await User.getUserById(req.params.username, req.params.user_id);
     console.log(
       "req.params.username=",
       req.params.username,
+      "req.params.user_id=",
       req.params.user_id
     );
     return res.json({
       currentUser: req.params.username,
-      userInfo: user,
+      // userInfo: user,
       user_id: req.params.user_id,
     });
   } catch (err) {
@@ -238,7 +239,12 @@ router.get("/:username/matches/:user_id", async function (req, res, next) {
   try {
     let users = await User.matchUsers(req.params.username, req.params.user_id);
 
-    console.log("currentUser=", req.params.username, req.params.user_id);
+    console.log(
+      "currentUser=",
+      req.params.username,
+      "user_id=",
+      req.params.user_id.data
+    );
     return res.json({
       users,
       currentUser: req.params.username,
@@ -284,25 +290,39 @@ router.post("/:username/matches/:user_id", async function (req, res, next) {
 //   }
 // });
 
-router.get("/:username/matches/like/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.getUserLikesById(
-      // req.params.user_id,
-      // req.params.username,
-      // req.params.id
-      req.params.currentUser,
-      req.params.user_id
-    );
-    console.log(req.params.user_id);
-    return res.json({
-      user,
-      currentUser: req.params.username,
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
+// router.get("/:username/matches/like/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.getUserLikesById(
+//       // req.params.user_id,
+//       // req.params.username,
+//       // req.params.id
+//       req.params.currentUser,
+//       req.params.user_id
+//     );
+//     console.log(req.params.user_id);
+//     return res.json({
+//       user,
+//       currentUser: req.params.username,
+//       user_id: req.params.user_id,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
+// router.get("/:username/matches/like/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.getLikes(req.params.username, req.params.user_id);
+//     console.log(req.params.user_id);
+//     return res.json({
+//       user,
+//       currentUser: req.params.username,
+//       user_id: req.params.user_id,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 // router.get("/:username/matches/like/:user_id", async function (req, res, next) {
 //   try {
@@ -354,11 +374,11 @@ router.post(
   "/:username/matches/like/:user_id",
   async function (req, res, next) {
     try {
-      let user = await User.likeMatch(req.params.user_id, req.params.username);
+      let user = await User.getLikes(req.params.username, req.params.user_id);
       return res.json({
         user,
-        user_id: req.params.user_id,
         username: req.params.username,
+        user_id: req.params.user_id,
       });
     } catch (err) {
       if (err.res) {

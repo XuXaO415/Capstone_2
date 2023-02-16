@@ -113,13 +113,16 @@ class UrGuideApi {
   //   return res.users;
   // }
 
-  static async getPotentialMatches(currentUser, username) {
-    let res = await this.request(`users/${currentUser}/matches/${username}`);
+  static async getPotentialMatches(currentUser, user_id, data) {
+    let res = await this.request(
+      `users/${currentUser}/matches/${user_id}`,
+      (data = {})
+    );
     console.log(
       "res users",
       res.users,
-      "username",
-      username,
+      "user_id",
+      user_id,
       "res.currentUser= ",
       res.currentUser
     );
@@ -128,9 +131,9 @@ class UrGuideApi {
 
   /** like user match -- POST matched user data */
 
-  static async likeMatch(currentUser, username) {
+  static async likeMatch(currentUser, user_id) {
     let res = await this.request(
-      `users/${currentUser}/matches/like/${username}`,
+      `users/${currentUser}/matches/like/${user_id}`,
       "POST"
     );
     return res.status;

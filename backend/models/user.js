@@ -103,12 +103,12 @@ class User {
 
   /** Get user by their id and username  */
 
-  static async getUserById(id, username) {
+  static async getUserById(username, id) {
     const userRes = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
+      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
             FROM users
             WHERE id = $1 AND username = $2`,
-      [id, username]
+      [username, id]
     );
 
     const user = userRes.rows[0];
@@ -117,6 +117,20 @@ class User {
 
     return user;
   }
+
+  /** Find user in db by id/ Get user by id */
+
+  // static async findByUserId(id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           WHERE id = $1`,
+  //     [id]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
 
   /** Register user with data.
    *
@@ -310,20 +324,6 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
-  /** Find user in db by id/ Get user by id */
-
-  static async findByUserId(id) {
-    const result = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-            FROM users
-            WHERE id = $1`,
-      [id]
-    );
-    const user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user: ${id}`);
-    return user;
-  }
-
   // static async findByUserId(id) {
   //   const result = await db.query(
   //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
@@ -382,7 +382,7 @@ class User {
   //   return users;
   // }
 
-  static async matchUsers() {
+  static async matchUsers(username, user_id) {
     const result = await db.query(
       `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
             FROM users
@@ -407,6 +407,15 @@ class User {
   //   if (!users) throw new NotFoundError(`No users found`);
   //   return users;
   // }
+  static async getLikes(currentUsername, userId) {
+    const currentUser = await this.get(currentUsername);
+    const likedUser = await this.findByUserId(userId);
+
+    return {
+      currentUser,
+      likedUser,
+    };
+  }
 
   static async getUserLikes() {
     const result = await db.query(
@@ -418,19 +427,6 @@ class User {
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }
-
-  /** After Getting user_id sql query, insert user_id and liked_user_id into database */
-  // static async insertUserLikes(user_id, liked_user_id) {
-  //   const result = await db.query(
-  //     `INSERT INTO likes (user_id, liked_user_id)
-  //           VALUES ($1, $2)
-  //           RETURNING user_id, liked_user_id`,
-  //     [user_id, liked_user_id]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
 
   /** User likes a match */
   static async likeMatch(id, username) {
