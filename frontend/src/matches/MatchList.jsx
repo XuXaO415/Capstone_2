@@ -50,89 +50,28 @@ function MatchList() {
     [currentUser.username, user_id]
   );
 
-  // function like(username, data) {
-  //   async function likeUser() {
-  //     let matches = await UrGuideApi.likeMatch(
-  //       currentUser.username,
-  //       username,
-  //       data
-  //     );
-  //     setMatches(matches);
-  //   }
-  //   likeUser();
-  // }
-
-  /** Semi working */
-
-  // function like(username) {
-  //   let data = {
-  //     username: username,
-  //     user_id: currentUser.user_id,
-  //   };
-  //   async function likeUser() {
-  //     let matches = await UrGuideApi.likeMatch(
-  //       currentUser.username,
-  //       username,
-  //       data
-  //     );
-  //     setMatches(matches);
-  //   }
-  //   likeUser();
-  // }
-
-  // function like(username) {
-  //   try {
-  //     async function likeUser() {
-  //       let match = await UrGuideApi.likeMatch(
-  //         currentUser.username,
-  //         username,
-  //         matchInfo
-  //       );
-  //       setMatches(match);
-  //     }
-  //     return likeUser();
-  //   } catch (err) {
-  //     console.error("MatchList like: problem with like", err);
-  //   }
-  // }
-
-  // async function like(username) {
-  //   try {
-  //     let matches = await UrGuideApi.likeMatch(currentUser.username, username);
-  //     setMatches(matches);
-  //   } catch (err) {
-  //     console.error("MatchList like: problem with like", err);
-  //   }
-  // }
-
-  // function like(username) {
-  //   async function likeUser() {
-  //     await UrGuideApi.likeMatch(currentUser.username, username);
-  //     setMatches(matches);
-  //   }
-  //   return likeUser();
-  // }
-
-  function like(username) {
+  function like(user_id) {
     async function likeUser() {
       try {
         let likeMatch = await UrGuideApi.likeMatch(
           currentUser.username,
-          username
+          // username
+          user_id
         );
         console.log(
           "matches=",
           "currentUser.username=",
-          currentUser.username,
-          "username=",
-          username
+          currentUser.username
+          // "username=",
+          // username
         );
         setMatches(likeMatch);
       } catch (err) {
         console.error(err);
       }
     }
-    likeUser(username);
+
+    return likeUser(user_id);
   }
 
   function dislike(user_id) {
@@ -172,19 +111,19 @@ function MatchList() {
       </h3>
       {matches.map((m) => (
         <MatchCard
-          key={m.username}
+          // key={m.username}
           user_id={m.user_id}
-          id={m.id}
+          // id={m.id}
           username={m.username}
           first_name={m.firstName}
           last_name={m.lastName}
-          matchInfo={m}
+          matchInfo={m.matchInfo}
           city={m.city}
           state={m.state}
           interests={m.interests}
           hobbies={m.hobbies}
           setMatchInfo={setMatchInfo}
-          matches={matches}
+          matches={setMatches}
           image_url={m.image_url}
           like={like}
           dislike={dislike}
@@ -195,7 +134,7 @@ function MatchList() {
           username={currentUser.username}
           matchInfo={matchInfo}
           setMatchInfo={setMatchInfo}
-          matches={matches}
+          // matches={matches}
         />
       )}
     </div>

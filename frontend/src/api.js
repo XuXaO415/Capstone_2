@@ -129,6 +129,13 @@ class UrGuideApi {
     return res.users;
   }
 
+  static async likedMatch(currentUser, user_id) {
+    let res = await this.request(
+      `users/${currentUser}/matches/liked/${user_id}`
+    );
+    return res.user;
+  }
+
   /** like user match -- POST matched user data */
 
   static async likeMatch(currentUser, user_id) {

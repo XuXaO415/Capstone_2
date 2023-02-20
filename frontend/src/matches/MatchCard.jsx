@@ -29,7 +29,7 @@ function MatchCard({
   user_id,
 }) {
   const { currentUser } = useContext(UserContext);
-  const [matchInfo, setMatchInfo] = useState(null);
+  // const [matchInfo, setMatchInfo] = useState(null);
 
   // console.debug(
   //   "MatchCard",
@@ -53,21 +53,21 @@ function MatchCard({
   //   id
   // );
 
-  const getPotentialUserMatches = () => {
-    async function getPotentialMatches() {
-      let matchInfo = await UrGuideApi.getPotentialMatches(
-        currentUser.username,
-        user_id
-      );
-      console.debug(
-        "MatchCard useEffect getPotentialMatches",
-        "matchInfo=",
-        matchInfo
-      );
-      setMatchInfo(matchInfo);
-    }
-    getPotentialMatches();
-  };
+  // const getPotentialUserMatches = () => {
+  //   async function getPotentialMatches() {
+  //     let matchInfo = await UrGuideApi.getPotentialMatches(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     console.debug(
+  //       "MatchCard useEffect getPotentialMatches",
+  //       "matchInfo=",
+  //       matchInfo
+  //     );
+  //     setMatchInfo(matchInfo);
+  //   }
+  //   getPotentialMatches();
+  // };
 
   /** Working */
 
@@ -95,10 +95,12 @@ function MatchCard({
   return (
     <div className="MatchCard card" to={`${username}/matches`}>
       <Link to={`users/${currentUser.username}/info/${username}`}>
+        {/* <Link to={`users/${currentUser.username}/matches/liked/${username}`}> */}
+        {/* <Link to={`users/${currentUser.username}/matches/liked/${user_id}`}> */}
         <div className="card-body">
           <h3>
             You matched with: {username}
-            {user_id}
+            {/* {user_id} */}
           </h3>
           <h6 className="card-title">
             {image_url && (
