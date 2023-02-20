@@ -369,20 +369,66 @@ class User {
   //   return users;
   // }
 
-  // static async matchUsers() {
+  // static async matchUsers(username, id) {
   //   const result = await db.query(
   //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
   //           FROM users
-  //           WHERE id != $1
+  //           WHERE id != $2 AND id IN (SELECT user_id FROM likes WHERE liked_user = $2) AND id NOT IN (SELECT user_id FROM likes WHERE liked_user = $2 AND user_id = $1)
   //           ORDER BY RANDOM()
-  //           LIMIT 3`
+  //           LIMIT 3`,
+  //     [username, id]
   //   );
   //   let users = result.rows;
   //   if (!users) throw new NotFoundError(`No users found`);
   //   return users;
   // }
 
-  static async matchUsers(username, user_id) {
+  /** GET Matches for user based on user_id */
+
+  // static async getMatches(username, id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           ORDER BY RANDOM()
+  //           LIMIT 3`,
+  //     [username, id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
+  // static async userMatches(currentUser, user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //         FROM users
+  //         WHERE id != $1 AND id NOT IN (
+  //           SELECT liked_id FROM likes WHERE user_id = $2
+  //         ) AND id NOT IN (
+  //           SELECT liked_id FROM dislikes WHERE user_id = $2
+  //         )
+  //         ORDER BY RANDOM()
+  //         LIMIT 3`,
+  //     [currentUser, user_id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
+  // static async userMatches(user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username
+  //           FROM likes
+  //           WHERE user_id = $1 AND liked_user = $2`,
+  //     [username, user_id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;s
+  // }
+
+  static async matchUsers() {
     const result = await db.query(
       `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
             FROM users
@@ -407,15 +453,30 @@ class User {
   //   if (!users) throw new NotFoundError(`No users found`);
   //   return users;
   // }
-  static async getLikes(currentUsername, userId) {
+
+  static async findByUserId(user_id) {
+    const result = await db.query(
+      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+            FROM users
+            WHERE id = $1`,
+      [user_id]
+    );
+    let user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user found`);
+    return user;
+  }
+
+  static async getLikes(currentUsername, user_id) {
     const currentUser = await this.get(currentUsername);
-    const likedUser = await this.findByUserId(userId);
+    const likedUser = await this.findByUserId(user_id);
 
     return {
       currentUser,
       likedUser,
     };
   }
+
+  /** Return user's likes */
 
   static async getUserLikes() {
     const result = await db.query(
