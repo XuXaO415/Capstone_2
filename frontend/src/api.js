@@ -113,11 +113,8 @@ class UrGuideApi {
   //   return res.users;
   // }
 
-  static async getPotentialMatches(currentUser, user_id, data) {
-    let res = await this.request(
-      `users/${currentUser}/matches/${user_id}`,
-      (data = {})
-    );
+  static async getPotentialMatches(currentUser, user_id) {
+    let res = await this.request(`users/${currentUser}/matches/${user_id}`);
     console.log(
       "res users",
       res.users,
@@ -141,6 +138,7 @@ class UrGuideApi {
   static async likeMatch(currentUser, user_id) {
     let res = await this.request(
       `users/${currentUser}/matches/like/${user_id}`,
+      {},
       "POST"
     );
     return res.status;
@@ -174,9 +172,9 @@ class UrGuideApi {
 
   /** Setup disliking a matched user */
 
-  static async dislikeMatch(currentUser, username) {
+  static async dislikeMatch(currentUser, user_id) {
     let res = await this.request(
-      `users/${currentUser}/matches/dislike/${username}`,
+      `users/${currentUser}/matches/dislike/${user_id}`,
       "POST"
     );
     return res.status;
