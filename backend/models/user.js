@@ -336,39 +336,6 @@ class User {
   //   return user;
   // }
 
-  /** Following the router.get("/:username/matches/:user_id, we match define user_id and then match users using these parameters  */
-
-  // static async matchUsers(user_id) {
-  //   const result = await db.query(
-  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-  //           FROM users
-  //           WHERE id != $1
-  //           ORDER BY RANDOM()
-  //           LIMIT 3`,
-  //     [user_id]
-  //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
-  // }
-
-  //Get user_ids from sql likes table matching user_id this is routed from router.get("/:username/matches/like/:user_id").
-  //This is the route that will be used to get user_id from sql likes table and then we can use that user_id to match users to username
-
-  // static async getLikes(user_id) {
-  //   const result = await db.query(
-  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-  //           FROM users
-  //           WHERE id != $1 AND id IN (SELECT user_id FROM likes WHERE liked_user = $1)
-  //           ORDER BY RANDOM()
-  //           LIMIT 3`,
-  //     [user_id]
-  //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
-  // }
-
   // static async matchUsers(username, id) {
   //   const result = await db.query(
   //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
