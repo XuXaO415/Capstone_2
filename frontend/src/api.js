@@ -96,7 +96,8 @@ class UrGuideApi {
   // }
 
   static async matchList(currentUser) {
-    let res = await this.request(`users/${currentUser}/matches`);
+    let res = await this.request(`users/${currentUser}/matches`, {}, "GET");
+    console.log("res from matchList", res);
     return res.users;
   }
 
@@ -114,23 +115,9 @@ class UrGuideApi {
   // }
 
   static async getPotentialMatches(currentUser, user_id) {
-    let res = await this.request(`users/${currentUser}/matches/${user_id}`);
-    console.log(
-      "res users",
-      res.users,
-      "user_id",
-      user_id,
-      "res.currentUser= ",
-      res.currentUser
-    );
+    let res = await this.request(`users/${currentUser}/matches/${user_id}`, {});
+    console.log("currentUser=", currentUser, "user_id=", user_id);
     return res.users;
-  }
-
-  static async likedMatch(currentUser, user_id) {
-    let res = await this.request(
-      `users/${currentUser}/matches/liked/${user_id}`
-    );
-    return res.user;
   }
 
   /** like user match -- POST matched user data */
@@ -141,7 +128,15 @@ class UrGuideApi {
       {},
       "POST"
     );
+    console.log("POST was successful");
     return res.status;
+  }
+
+  static async likedMatch(currentUser, user_id) {
+    let res = await this.request(
+      `users/${currentUser}/matches/liked/${user_id}`
+    );
+    return res.user;
   }
 
   // static async likeMatch(username, user_id) {
