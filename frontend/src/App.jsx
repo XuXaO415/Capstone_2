@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 import { BrowserRouter } from "react-router-dom";
 import UrGuideApi from "./api";
@@ -18,6 +18,11 @@ function App() {
     isLoaded: false,
   });
   const [currentUser, setCurrentUser] = useState({
+    data: null,
+    isLoaded: false,
+  });
+
+  const [getLikedMatches, setLikedMatches] = useState({
     data: null,
     isLoaded: false,
   });
@@ -97,6 +102,41 @@ function App() {
     [token]
   );
 
+  useEffect(
+    function loadLikedMatches() {
+      console.debug("App loadLikedMatches", "loadLikedMatches");
+      async function getLikedMatches() {
+        if (token) {
+          try {
+            let { username, user_id } = jwt.decode(token);
+            console.log("username", username, "user_id", user_id);
+            let likedMatches = await UrGuideApi.getLikedMatches(
+              username,
+              user_id
+            );
+            setPotentialMatches({
+              data: likedMatches,
+              isLoaded: true,
+            });
+          } catch (err) {
+            console.error("App loadLikedMatches error", err);
+            setPotentialMatches((currPotentialMatches) => ({
+              ...currPotentialMatches,
+              isLoaded: true,
+            }));
+          }
+        } else {
+          setPotentialMatches({
+            data: null,
+            isLoaded: true,
+          });
+        }
+      }
+      getLikedMatches();
+    },
+    [token]
+  );
+
   /** Handle site-wide user logout */
   function logout() {
     setCurrentUser({
@@ -119,18 +159,28 @@ function App() {
     setToken(token);
   }
 
-  async function matchUsers(username, user_id) {
+  async function matchUsers(currentUser) {
     try {
-      let potentialMatches = await UrGuideApi.getPotentialMatches(
-        username,
-        user_id
-      );
-      console.log("potentialMatches", potentialMatches, "user_id", user_id);
+      let potentialMatches = await UrGuideApi.matchList(currentUser.username);
+      console.log("potentialMatches", potentialMatches);
       setPotentialMatches(potentialMatches);
     } catch (err) {
       console.error("matchUsers failed", err);
     }
   }
+
+  // async function matchUsers(username, user_id) {
+  //   try {
+  //     let potentialMatches = await UrGuideApi.getPotentialMatches(
+  //       username,
+  //       user_id
+  //     );
+  //     console.log("potentialMatches", potentialMatches, "user_id", user_id);
+  //     setPotentialMatches(potentialMatches);
+  //   } catch (err) {
+  //     console.error("matchUsers failed", err);
+  //   }
+  // }
 
   /** Check if user was already liked */
   // function hasUserBeenLiked(user_id) {
@@ -185,7 +235,8 @@ function App() {
           currentUser: currentUser.data,
           setCurrentUser,
           potentialMatches,
-          // matchUsers,
+          matchUsers,
+          getLikedMatches,
           hasUserBeenLiked,
           likeUser,
           unlikeUser,
@@ -199,6 +250,7 @@ function App() {
             signup={signup}
             potentialMatches={potentialMatches}
             matchUsers={matchUsers}
+            getLikedMatches={getLikedMatches}
             // likeUser={likeMatch}
             // unlikeUser={unlikeUser}
           />

@@ -17,6 +17,7 @@ function Routes({
   like,
   dislike,
   potentialMatches,
+  getLikedMatches,
 }) {
   // console.debug(
   //   "Routes",
@@ -55,19 +56,24 @@ function Routes({
 
             <PrivateRoute exact path="/matches">
               <MatchList potentialMatches={potentialMatches} />
+              <MatchCard like={like} dislike={dislike} />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/likes">
+              <MatchList getLikedMatches={getLikedMatches} />
             </PrivateRoute>
             {/* 
             <PrivateRoute exact path="/matches/:username/matches">
               <MatchDetail like={like} dislike={dislike} />
             </PrivateRoute> */}
 
-            <PrivateRoute exact path="/matches/:user_id">
+            {/* <PrivateRoute exact path="/matches/:user_id">
               <MatchDetail />
             </PrivateRoute>
 
             <PrivateRoute exact path=":username/matches/">
               <MatchCard like={like} dislike={dislike} />
-            </PrivateRoute>
+            </PrivateRoute> */}
           </>
         )}
         <Route>
