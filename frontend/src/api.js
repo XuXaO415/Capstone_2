@@ -96,7 +96,7 @@ class UrGuideApi {
   // }
 
   static async matchList(currentUser) {
-    let res = await this.request(`users/${currentUser}/matches`, {}, "GET");
+    let res = await this.request(`users/${currentUser}/matches`, {});
     console.log("res from matchList", res);
     return res.users;
   }
@@ -132,13 +132,6 @@ class UrGuideApi {
     return res.status;
   }
 
-  static async likedMatch(currentUser, user_id) {
-    let res = await this.request(
-      `users/${currentUser}/matches/liked/${user_id}`
-    );
-    return res.user;
-  }
-
   // static async likeMatch(username, user_id) {
   //   let res = await this.request(
   //     `users/${username}/matches/like/${user_id}`,
@@ -150,8 +143,19 @@ class UrGuideApi {
   /** Setup for return all user's liked matches */
 
   static async getLikedMatches(username) {
-    let res = await this.request(`users/${username}/matches/liked`, "GET");
+    let res = await this.request(`users/${username}/matches/liked`, {}, "GET");
     return res.users;
+  }
+  // static async getLikedMatches(currentUser) {
+  //   let res = await this.request(`users/${currentUser}/matches/liked`, {}, "GET");
+  //   return res.users;
+  // }
+
+  /** Return info on clicked on match */
+
+  static async getMatchInfo(currentUser, user_id) {
+    let res = await this.request(`users/${currentUser}/info/${user_id}`, {});
+    return res.user;
   }
 
   /* Setup for liking a potential match */
