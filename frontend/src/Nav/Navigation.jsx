@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -9,6 +9,8 @@ import "./Navigation.css";
 /** Navigation/Navbar component */
 function Navigation({ logout }) {
   const { currentUser } = useContext(UserContext);
+
+  console.debug("Navigation", "currentUser=", currentUser);
 
   function loggedInNav() {
     return (
@@ -20,6 +22,9 @@ function Navigation({ logout }) {
             </Nav.Link>
             <Nav.Link className="nav-link" href="/matches">
               Matches
+            </Nav.Link>
+            <Nav.Link className="nav-link" href="/likes">
+              Likes
             </Nav.Link>
             <Nav.Link href="/" onClick={logout}>
               Log out {currentUser.first_name || currentUser.username}
