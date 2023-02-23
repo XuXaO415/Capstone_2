@@ -166,7 +166,6 @@ class UrGuideApi {
     let res = await this.request(
       `users/${currentUser}/matches/dislike/${user_id}`,
       {},
-
       "POST"
     );
     console.log(

@@ -402,16 +402,28 @@ router.post(
   async function (req, res, next) {
     try {
       let currentUser = await User.get(req.params.username);
-      let user = await User.deleteMatch(
+      let deletedUser = await User.getUserById(
+        req.params.user_id
+        // req.params.username
+      );
+      // let user = await User.deleteMatch(
+      //   currentUser.username,
+      //   // req.params.username,
+      //   req.params.user_id
+      // );
+      console.log(
+        "currentUser=",
         currentUser.username,
-        // req.params.username,
+        "user=",
+        deletedUser,
+        "user_id=",
         req.params.user_id
       );
-      console.log(req.params.user_id);
       return res.json({
         // user,
-        currentUser: req.params.username,
+        currentUser,
         // user: req.params.user_id,
+        user: deletedUser,
         user_id: req.params.user_id,
       });
     } catch (err) {

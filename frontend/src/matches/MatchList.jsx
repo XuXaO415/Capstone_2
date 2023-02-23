@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import MatchDetail from "./MatchDetail";
@@ -20,6 +20,7 @@ function MatchList() {
   const [matches, setMatches] = useState([]);
   const [matchInfo, setMatchInfo] = useState(null);
   // const [likeMatch, setLikeMatch] = useState(null);
+  const [likedMatches, setLikedMatches] = useState(null);
 
   console.debug(
     "MatchList",
@@ -50,6 +51,28 @@ function MatchList() {
     [currentUser.username, user_id]
   );
 
+  //** Show user their liked matches */
+
+  useEffect(
+    function getLikedMatches() {
+      async function getLikedMatches() {
+        let likedMatches = await UrGuideApi.getLikedMatches(
+          currentUser.username
+        );
+        console.debug(
+          "MatchList useEffect getLikedMatches",
+          "likedMatches=",
+          likedMatches
+        );
+        setLikedMatches(likedMatches);
+      }
+      getLikedMatches();
+    },
+    [currentUser.username]
+  );
+
+  /** Define matches */
+
   function like(user_id) {
     async function likeUser() {
       try {
@@ -59,18 +82,17 @@ function MatchList() {
           user_id
         );
         console.log(
-          "matches=",
           "currentUser.username=",
-          currentUser.username
-          // "username=",
-          // username
+          currentUser.username,
+          "Liked match=",
+          "user_id=",
+          user_id
         );
         setMatches(likeMatch);
       } catch (err) {
         console.error(err);
       }
     }
-
     return likeUser(user_id);
   }
 
@@ -81,12 +103,13 @@ function MatchList() {
           currentUser.username,
           user_id
         );
+        console.log("Disliked match=", dislikeMatch);
         setMatches(dislikeMatch);
       } catch (err) {
         console.error(err);
       }
     }
-    return dislikeUser();
+    dislikeUser(user_id);
   }
 
   // function dislike(user_id) {
@@ -111,7 +134,7 @@ function MatchList() {
       </h3>
       {matches.map((m) => (
         <MatchCard
-          // key={m.username}
+          key={m.username}
           user_id={m.user_id}
           // id={m.id}
           username={m.username}
@@ -126,17 +149,42 @@ function MatchList() {
           matches={setMatches}
           image_url={m.image_url}
           like={like}
-          dislike={dislike}
+          dislikeUser={dislike}
         ></MatchCard>
       ))}
       {matchInfo && (
         <MatchDetail
-          username={currentUser.username}
+          // username={currentUser.username}
           matchInfo={matchInfo}
           setMatchInfo={setMatchInfo}
+
           // matches={matches}
         />
       )}
+
+      {/* 
+      <h3 className="text-center">Your Liked Matches</h3>
+      {likedMatches && (
+        <div className="row">
+          {likedMatches.map((m) => (
+            <MatchCard
+              key={m.username}
+              user_id={m.user_id}
+              // id={m.id}
+              username={m.username}
+              first_name={m.firstName}
+              last_name={m.lastName}
+              matchInfo={m.matchInfo}
+              city={m.city}
+              state={m.state}
+              interests={m.interests}
+              hobbies={m.hobbies}
+              setMatchInfo={setMatchInfo}
+              matches={setMatches}
+              image_url={m.image_url}
+              dislike={dislike}
+            ></MatchCard>
+          ))} */}
     </div>
   );
 }
