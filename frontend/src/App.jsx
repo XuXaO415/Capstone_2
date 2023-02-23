@@ -13,16 +13,12 @@ export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
-  const [potentialMatches, setPotentialMatches] = useState({
-    data: null,
-    isLoaded: false,
-  });
   const [currentUser, setCurrentUser] = useState({
     data: null,
     isLoaded: false,
   });
 
-  const [getLikedMatches, setLikedMatches] = useState({
+  const [potentialMatches, setPotentialMatches] = useState({
     data: null,
     isLoaded: false,
   });
@@ -66,7 +62,7 @@ function App() {
 
   useEffect(
     function loadPotentialMatches() {
-      console.debug("App loadPotentialMatches", "loadPotentialMatches");
+      console.debug("App loadPotentialMatches", Boolean(token));
       async function getPotentialMatches() {
         if (token) {
           try {
@@ -102,40 +98,83 @@ function App() {
     [token]
   );
 
-  useEffect(
-    function loadLikedMatches() {
-      console.debug("App loadLikedMatches", "loadLikedMatches");
-      async function getLikedMatches() {
-        if (token) {
-          try {
-            let { username, user_id } = jwt.decode(token);
-            console.log("username", username, "user_id", user_id);
-            let likedMatches = await UrGuideApi.getLikedMatches(
-              username,
-              user_id
-            );
-            setPotentialMatches({
-              data: likedMatches,
-              isLoaded: true,
-            });
-          } catch (err) {
-            console.error("App loadLikedMatches error", err);
-            setPotentialMatches((currPotentialMatches) => ({
-              ...currPotentialMatches,
-              isLoaded: true,
-            }));
-          }
-        } else {
-          setPotentialMatches({
-            data: null,
+  function getLikedMatches() {
+    async function getLikedMatches() {
+      if (token) {
+        try {
+          let user_id;
+          console.log("user_id", user_id);
+          let likedMatches = await UrGuideApi.getLikedMatches(
+            currentUser,
+            (user) => {
+              return (user_id = user.user_id);
+            }
+          );
+          likedMatches({
+            data: likedMatches,
             isLoaded: true,
           });
+        } catch (err) {
+          console.error("App loadPotentialMatches error", err);
+          getLikedMatches((currLikedMatches) => ({
+            ...currLikedMatches,
+            isLoaded: true,
+          }));
         }
+      } else {
+        getLikedMatches({
+          data: null,
+          isLoaded: true,
+        });
       }
-      getLikedMatches();
-    },
-    [token]
-  );
+    }
+    getLikedMatches();
+  }
+
+  // async function matchUsers(currentUser) {
+  //   try {
+  //     let potentialMatches = await UrGuideApi.matchList(currentUser.username);
+  //     console.log("potentialMatches", potentialMatches);
+  //     setPotentialMatches(potentialMatches);
+  //   } catch (err) {
+  //     console.error("matchUsers failed", err);
+  //   }
+  // }
+
+  // useEffect(
+  //   function loadLikedMatches() {
+  //     console.debug("App loadLikedMatches", "loadLikedMatches");
+  //     async function getLikedMatches() {
+  //       if (token) {
+  //         try {
+  //           let { username, user_id } = jwt.decode(token);
+  //           console.log("username", username, "user_id", user_id);
+  //           let likedMatches = await UrGuideApi.getLikedMatches(
+  //             username,
+  //             user_id
+  //           );
+  //           setPotentialMatches({
+  //             data: likedMatches,
+  //             isLoaded: true,
+  //           });
+  //         } catch (err) {
+  //           console.error("App loadLikedMatches error", err);
+  //           setPotentialMatches((currPotentialMatches) => ({
+  //             ...currPotentialMatches,
+  //             isLoaded: true,
+  //           }));
+  //         }
+  //       } else {
+  //         setPotentialMatches({
+  //           data: null,
+  //           isLoaded: true,
+  //         });
+  //       }
+  //     }
+  //     getLikedMatches();
+  //   },
+  //   [token]
+  // );
 
   /** Handle site-wide user logout */
   function logout() {
@@ -159,16 +198,6 @@ function App() {
     setToken(token);
   }
 
-  async function matchUsers(currentUser) {
-    try {
-      let potentialMatches = await UrGuideApi.matchList(currentUser.username);
-      console.log("potentialMatches", potentialMatches);
-      setPotentialMatches(potentialMatches);
-    } catch (err) {
-      console.error("matchUsers failed", err);
-    }
-  }
-
   // async function matchUsers(username, user_id) {
   //   try {
   //     let potentialMatches = await UrGuideApi.getPotentialMatches(
@@ -181,23 +210,6 @@ function App() {
   //     console.error("matchUsers failed", err);
   //   }
   // }
-
-  /** Check if user was already liked */
-  // function hasUserBeenLiked(user_id) {
-  //   if (currentUser.data.matches) {
-  //     return currentUser.data.matches.some((match) => match.id === user_id);
-  //   }
-  // }
-
-  function hasUserBeenLiked(user_id, username) {
-    if (currentUser.data.matches(username, user_id)) return;
-    UrGuideApi.getPotentialMatches(
-      currentUser.data.username,
-      username,
-      user_id
-    );
-    setPotentialMatches(potentialMatches);
-  }
 
   async function likeUser(username, user_id) {
     try {
@@ -213,13 +225,19 @@ function App() {
     }
   }
 
+  function hasUserBeenLiked(username, user_id) {
+    if (currentUser.data.matches(username, user_id)) return;
+    UrGuideApi.getPotentialMatches(currentUser.username, username, user_id);
+    setPotentialMatches(potentialMatches);
+  }
+
   async function unlikeUser(username, user_id) {
     try {
       await UrGuideApi.dislikeMatch(username, user_id);
-      let unlikePotentialMatches = await UrGuideApi.getPotentialMatches(
+      let unlikePotentialMatches = await UrGuideApi.dislikeMatch(
         // currentUser.data.username,
         currentUser.username,
-        username,
+        // username,
         user_id
       );
       setPotentialMatches(unlikePotentialMatches);
@@ -235,7 +253,7 @@ function App() {
           currentUser: currentUser.data,
           setCurrentUser,
           potentialMatches,
-          matchUsers,
+          // matchUsers,
           getLikedMatches,
           hasUserBeenLiked,
           likeUser,
@@ -249,8 +267,8 @@ function App() {
             login={login}
             signup={signup}
             potentialMatches={potentialMatches}
-            matchUsers={matchUsers}
-            getLikedMatches={getLikedMatches}
+            // matchUsers={matchUsers}
+            // getLikedMatches={getLikedMatches}
             // likeUser={likeMatch}
             // unlikeUser={unlikeUser}
           />
