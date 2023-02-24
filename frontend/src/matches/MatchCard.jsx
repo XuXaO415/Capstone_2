@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import UserContext from "../context/UserContext";
@@ -17,6 +17,7 @@ import "./MatchCard.css";
 
 function MatchCard({
   username,
+  user_id,
   first_name,
   last_name,
   image_url,
@@ -25,8 +26,8 @@ function MatchCard({
   interests,
   hobbies,
   like,
-  dislike,
-  user_id,
+  dislikeUser,
+  info,
 }) {
   const { currentUser } = useContext(UserContext);
   // const [matchInfo, setMatchInfo] = useState(null);
@@ -53,22 +54,6 @@ function MatchCard({
   //   id
   // );
 
-  // const getPotentialUserMatches = () => {
-  //   async function getPotentialMatches() {
-  //     let matchInfo = await UrGuideApi.getPotentialMatches(
-  //       currentUser.username,
-  //       user_id
-  //     );
-  //     console.debug(
-  //       "MatchCard useEffect getPotentialMatches",
-  //       "matchInfo=",
-  //       matchInfo
-  //     );
-  //     setMatchInfo(matchInfo);
-  //   }
-  //   getPotentialMatches();
-  // };
-
   /** Working */
 
   /** Handle onClick for liking a user */
@@ -83,49 +68,72 @@ function MatchCard({
   // }
 
   /** Handle onClick for disliking a user */
-  // function handleDislike(e) {
-  //   try {
-  //     e.preventDefault();
-  //     dislike(username);
-  //   } catch (err) {
-  //     console.error("MatchCard dislike: problem with dislike", err);
-  //   }
-  // }
+  function handleDislike(e) {
+    try {
+      e.preventDefault();
+      dislikeUser(user_id);
+    } catch (err) {
+      console.error("MatchCard dislike: problem with dislike", err);
+    }
+  }
+
+  /** Handle user like button when user likes a user */
+  function handleLike(e) {
+    e.preventDefault();
+    console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+    // console.debug("MatchCard handleLike: like=", like);
+    like(user_id);
+  }
+
+  /** When user clicks on link, this shows more info about another user */
+  function handleInfo(e) {
+    e.preventDefault();
+    console.log("MatchCard handleInfo: user_id=", user_id, "was clicked");
+
+    info(user_id);
+  }
 
   return (
     <div className="MatchCard card" to={`${username}/matches`}>
-      <Link to={`users/${currentUser.username}/info/${username}`}>
-        {/* <Link to={`users/${currentUser.username}/matches/liked/${username}`}> */}
-        {/* <Link to={`users/${currentUser.username}/matches/liked/${user_id}`}> */}
-        <div className="card-body">
-          <h3>
-            You matched with: {username}
-            {/* {user_id} */}
-          </h3>
-          <h6 className="card-title">
-            {image_url && (
-              <img
-                src={image_url}
-                alt={`User {first_name}`}
-                className="float-end ms-5"
-              />
-            )}
-          </h6>
-          <p>
-            Name: {first_name} {last_name}
-          </p>
-          <p>City: {city}</p>
-          <p>State: {state}</p>
-          <p>Interests: {interests}</p>
-          <p>Hobbies: {hobbies}</p>
-          <Button color="primary" size="sm" onClick={() => like(user_id)}>
-            Like
-          </Button>{" "}
-          <Button color="danger" size="sm" onClick={() => dislike(user_id)}>
-            Dislike
-          </Button>
-        </div>
-      </Link>
+      {/* <Link to={`users/${currentUser.username}/info/${user_id}`}> */}
+      {/* <Link to={`users/${currentUser.username}/info/${username}`}> */}
+      {/* <Link to={`users/${currentUser.username}/matches/${username}`}> */}
+      {/* <Link to={`users/${currentUser.username}/matches/like/${username}`}> */}
+      {/* <Link to={`users/${currentUser.username}/matches/liked/${user_id}`}> */}
+      <div className="card-body">
+        <h3>
+          <Link to={`users/${currentUser.username}/info/${user_id}`}>
+            You matched with: {username},
+            <br />
+            user_id:{user_id}
+          </Link>
+        </h3>
+        <h6 className="card-title">
+          {image_url && (
+            <img
+              src={image_url}
+              alt={`User {first_name}`}
+              className="float-end ms-5"
+            />
+          )}
+        </h6>
+        <p>
+          Name: {first_name} {last_name}
+        </p>
+        <p>City: {city}</p>
+        <p>State: {state}</p>
+        <p>Interests: {interests}</p>
+        <p>Hobbies: {hobbies}</p>
+        {/* <Button color="primary" size="sm" onClick={() => like(user_id)}> */}
+        <Button color="primary" size="sm" onClick={handleLike}>
+          Like
+        </Button>{" "}
+        <Button color="danger" size="sm" onClick={handleDislike}>
+          {/* <Button color="danger" size="sm" onClick={() => dislike(user_id)}> */}
+          Dislike
+        </Button>
+      </div>
+      {/* </Link> */}
     </div>
   );
 }
