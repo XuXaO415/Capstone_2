@@ -85,14 +85,6 @@ function MatchCard({
     like(user_id);
   }
 
-  /** When user clicks on link, this shows more info about another user */
-  function handleInfo(e) {
-    e.preventDefault();
-    console.log("MatchCard handleInfo: user_id=", user_id, "was clicked");
-
-    info(user_id);
-  }
-
   return (
     <div className="MatchCard card" to={`${username}/matches`}>
       {/* <Link to={`users/${currentUser.username}/info/${user_id}`}> */}
