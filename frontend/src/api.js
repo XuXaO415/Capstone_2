@@ -118,14 +118,6 @@ class UrGuideApi {
     return res.status;
   }
 
-  // static async likeMatch(username, user_id) {
-  //   let res = await this.request(
-  //     `users/${username}/matches/like/${user_id}`,
-  //     "POST"
-  //   );
-  //   return res.status;
-  // }
-
   /** Setup for return all user's liked matches */
 
   static async getLikedMatches(currentUser) {
