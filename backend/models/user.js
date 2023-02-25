@@ -483,13 +483,29 @@ class User {
   //   return users;
   // }
 
+  //** Retrieve from urguide database user likes */
+
   /** User likes a match */
-  static async likeMatch(id, username) {
+  // static async likeMatch(id, username) {
+  //   const result = await db.query(
+  //     `INSERT INTO likes (user_id, liked_user)
+  //           VALUES ($1, $2)
+  //           RETURNING user_id, liked_user`,
+  //     [id, username]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
+
+  /** This call works better than the above code */
+
+  static async likeMatch(id) {
     const result = await db.query(
-      `INSERT INTO likes (user_id, liked_user)
-            VALUES ($1, $2)
-            RETURNING user_id, liked_user`,
-      [id, username]
+      `INSERT INTO likes (user_id)
+            VALUES ($1)
+            RETURNING user_id`,
+      [id]
     );
     const user = result.rows[0];
     if (!user) throw new NotFoundError(`No user: ${id}`);
@@ -524,17 +540,17 @@ class User {
   // }
 
   /** User dislikes a match */
-  // static async dislikeMatch(id, username) {
-  //   const result = await db.query(
-  //     `INSERT INTO dislikes (user_id, disliked_user)
-  //           VALUES ($1, $2)
-  //           RETURNING user_id, disliked_user`,
-  //     [id, username]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
+  static async dislikeMatch(id) {
+    const result = await db.query(
+      `INSERT INTO dislikes (user_id)
+            VALUES ($1)
+            RETURNING user_id`,
+      [id]
+    );
+    const user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
+  }
 
   static async deleteMatch(username, id) {
     const result = await db.query(
@@ -548,14 +564,6 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
-
-  // static async createLike(user_id, liked_user) {
-  //   const result = await db.query(
-  //     `INSERT INTO likes (user_id, liked_user)
-  //           VALUES ($1, $2)
-  //           RETURNING user_id, liked_user`,
-  //     [user_id, liked_user]
-  //   );
 }
 
 module.exports = User;
