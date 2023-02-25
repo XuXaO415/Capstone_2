@@ -228,20 +228,55 @@ function App() {
     setToken(token);
   }
 
-  /** Handle URL image upload */
-  async function uploadImage(imageUrl) {
-    try {
-      let image = await UrGuideApi.uploadImage(imageUrl, currentUser.username);
-      setCurrentUser((currentUser) => ({
-        ...currentUser,
-        image_url: image.image_url,
-      }));
-      return { success: true };
-    } catch (err) {
-      console.error("uploadImage failed", err);
-      return { success: false, err };
+  async function getLikedMatches() {
+    if (token) {
+      try {
+        let { username, user_id } = jwt.decode(token);
+        console.log("username", username, "user_id", user_id);
+        let likedMatches = await UrGuideApi.getLikedMatches(username, user_id);
+        setPotentialMatches({
+          data: likedMatches,
+          isLoaded: true,
+        });
+      } catch (err) {
+        console.error("App loadPotentialMatches error", err);
+        setPotentialMatches((currPotentialMatches) => ({
+          ...currPotentialMatches,
+          isLoaded: true,
+        }));
+      }
+    } else {
+      setPotentialMatches({
+        data: null,
+        isLoaded: true,
+      });
     }
   }
+
+  // async function matchUsers(currentUser) {
+  //   try {
+  //     let potentialMatches = await UrGuideApi.matchList(currentUser.username);
+  //     console.log("potentialMatches", potentialMatches);
+  //     setPotentialMatches(potentialMatches);
+  //   } catch (err) {
+  //     console.error("matchUsers failed", err);
+  //   }
+  // }
+
+  /** Handle URL image upload -- not working yet  */
+  // async function uploadImage(imageUrl) {
+  //   try {
+  //     let image = await UrGuideApi.uploadImage(imageUrl, currentUser.username);
+  //     setCurrentUser((currentUser) => ({
+  //       ...currentUser,
+  //       image_url: image.image_url,
+  //     }));
+  //     return { success: true };
+  //   } catch (err) {
+  //     console.error("uploadImage failed", err);
+  //     return { success: false, err };
+  //   }
+  // }
 
   async function likeUser(username, user_id) {
     try {
@@ -260,12 +295,12 @@ function App() {
   async function dislikeMatch(username, user_id) {
     try {
       await UrGuideApi.dislikeMatch(username, user_id);
-      let unlikePotentialMatches = await UrGuideApi.dislikeMatch(
+      let dislikeMatch = await UrGuideApi.dislikeMatch(
         currentUser.username,
         // username,
         user_id
       );
-      setPotentialMatches(unlikePotentialMatches);
+      setPotentialMatches(dislikeMatch);
     } catch (err) {
       console.error("unlikeUser failed", err);
     }
@@ -279,11 +314,9 @@ function App() {
           setCurrentUser,
           potentialMatches,
           setPotentialMatches,
-
-          // matchUsers,
-          // getLikedMatches,
-          // likeUser,
-          // dislikeUser,
+          getLikedMatches,
+          likeUser,
+          dislikeMatch,
         }}
       >
         <BrowserRouter>
@@ -292,15 +325,13 @@ function App() {
             currentUser={currentUser.data}
             login={login}
             signup={signup}
-            uploadImage={uploadImage}
-            like={likeUser}
-            dislike={dislikeMatch}
+            // uploadImage={uploadImage}
+            // like={likeUser}
+            // dislike={dislikeMatch}
 
             // potentialMatches={potentialMatches}
             // matchUsers={matchUsers}
             // getLikedMatches={getLikedMatches}
-            // likeUser={likeMatch}
-            // unlikeUser={unlikeUser}
           />
         </BrowserRouter>
       </UserContext.Provider>
