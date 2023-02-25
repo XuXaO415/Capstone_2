@@ -162,7 +162,11 @@ class UrGuideApi {
   /** Return info on clicked on match */
 
   static async getMatchInfo(currentUser, user_id) {
-    let res = await this.request(`users/${currentUser}/info/${user_id}`, {});
+    let res = await this.request(
+      `users/${currentUser}/info/${user_id}`,
+      {},
+      "GET"
+    );
     return res.user;
   }
 }

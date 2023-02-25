@@ -336,39 +336,6 @@ class User {
   //   return users;
   // }
 
-  /** GET Matches for user based on user_id */
-
-  // static async getMatches(username, id) {
-  //   const result = await db.query(
-  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-  //           FROM users
-  //           ORDER BY RANDOM()
-  //           LIMIT 3`,
-  //     [username, id]
-  //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
-  // }
-
-  // static async userMatches(currentUser, user_id) {
-  //   const result = await db.query(
-  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-  //         FROM users
-  //         WHERE id != $1 AND id NOT IN (
-  //           SELECT liked_id FROM likes WHERE user_id = $2
-  //         ) AND id NOT IN (
-  //           SELECT liked_id FROM dislikes WHERE user_id = $2
-  //         )
-  //         ORDER BY RANDOM()
-  //         LIMIT 3`,
-  //     [currentUser, user_id]
-  //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
-  // }
-
   // static async userMatches(user_id) {
   //   const result = await db.query(
   //     `SELECT id AS "user_id", username
@@ -378,19 +345,43 @@ class User {
   //   );
   //   let users = result.rows;
   //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;s
+  //   return users;
   // }
+
+  /** This kinda works */
+  // static async matchUsers() {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
+  //           FROM users
+  //           ORDER BY RANDOM()
+  //           LIMIT 3`
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
+  /** Match users based on matching hobbies and interests */
 
   static async matchUsers() {
     const result = await db.query(
-      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-            FROM users
-            ORDER BY RANDOM()
-            LIMIT 3`
+      `SELECT * FROM users ORDER BY RANDOM() LIMIT 5`
+      // `SELECT id AS "user_id", username, image_url AS "imageUrl", hobbies, interests
+      // FROM users
+      // ORDER BY RANDOM() LIMIT 5`
     );
     let users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
     return users;
+  }
+
+  /** Get a user by id */
+
+  static async getUserById(id) {
+    const result = await db.query(`SELECT id FROM users WHERE id = $1`, [id]);
+    const user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
   }
 
   // static async getUserById(user_id) {
