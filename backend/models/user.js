@@ -393,6 +393,18 @@ class User {
     return users;
   }
 
+  // static async getUserById(user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username
+  //           FROM users
+  //           WHERE id = $1`,
+  //     [user_id]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${user_id}`);
+  //   return user;
+  // }
+
   /** GET a list of potential matches */
 
   // static async getUsers(id) {
@@ -458,18 +470,18 @@ class User {
   //   return users;
   // }
 
-  static async getUserLikes(id) {
-    const result = await db.query(
-      `SELECT * FROM likes
-          WHERE liked_user IS NOT NULL
-          // AND user_id = $1 AND liked_user = $2
-          ORDER BY user_id`,
-      [id]
-    );
-    let users = result.rows;
-    if (!users) throw new NotFoundError(`No users found`);
-    return users;
-  }
+  // static async getUserLikes(id) {
+  //   const result = await db.query(
+  //     `SELECT * FROM likes
+  //         WHERE liked_user IS NOT NULL
+  //         // AND user_id = $1 AND liked_user = $2
+  //         ORDER BY user_id`,
+  //     [id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
 
   /** User likes a match */
   static async likeMatch(id, username) {
