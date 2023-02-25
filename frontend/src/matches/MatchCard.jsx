@@ -26,8 +26,7 @@ function MatchCard({
   interests,
   hobbies,
   like,
-  dislikeUser,
-  info,
+  dislike,
 }) {
   const { currentUser } = useContext(UserContext);
   // const [matchInfo, setMatchInfo] = useState(null);
@@ -54,36 +53,37 @@ function MatchCard({
   //   id
   // );
 
-  /** Working */
-
-  /** Handle onClick for liking a user */
-
-  // function handleLike(e) {
-  //   try {
-  //     e.preventDefault();
-  //     like(username);
-  //   } catch (err) {
-  //     console.error("MatchCard like: problem with like", err);
-  //   }
-  // }
+  /** Handle user like button when user likes a user */
+  function handleLike(e) {
+    e.preventDefault();
+    console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+    like(user_id);
+  }
 
   /** Handle onClick for disliking a user */
   function handleDislike(e) {
     try {
       e.preventDefault();
-      dislikeUser(user_id);
+      dislike(user_id);
     } catch (err) {
       console.error("MatchCard dislike: problem with dislike", err);
     }
   }
 
-  /** Handle user like button when user likes a user */
-  function handleLike(e) {
-    e.preventDefault();
-    console.log("MatchCard handleLike: user_id=", user_id, "was liked");
-    // console.debug("MatchCard handleLike: like=", like);
-    like(user_id);
-  }
+  // const handleDislike = useCallback(
+  //   async (e) => {
+  //     e.preventDefault();
+  //     console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
+  //     try {
+  //       // await UrGuideApi.removeMatch(currentUser.username, user_id);
+  //       await UrGuideApi.dislikeMatch(currentUser.username, user_id);
+  //       dislike(user_id);
+  //     } catch (err) {
+  //       console.error("MatchCard dislike: problem with dislike", err);
+  //     }
+  //   },
+  //   [currentUser.username, user_id, dislike]
+  // );
 
   return (
     <div className="MatchCard card" to={`${username}/matches`}>
@@ -104,7 +104,7 @@ function MatchCard({
           {image_url && (
             <img
               src={image_url}
-              alt={`User {first_name}`}
+              alt={`User {image_url} profile}`}
               className="float-end ms-5"
             />
           )}
@@ -112,8 +112,8 @@ function MatchCard({
         <p>
           Name: {first_name} {last_name}
         </p>
-        <p>City: {city}</p>
-        <p>State: {state}</p>
+        {/* <p>City: {city}</p>
+        <p>State: {state}</p> */}
         <p>Interests: {interests}</p>
         <p>Hobbies: {hobbies}</p>
         {/* <Button color="primary" size="sm" onClick={() => like(user_id)}> */}

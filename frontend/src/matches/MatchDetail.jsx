@@ -19,14 +19,13 @@ function MatchDetail() {
   const [matchInfo, setMatchInfo] = useState(null);
 
   console.debug(
-    "MatchDetail",
+    "MatchDetail=",
+    "matchInfo=",
     "currentUser=",
     currentUser,
     "user_id=",
     user_id
   );
-
-  console.log("currentUser.username=", currentUser.username);
 
   useEffect(
     function getPotentialUserMatches() {
@@ -47,6 +46,21 @@ function MatchDetail() {
     [user_id, currentUser.username]
   );
 
+  // const getMatchInfo = () => {
+  //   async function getMatchInfo() {
+  //     let matchInfo = await UrGuideApi.getMatchInfo(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     console.debug(
+  //       "MatchDetail useEffect getPotentialMatches",
+  //       "matchInfo=",
+  //       matchInfo
+  //     );
+  //   }
+  //   getMatchInfo();
+  // };
+
   if (!matchInfo) return <p>Loading...</p>;
 
   return (
@@ -55,6 +69,7 @@ function MatchDetail() {
         <h3 className="text-center">
           Hey {currentUser.username}, you matched with: {matchInfo.username}
         </h3>
+
         <Card.Img variant="top" src={matchInfo.image_url} />
         <Card.Body>
           <Card.Title>

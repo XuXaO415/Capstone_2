@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, usePush } from "react";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import MatchDetail from "./MatchDetail";
+import Alert from "../common/Alert";
 import MatchCard from "./MatchCard";
 
 /** Show page with a list of potential matches
@@ -21,8 +22,6 @@ function MatchList() {
   const { user_id } = useState([]);
   const [matches, setMatches] = useState([]);
   const [matchInfo, setMatchInfo] = useState(null);
-
-  const [likedMatches, setLikedMatches] = useState(null);
 
   console.debug(
     "MatchList",
@@ -73,8 +72,6 @@ function MatchList() {
   //   [currentUser.username]
   // );
 
-  /** Define matches */
-
   function likeMatch(user_id) {
     async function likeUser() {
       try {
@@ -111,22 +108,25 @@ function MatchList() {
         console.error(err);
       }
     }
-    // dislikeMatch(user_id);
-    return dislikeMatch(user_id) && window.location.reload();
+    // return dislikeMatch(user_id) && window.location.reload();
+    return dislikeMatch(user_id);
   }
 
-  // function dislike(user_id) {
-  //   async function dislikeUser() {
-  //     let matches = await UrGuideApi.dislikeMatch(
-  //       currentUser.username,
-  //       user_id
-  //     );
-  //     setMatches(matches);
+  // function removeMatch(user_id) {
+  //   async function removeMatch() {
+  //     try {
+  //       let removeMatch = await UrGuideApi.removeMatch(
+  //         currentUser.username,
+  //         user_id
+  //       );
+  //       console.log("Removed match=", (removeMatch = user_id));
+  //       setMatches(removeMatch);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
   //   }
-  //   return dislikeUser();
+  //   return removeMatch(user_id);
   // }
-
-  //remove dislike user from match list
 
   if (!matches) return <p>Loading...</p>;
 
@@ -142,10 +142,10 @@ function MatchList() {
           // id={m.id}
           username={m.username}
           first_name={m.firstName}
-          last_name={m.lastName}
+          // last_name={m.lastName}
           matchInfo={m.matchInfo}
-          city={m.city}
-          state={m.state}
+          // city={m.city}
+          // state={m.state}
           interests={m.interests}
           hobbies={m.hobbies}
           setMatchInfo={setMatchInfo}
@@ -153,11 +153,13 @@ function MatchList() {
           image_url={m.image_url}
           like={likeMatch}
           dislike={dislikeMatch}
+          // remove={removeMatch}
         ></MatchCard>
       ))}
       {matchInfo && (
         <MatchDetail
           // username={currentUser.username}
+          getMatchInfo={matchInfo}
           matchInfo={matchInfo}
           setMatchInfo={setMatchInfo}
           matches={matches}
