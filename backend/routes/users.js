@@ -247,23 +247,22 @@ router.get("/:username/matches", async function (req, res, next) {
 //   }
 // });
 
-router.get("/:username/matches/:user_id", async function (req, res, next) {
+router.get("/:username/matches/users", async function (req, res, next) {
   try {
     let currentUser = await User.get(req.params.username);
-
     let users = await User.matchUsers(currentUser.username, req.params.user_id);
 
     console.log(
       "currentUser=",
-      req.params.username,
-      "user_id=",
-      req.params.user_id
+      req.params.username
+      // "user_id=",
+      // req.params.user_id
     );
 
     return res.json({
       currentUser: req.params.username,
       users,
-      user_id: req.params.user_id,
+      // user_id: req.params.user_id,
     });
   } catch (err) {
     return next(err);
@@ -272,24 +271,22 @@ router.get("/:username/matches/:user_id", async function (req, res, next) {
 
 /** Route for Posting User match */
 
-router.post("/:username/matches/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.matchUsers(
-      // req.body,
-      req.username,
-      req.params.user_id
-    );
-    return res.json({
-      user,
-      username: req.params.username,
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** When a user wants to find out more information on a matched user */
+// router.post("/:username/matches/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.matchUsers(
+//       // req.body,
+//       req.username,
+//       req.params.user_id
+//     );
+//     return res.json({
+//       user,
+//       username: req.params.username,
+//       user_id: req.params.user_id,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
 
 router.get("/:username/info/:user_id", async function (req, res, next) {
   try {

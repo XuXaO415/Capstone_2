@@ -383,7 +383,6 @@ class User {
   }
 
   /** Get a user by id */
-
   // static async getUserById(id) {
   //   const result = await db.query(`SELECT id FROM users WHERE id = $1`, [id]);
   //   const user = result.rows[0];
@@ -401,22 +400,6 @@ class User {
   //   const user = result.rows[0];
   //   if (!user) throw new NotFoundError(`No user: ${user_id}`);
   //   return user;
-  // }
-
-  /** GET a list of potential matches */
-
-  // static async getUsers(id) {
-  //   const result = await db.query(
-  //     `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-  //           FROM users
-  //           WHERE id != $1
-  //           ORDER BY RANDOM()
-  //           LIMIT 3`,
-  //     [id]
-  //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
   // }
 
   /** Get a user by their ID */
@@ -472,8 +455,6 @@ class User {
   //   return users;
   // }
 
-  //** Retrieve from urguide database user likes */
-
   /** User likes a match */
   // static async likeMatch(id, username) {
   //   const result = await db.query(
@@ -526,21 +507,6 @@ class User {
     );
     const user = result.rows[0];
     if (!user) throw new NotFoundError(`No user: ${id}`);
-    return user;
-  }
-
-  /** Delete Match */
-
-  static async deleteMatch(id) {
-    const result = await db.query(
-      `DELETE FROM likes
-            WHERE user_id = $1
-            RETURNING user_id`,
-      [id]
-    );
-    const user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user: ${id}`);
-
     return user;
   }
 
