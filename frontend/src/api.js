@@ -115,8 +115,8 @@ class UrGuideApi {
 
   /** Setup for potential matches */
 
-  static async getPotentialMatches(currentUser, user_id) {
-    let res = await this.request(`users/${currentUser}/matches/${user_id}`, {});
+  static async getPotentialMatches(currentUser) {
+    let res = await this.request(`users/${currentUser}/matches/users`, {});
     // console.log("currentUser=", currentUser, "user_id=", user_id);
     return res.users;
   }
@@ -135,7 +135,7 @@ class UrGuideApi {
     return res.status;
   }
 
-  /** Setup disliking a matched user */
+  /**  disliking a matched user -- POST to db */
 
   static async dislikeMatch(currentUser, user_id) {
     let res = await this.request(
@@ -146,6 +146,15 @@ class UrGuideApi {
     console.log("POST was successful and", { user_id }, "was disliked");
     return res.status;
   }
+
+  // static async removeMatch(currentUser, user_id) {
+  //   let res = await this.request(
+  //     `users/${currentUser}/matches/delete/${user_id}`,
+  //     {},
+  //     "DELETE"
+  //   );
+  //   return res.status;
+  // }
 
   /** Setup for return all user's liked matches */
 
