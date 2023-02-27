@@ -472,19 +472,6 @@ class User {
   //   return users;
   // }
 
-  // static async getUserLikes(id) {
-  //   const result = await db.query(
-  //     `SELECT * FROM likes
-  //         WHERE liked_user IS NOT NULL
-  //         // AND user_id = $1 AND liked_user = $2
-  //         ORDER BY user_id`,
-  //     [id]
-  //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
-  // }
-
   //** Retrieve from urguide database user likes */
 
   /** User likes a match */
