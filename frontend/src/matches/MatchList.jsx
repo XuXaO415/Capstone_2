@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, usePush } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import MatchDetail from "./MatchDetail";
@@ -18,8 +18,9 @@ import MatchCard from "./MatchCard";
 
 function MatchList() {
   // const { currentUser, user_id } = useContext(UserContext);
+
   const { currentUser } = useContext(UserContext);
-  const { user_id } = useState([]);
+  const [user_id] = useState(null);
   const [matches, setMatches] = useState([]);
   const [matchInfo, setMatchInfo] = useState(null);
 
@@ -49,8 +50,27 @@ function MatchList() {
       }
       getPotentialMatches();
     },
-    [currentUser.username, user_id]
+    [currentUser, user_id]
   );
+
+  // useEffect(
+  //   function getPotentialUserMatches() {
+  //     async function getPotentialMatches() {
+  //       let matches = await UrGuideApi.getPotentialMatches(
+  //         currentUser.username,
+  //         user_id
+  //       );
+  //       console.debug(
+  //         "MatchList useEffect getPotentialMatches",
+  //         "matches=",
+  //         matches
+  //       );
+  //       setMatches(matches);
+  //     }
+  //     getPotentialMatches();
+  //   },
+  //   [currentUser.username, user_id]
+  // );
 
   //** Show user their liked matches */
 
@@ -165,30 +185,6 @@ function MatchList() {
           matches={matches}
         />
       )}
-
-      {/* 
-      <h3 className="text-center">Your Liked Matches</h3>
-      {likedMatches && (
-        <div className="row">
-          {likedMatches.map((m) => (
-            <MatchCard
-              key={m.username}
-              user_id={m.user_id}
-              // id={m.id}
-              username={m.username}
-              first_name={m.firstName}
-              last_name={m.lastName}
-              matchInfo={m.matchInfo}
-              city={m.city}
-              state={m.state}
-              interests={m.interests}
-              hobbies={m.hobbies}
-              setMatchInfo={setMatchInfo}
-              matches={setMatches}
-              image_url={m.image_url}
-              dislike={dislike}
-            ></MatchCard>
-          ))} */}
     </div>
   );
 }
