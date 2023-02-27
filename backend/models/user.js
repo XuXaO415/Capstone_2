@@ -88,7 +88,7 @@ class User {
 
   static async get(username) {
     const userRes = await db.query(
-      `SELECT username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
+      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
             FROM users
             WHERE username = $1`,
       [username]
@@ -365,7 +365,7 @@ class User {
     const result = await db.query(
       //This query show user images
       // `SELECT * FROM users ORDER BY RANDOM() LIMIT 5`
-      `SELECT id AS "user_id", username, "first_name" AS "firstName", image_url AS "imageUrl", hobbies, interests
+      `SELECT id AS "user_id", username, "first_name", image_url, hobbies, interests
       FROM users
       ORDER BY RANDOM() LIMIT 5`
     );
@@ -470,12 +470,12 @@ class User {
 
   /** This call works better than the above code */
 
-  static async likeMatch(id) {
+  static async likeMatch(id, user_id) {
     const result = await db.query(
-      `INSERT INTO likes (user_id)
-            VALUES ($1)
+      `INSERT INTO likes (user_id, liked_user )
+            VALUES ($1, $2)
             RETURNING user_id`,
-      [id]
+      [id, user_id]
     );
     const user = result.rows[0];
     if (!user) throw new NotFoundError(`No user: ${id}`);
