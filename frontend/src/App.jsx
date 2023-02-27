@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { BrowserRouter } from "react-router-dom";
 import UrGuideApi from "./api";
 import useLocalStorage from "./hooks/useLocalStorage";
@@ -61,43 +60,43 @@ function App() {
     [token]
   );
 
-  /** Handle loading user matches **/
+  /** Handle loading user matches -- UPDATE, this is causing too many calls **/
 
-  useEffect(
-    function loadPotentialMatches() {
-      console.debug("App loadPotentialMatches loading...", Boolean(token));
-      async function getPotentialMatches() {
-        if (token) {
-          try {
-            let { username, user_id } = jwt.decode(token);
-            console.log("decode token:", { username, user_id });
-            // console.log("currentUser=", currentUser, "user_id", user_id);
-            let potentialMatches = await UrGuideApi.getPotentialMatches(
-              username,
-              user_id
-            );
-            setPotentialMatches({
-              data: potentialMatches,
-              isLoaded: true,
-            });
-          } catch (err) {
-            console.error("App loadPotentialMatches error", err);
-            setPotentialMatches((currPotentialMatches) => ({
-              ...currPotentialMatches,
-              isLoaded: true,
-            }));
-          }
-        } else {
-          setPotentialMatches({
-            data: null,
-            isLoaded: true,
-          });
-        }
-      }
-      getPotentialMatches();
-    },
-    [token]
-  );
+  // useEffect(
+  //   function loadPotentialMatches() {
+  //     console.debug("App loadPotentialMatches loading...", Boolean(token));
+  //     async function getPotentialMatches() {
+  //       if (token) {
+  //         try {
+  //           let { username, user_id } = jwt.decode(token);
+  //           console.log("decode token:", { username, user_id });
+  //           // console.log("currentUser=", currentUser, "user_id", user_id);
+  //           let potentialMatches = await UrGuideApi.getPotentialMatches(
+  //             username,
+  //             user_id
+  //           );
+  //           setPotentialMatches({
+  //             data: potentialMatches,
+  //             isLoaded: true,
+  //           });
+  //         } catch (err) {
+  //           console.error("App loadPotentialMatches error", err);
+  //           setPotentialMatches((currPotentialMatches) => ({
+  //             ...currPotentialMatches,
+  //             isLoaded: true,
+  //           }));
+  //         }
+  //       } else {
+  //         setPotentialMatches({
+  //           data: null,
+  //           isLoaded: true,
+  //         });
+  //       }
+  //     }
+  //     getPotentialMatches();
+  //   },
+  //   [token]
+  // );
 
   /** Handle site-wide user logout */
   function logout() {
