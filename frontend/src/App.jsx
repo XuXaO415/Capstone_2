@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import { BrowserRouter } from "react-router-dom";
 import UrGuideApi from "./api";
-
 import useLocalStorage from "./hooks/useLocalStorage";
 import Navigation from "./Nav/Navigation";
 import UserContext from "./context/UserContext";
@@ -37,9 +36,7 @@ function App() {
         if (token) {
           try {
             let { username } = jwt.decode(token);
-
             UrGuideApi.token = token;
-
             let getUser = await UrGuideApi.getCurrentUser(username);
             setCurrentUser({
               data: getUser,
@@ -73,12 +70,11 @@ function App() {
         if (token) {
           try {
             let { username, user_id } = jwt.decode(token);
-            console.log("username", username, "user_id", user_id);
+            console.log("decode token:", { username, user_id });
+            // console.log("currentUser=", currentUser, "user_id", user_id);
             let potentialMatches = await UrGuideApi.getPotentialMatches(
               username,
               user_id
-              // currentUser.username,
-              // user_id
             );
             setPotentialMatches({
               data: potentialMatches,
@@ -102,109 +98,6 @@ function App() {
     },
     [token]
   );
-
-  // async function getLikedMatches() {
-  //   if (token) {
-  //     try {
-  //       let { username, user_id } = jwt.decode(token);
-  //       console.log("username", username, "user_id", user_id);
-  //       let likedMatches = await UrGuideApi.getLikedMatches(username, user_id);
-  //       likedMatches({
-  //         data: likedMatches,
-  //         isLoaded: true,
-  //       });
-  //     } catch (err) {
-  //       console.error("App loadPotentialMatches error", err);
-  //       getLikedMatches((currLikedMatches) => ({
-  //         ...currLikedMatches,
-  //         isLoaded: true,
-  //       }));
-  //     }
-  //   } else {
-  //     getLikedMatches({
-  //       data: null,
-  //       isLoaded: true,
-  //     });
-  //   }
-  // }
-
-  // function getLikedMatches() {
-  //   async function getLikedMatches() {
-  //     if (token) {
-  //       try {
-  //         let user_id;
-  //         console.log("user_id", user_id);
-  //         let likedMatches = await UrGuideApi.getLikedMatches(
-  //           currentUser,
-  //           (user) => {
-  //             return (user_id = user.user_id);
-  //           }
-  //         );
-  //         likedMatches({
-  //           data: likedMatches,
-  //           isLoaded: true,
-  //         });
-  //       } catch (err) {
-  //         console.error("App loadPotentialMatches error", err);
-  //         getLikedMatches((currLikedMatches) => ({
-  //           ...currLikedMatches,
-  //           isLoaded: true,
-  //         }));
-  //       }
-  //     } else {
-  //       getLikedMatches({
-  //         data: null,
-  //         isLoaded: true,
-  //       });
-  //     }
-  //   }
-  //   getLikedMatches();
-  // }
-
-  // async function matchUsers(currentUser) {
-  //   try {
-  //     let potentialMatches = await UrGuideApi.matchList(currentUser.username);
-  //     console.log("potentialMatches", potentialMatches);
-  //     setPotentialMatches(potentialMatches);
-  //   } catch (err) {
-  //     console.error("matchUsers failed", err);
-  //   }
-  // }
-
-  // useEffect(
-  //   function loadLikedMatches() {
-  //     console.debug("App loadLikedMatches", "loadLikedMatches");
-  //     async function getLikedMatches() {
-  //       if (token) {
-  //         try {
-  //           let { username, user_id } = jwt.decode(token);
-  //           console.log("username", username, "user_id", user_id);
-  //           let likedMatches = await UrGuideApi.getLikedMatches(
-  //             username,
-  //             user_id
-  //           );
-  //           setPotentialMatches({
-  //             data: likedMatches,
-  //             isLoaded: true,
-  //           });
-  //         } catch (err) {
-  //           console.error("App loadLikedMatches error", err);
-  //           setPotentialMatches((currPotentialMatches) => ({
-  //             ...currPotentialMatches,
-  //             isLoaded: true,
-  //           }));
-  //         }
-  //       } else {
-  //         setPotentialMatches({
-  //           data: null,
-  //           isLoaded: true,
-  //         });
-  //       }
-  //     }
-  //     getLikedMatches();
-  //   },
-  //   [token]
-  // );
 
   /** Handle site-wide user logout */
   function logout() {
@@ -252,16 +145,6 @@ function App() {
       });
     }
   }
-
-  // async function matchUsers(currentUser) {
-  //   try {
-  //     let potentialMatches = await UrGuideApi.matchList(currentUser.username);
-  //     console.log("potentialMatches", potentialMatches);
-  //     setPotentialMatches(potentialMatches);
-  //   } catch (err) {
-  //     console.error("matchUsers failed", err);
-  //   }
-  // }
 
   /** Handle URL image upload -- not working yet  */
   // async function uploadImage(imageUrl) {
