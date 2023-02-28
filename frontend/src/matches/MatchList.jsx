@@ -21,7 +21,7 @@ function MatchList() {
 
   const { currentUser } = useContext(UserContext);
   const [user_id] = useState(null);
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
 
   console.debug(
@@ -128,25 +128,24 @@ function MatchList() {
         console.error(err);
       }
     }
-    // return dislikeMatch(user_id) && window.location.reload();
     return dislikeMatch(user_id);
   }
 
-  // function removeMatch(user_id) {
-  //   async function removeMatch() {
-  //     try {
-  //       let removeMatch = await UrGuideApi.removeMatch(
-  //         currentUser.username,
-  //         user_id
-  //       );
-  //       console.log("Removed match=", (removeMatch = user_id));
-  //       setMatches(removeMatch);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }
-  //   return removeMatch(user_id);
-  // }
+  function removeMatch(user_id) {
+    async function removeMatch() {
+      try {
+        let removeMatch = await UrGuideApi.removeMatch(
+          currentUser.username,
+          user_id
+        );
+        console.log("Removed match=", (removeMatch = user_id));
+        setMatches(removeMatch);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    return removeMatch(user_id);
+  }
 
   if (!matches) return <p>Loading...</p>;
 
@@ -155,27 +154,28 @@ function MatchList() {
       <h3 className="text-center">
         Hey {currentUser.username}, here are some of your matches
       </h3>
-      {matches.map((m) => (
-        <MatchCard
-          key={m.username}
-          user_id={m.user_id}
-          // id={m.id}
-          username={m.username}
-          first_name={m.firstName}
-          // last_name={m.lastName}
-          matchInfo={m.matchInfo}
-          // city={m.city}
-          // state={m.state}
-          interests={m.interests}
-          hobbies={m.hobbies}
-          setMatchInfo={setMatchInfo}
-          matches={setMatches}
-          image_url={m.image_url}
-          like={likeMatch}
-          dislike={dislikeMatch}
-          // remove={removeMatch}
-        ></MatchCard>
-      ))}
+      {Array.isArray(matches) &&
+        matches.map((m) => (
+          <MatchCard
+            key={m.username}
+            user_id={m.user_id}
+            // id={m.id}
+            username={m.username}
+            first_name={m.first_name}
+            last_name={m.last_name}
+            matchInfo={m.matchInfo}
+            // city={m.city}
+            // state={m.state}
+            interests={m.interests}
+            hobbies={m.hobbies}
+            setMatchInfo={setMatchInfo}
+            // matches={setMatches}
+            image_url={m.image_url}
+            like={likeMatch}
+            dislike={dislikeMatch}
+            remove={removeMatch}
+          ></MatchCard>
+        ))}
       {matchInfo && (
         <MatchDetail
           // username={currentUser.username}
