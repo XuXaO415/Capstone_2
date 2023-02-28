@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import MatchDetail from "./MatchDetail";
@@ -128,7 +129,9 @@ function MatchList() {
         console.error(err);
       }
     }
-    return dislikeMatch(user_id);
+    // return dislikeMatch(user_id);
+    dislikeMatch(user_id);
+    // return <Link to={`/users/${currentUser.username}/matches`} />;
   }
 
   function removeMatch(user_id) {
@@ -144,7 +147,9 @@ function MatchList() {
         console.error(err);
       }
     }
-    return removeMatch(user_id);
+    // return removeMatch(user_id);
+    removeMatch(user_id);
+    <Alert type="danger" messages={["Match removed"]} />;
   }
 
   if (!matches) return <p>Loading...</p>;
@@ -163,7 +168,7 @@ function MatchList() {
             username={m.username}
             first_name={m.first_name}
             last_name={m.last_name}
-            matchInfo={m.matchInfo}
+            // matchInfo={m.matchInfo}
             // city={m.city}
             // state={m.state}
             interests={m.interests}

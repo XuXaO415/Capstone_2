@@ -38,41 +38,17 @@ function MatchCard({
   }
 
   /** Handle onClick for disliking a user */
-  // function handleDislike(e) {
-  //   try {
-  //     e.preventDefault();
-  //     dislike(user_id);
-  //   } catch (err) {
-  //     console.error("MatchCard dislike: problem with dislike", err);
-  //   }
-  // }
-
-  /** Handle onClick for disliking a user */
-  async function handleDislike(e) {
+  function handleDislike(e) {
     try {
       e.preventDefault();
-      console.log(
-        "MatchCard handleDislike: currentUser=",
-        currentUser.username,
-        "disliked user_id:",
-        user_id
-      );
-      let dislikeAndRemoveMatch = await UrGuideApi.removeMatch(
-        currentUser.username,
-        user_id
-      );
-      console.log(
-        "MatchCard handleDislike: dislikeAndRemoveMatch=",
-        dislikeAndRemoveMatch
-      );
       dislike(user_id);
     } catch (err) {
-      console.error("MatchCard dislike: problem with dislike", err);
+      console.log("MatchCard dislike: problem with dislike", err);
     }
   }
 
   return (
-    <div className="MatchCard card" to={`${username}/matches`}>
+    <div className="MatchCard card" to={`${username}/matches `}>
       {/* <Link to={`users/${currentUser.username}/info/${user_id}`}> */}
       {/* <Link to={`users/${currentUser.username}/info/${username}`}> */}
       {/* <Link to={`users/${currentUser.username}/matches/${username}`}> */}
@@ -90,7 +66,7 @@ function MatchCard({
           {image_url && (
             <img
               src={image_url}
-              alt={`User {image_url} profile}`}
+              alt={`User ${first_name} ${last_name}}`}
               className="float-end ms-5"
             />
           )}
