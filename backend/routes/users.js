@@ -361,42 +361,27 @@ router.post(
   }
 );
 
-/** Route for disliking a user */
-
-// router.post(
-//   "/:username/matches/dislike/:user_id",
-//   async function (req, res, next) {
-//     try {
-//       let currentUser = await User.get(req.params.username);
-//       let deletedUser = await User.getUserById(
-//         req.params.user_id
-//         // req.params.username
-//       );
-//       // let user = await User.deleteMatch(
-//       //   currentUser.username,
-
-//       //   req.params.user_id
-//       // );
-//       console.log(
-//         "currentUser=",
-//         currentUser.username,
-//         "user=",
-//         deletedUser,
-//         "user_id=",
-//         req.params.user_id
-//       );
-//       return res.json({
-//         // user,
-//         currentUser,
-//         // user: req.params.user_id,
-//         user: deletedUser,
-//         user_id: req.params.user_id,
-//       });
-//     } catch (err) {
-//       return next(err);
-//     }
-//   }
-// );
+/** Update user match list after user dislikes user */
+router.post(
+  "/:username/matches/dislike/:user_id/removed",
+  async function (req, res, next) {
+    try {
+      let user = await User.removeDislikedMatch(
+        req.params.username,
+        req.params.user_id
+      );
+      return res.json({
+        user,
+        username: req.params.username,
+        user_id: req.params.user_id,
+      });
+    } catch (err) {
+      if (err.res) {
+        return res.status(err.res.status).json(err.res.data);
+      }
+    }
+  }
+);
 
 router.get("/:username/matches/liked", async function (req, res, next) {
   try {
@@ -419,26 +404,5 @@ router.get("/:username/matches/liked", async function (req, res, next) {
     return next(err);
   }
 });
-
-// router.post(
-//   "/:username/matches/dislike/:user_id",
-//   async function (req, res, next) {
-//     try {
-//       let user = await User.dislikeMatch(
-//         req.body,
-//         req.params.username,
-//         req.params.user_id
-//       );
-//       console.log(req.params.user_id);
-//       return res.json({
-//         user,
-//         currentUser: req.params.username,
-//         user_id: req.params.id,
-//       });
-//     } catch (err) {
-//       return next(err);
-//     }
-//   }
-// );
 
 module.exports = router;
