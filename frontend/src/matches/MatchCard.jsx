@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import UserContext from "../context/UserContext";
@@ -29,29 +29,6 @@ function MatchCard({
   dislike,
 }) {
   const { currentUser } = useContext(UserContext);
-  // const [matchInfo, setMatchInfo] = useState(null);
-
-  // console.debug(
-  //   "MatchCard",
-  //   "username=",
-  //   "first_name=",
-  //   first_name,
-  //   "last_name=",
-  //   "city=",
-  //   city,
-  //   "state=",
-  //   state,
-  //   "interests=",
-  //   interests,
-  //   "hobbies=",
-  //   hobbies,
-  //   "like=",
-  //   like,
-  //   "dislike=",
-  //   dislike,
-  //   "id=",
-  //   id
-  // );
 
   /** Handle user like button when user likes a user */
   function handleLike(e) {
@@ -61,29 +38,38 @@ function MatchCard({
   }
 
   /** Handle onClick for disliking a user */
-  function handleDislike(e) {
+  // function handleDislike(e) {
+  //   try {
+  //     e.preventDefault();
+  //     dislike(user_id);
+  //   } catch (err) {
+  //     console.error("MatchCard dislike: problem with dislike", err);
+  //   }
+  // }
+
+  /** Handle onClick for disliking a user */
+  async function handleDislike(e) {
     try {
       e.preventDefault();
+      console.log(
+        "MatchCard handleDislike: currentUser=",
+        currentUser.username,
+        "disliked user_id:",
+        user_id
+      );
+      let dislikeAndRemoveMatch = await UrGuideApi.removeMatch(
+        currentUser.username,
+        user_id
+      );
+      console.log(
+        "MatchCard handleDislike: dislikeAndRemoveMatch=",
+        dislikeAndRemoveMatch
+      );
       dislike(user_id);
     } catch (err) {
       console.error("MatchCard dislike: problem with dislike", err);
     }
   }
-
-  // const handleDislike = useCallback(
-  //   async (e) => {
-  //     e.preventDefault();
-  //     console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
-  //     try {
-  //       // await UrGuideApi.removeMatch(currentUser.username, user_id);
-  //       await UrGuideApi.dislikeMatch(currentUser.username, user_id);
-  //       dislike(user_id);
-  //     } catch (err) {
-  //       console.error("MatchCard dislike: problem with dislike", err);
-  //     }
-  //   },
-  //   [currentUser.username, user_id, dislike]
-  // );
 
   return (
     <div className="MatchCard card" to={`${username}/matches`}>
@@ -121,7 +107,6 @@ function MatchCard({
           Like
         </Button>{" "}
         <Button color="danger" size="sm" onClick={handleDislike}>
-          {/* <Button color="danger" size="sm" onClick={() => dislike(user_id)}> */}
           Dislike
         </Button>
       </div>

@@ -147,14 +147,16 @@ class UrGuideApi {
     return res.status;
   }
 
-  // static async removeMatch(currentUser, user_id) {
-  //   let res = await this.request(
-  //     `users/${currentUser}/matches/delete/${user_id}`,
-  //     {},
-  //     "DELETE"
-  //   );
-  //   return res.status;
-  // }
+  /**  remove a matched user -- DELETE from db */
+
+  static async removeMatch(currentUser, user_id) {
+    let res = await this.request(
+      `users/${currentUser}/matches/dislike/${user_id}/removed`,
+      {},
+      "DELETE"
+    );
+    return res.status;
+  }
 
   /** Setup for return all user's liked matches */
 
