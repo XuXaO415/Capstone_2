@@ -95,29 +95,24 @@ class UrGuideApi {
     return res.user;
   }
 
-  // static async getPotentialMatches(currentUser) {
-  //   let res = await this.request(`users/${currentUser}/matches`, {});
-  //   console.log("currentUser=", currentUser);
-  //   return res.users;
-  // }
-
-  // static async getUsers(currentUser) {
-  //   let res = await this.request(`users/${currentUser}/matches/ten`, {});
-  //   console.log("currentUser=", currentUser);
-  //   return res.users;
-  // }
-
   static async matchList(currentUser) {
     let res = await this.request(`users/${currentUser}/matches`, {});
-    console.log("res from matchList", res);
+    console.log(
+      "res from matchList is working:",
+      Boolean(res.users),
+      "🥳",
+      "😭"
+    );
     return res.users;
   }
 
-  /** Setup for potential matches */
-
   static async getPotentialMatches(currentUser) {
     let res = await this.request(`users/${currentUser}/matches/users`, {});
-    // console.log("currentUser=", currentUser, "user_id=", user_id);
+    console.log(
+      "res from getPotentialMatches is working properly:",
+      Boolean(res.users),
+      "🥳"
+    );
     return res.users;
   }
 

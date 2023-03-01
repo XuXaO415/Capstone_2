@@ -325,7 +325,6 @@ class User {
 
   static async matchUsers() {
     const result = await db.query(
-      //This query show user images
       // `SELECT * FROM users ORDER BY RANDOM() LIMIT 5`
       `SELECT id AS "user_id", username, first_name, image_url, hobbies, interests
       FROM users
@@ -336,35 +335,12 @@ class User {
     return users;
   }
 
-  /** When user clicks on a match, show more info about user */
   static async getInfo(id) {
     const result = await db.query(`SELECT * FROM users WHERE id = $1`, [id]);
     let user = result.rows[0];
     if (!user) throw new NotFoundError(`No user found`);
     return user;
   }
-
-  /** Get a user by id */
-  // static async getUserById(id) {
-  //   const result = await db.query(`SELECT id FROM users WHERE id = $1`, [id]);
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
-  // static async getUserById(user_id) {
-  //   const result = await db.query(
-  //     `SELECT id AS "user_id", username
-  //           FROM users
-  //           WHERE id = $1`,
-  //     [user_id]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${user_id}`);
-  //   return user;
-  // }
-
-  /** Get a user by their ID */
 
   static async getUserById(user_id) {
     const result = await db.query(
@@ -444,16 +420,98 @@ class User {
     return user;
   }
 
-  static async dislikeMatch(id, user_id) {
+  // static async addLike(username, user_id) {
+  //   const result = await db.query(
+  //     `INSERT INTO likes
+  //           (username, user_id)
+  //           VALUES ($1, $2)
+  //           RETURNING username, user_id`,
+  //     [username, user_id]
+  //   );
+  //   const user = result.rows[0];
+
+  //   if (!user) throw new NotFoundError(`No user: ${username}`);
+  // }
+
+  /** Omg, this is the actually correct way this is supposed to look in db */
+  // static async dislikeMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `INSERT INTO dislikes (user_id, disliked_user)
+  //           VALUES ($1, $2)
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
+
+  static async updateDislikedMatch(id, user_id) {
     const result = await db.query(
-      `INSERT INTO dislikes (user_id, disliked_user)
-            VALUES ($1, $2)
+      `UPDATE dislikes
+            SET id = $1, user_id = $2
+            WHERE user_id = $1 AND user_id = $2
             RETURNING user_id`,
       [id, user_id]
     );
     const user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user: ${id}`);
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
     return user;
+  }
+
+  // static async updateDislikedMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `UPDATE dislikes
+  //           SET disliked_user = $1
+  //           WHERE user_id = $2
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   const user = result.rows[0];
+
+  //   if (!user) throw new NotFoundError(`No user: ${username}`);
+  //   return user;
+  // }
+  // static async updateDislikedMatch(id, user_id, disliked_user) {
+  //   let result = await db.query(
+  //     `UPDATE dislikes
+  //           SET user_id = $1, disliked_user = $2
+  //           WHERE id = $3
+  //           RETURNING id, user_id, disliked_user`,
+  //     [id, _user_id, _disliked_user]
+  //   );
+  //   const user = result.rows[0];
+
+  //   if (!user) throw new NotFoundError(`No user: ${username}`);
+  //   return user;
+  // }
+
+  static async removeDislikedUser(user_id, disliked_user) {
+    let result = await db.query(
+      `DELETE
+            FROM dislikes
+            WHERE user_id = $1 AND disliked_user = $2
+            RETURNING user_id`,
+      [user_id, disliked_user]
+    );
+    const user = result.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+
+    return user;
+  }
+
+  static async removeDislike(id, user_id) {
+    let result = await db.query(
+      `DELETE FROM dislikes
+            WHERE id = $1 AND user_id = $2
+            RETURNING id`,
+      [id, user_id]
+    );
+    const user = result.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
   static async removeDislikedMatch(id, user_id) {
@@ -467,32 +525,6 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
-
-  // static async dislikeMatch(id, user_id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes
-  //           WHERE user_id = $1, liked_user = $2
-  //           RETURNING user_id`,
-  //     [id, user_id]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
-  /** POST dislike user and their user_id */
-
-  // static async dislikeMatch(id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes
-  //           WHERE user_id = $1
-  //           RETURNING user_id`,
-  //     [id]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
 
   /** remove and delete disliked user match */
 
