@@ -420,6 +420,20 @@ class User {
     return user;
   }
 
+  static async updateDislikedMatch(id, user_id) {
+    const result = await db.query(
+      `UPDATE dislikes
+            SET user_id = $1
+            WHERE disliked_user = $2
+            RETURNING user_id`,
+      [id, user_id]
+    );
+    const user = result.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+    return user;
+  }
+
   // static async addLike(username, user_id) {
   //   const result = await db.query(
   //     `INSERT INTO likes
@@ -446,19 +460,19 @@ class User {
   //   return user;
   // }
 
-  static async updateDislikedMatch(id, user_id) {
-    const result = await db.query(
-      `UPDATE dislikes
-            SET id = $1, user_id = $2
-            WHERE user_id = $1 AND user_id = $2
-            RETURNING user_id`,
-      [id, user_id]
-    );
-    const user = result.rows[0];
+  // static async updateDislikedMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `UPDATE dislikes
+  //           SET disliked_user = $1
+  //           WHERE user_id = $2
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
-    return user;
-  }
+  //   if (!user) throw new NotFoundError(`No user: ${username}`);
+  //   return user;
+  // }
 
   // static async updateDislikedMatch(id, user_id) {
   //   const result = await db.query(
