@@ -199,43 +199,12 @@ router.get("/:username/:user_id", async function (req, res, next) {
 
 // router.get("/:username/matches", async function (req, res, next) {
 //   try {
-//     let potentialMatches = await User.matchUsers(req.params.username);
+//     let users = await User.matchUsers(req.params.user_id);
+//     // console.log(req.params.username, req.params.id, req.params.user_id);
 //     return res.json({
-//       potentialMatches,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-/** Route for getting a list of potential user (semi-working) */
-
-router.get("/:username/matches", async function (req, res, next) {
-  try {
-    let users = await User.matchUsers(req.params.user_id);
-    // console.log(req.params.username, req.params.id, req.params.user_id);
-    return res.json({
-      users,
-      currentUser: req.params.username,
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-// router.post("/:username/matches", async function (req, res, next) {
-//   try {
-//     let user = await User.matchUsers(
-//       req.body,
-//       req.params.username,
-//       req.params.id
-//     );
-//     console.log(req.params.username, req.params.id);
-//     return res.json({
-//       user,
+//       users,
 //       currentUser: req.params.username,
-//       user_id: req.params.id,
+//       user_id: req.params.user_id,
 //     });
 //   } catch (err) {
 //     return next(err);
@@ -247,45 +216,19 @@ router.get("/:username/matches/users", async function (req, res, next) {
     let currentUser = await User.get(req.params.username);
     let users = await User.matchUsers(currentUser.username, req.params.user_id);
 
-    console.log(
-      "currentUser=",
-      req.params.username
-      // "user_id=",
-      // req.params.user_id
-    );
+    console.log("currentUser=", req.params.username);
 
     return res.json({
       currentUser: req.params.username,
       users,
-      // user_id: req.params.user_id,
     });
   } catch (err) {
     return next(err);
   }
 });
 
-/** Route for Posting User match */
-
-// router.post("/:username/matches/:user_id", async function (req, res, next) {
-//   try {
-//     let user = await User.matchUsers(
-//       // req.body,
-//       req.username,
-//       req.params.user_id
-//     );
-//     return res.json({
-//       user,
-//       username: req.params.username,
-//       user_id: req.params.user_id,
-//     });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
 router.get("/:username/info/:user_id", async function (req, res, next) {
   try {
-    // let user = await User.getUserById(req.params.user_id, req.params.username);
     let user = await User.getInfo(req.params.username, req.params.user_id);
     console.log(req.params.username, req.params.user_id);
     return res.json({
@@ -299,6 +242,7 @@ router.get("/:username/info/:user_id", async function (req, res, next) {
 router.get("/:username/matches/liked", async function (req, res, next) {
   try {
     let user = await User.getLikes(req.params.username, req.params.user_id);
+    console.log(req.params.username, req.params.user_id);
     return res.json({
       user,
       username: req.params.username,
@@ -307,7 +251,6 @@ router.get("/:username/matches/liked", async function (req, res, next) {
   } catch (err) {
     if (err.res) {
       return res.status(err.res.status).json(err.res.data);
-      // return next(err);
     }
   }
 });
@@ -335,7 +278,7 @@ router.post(
 
 /** Route for UPDATE -- updates user dislikes   */
 
-router.patch(
+router.put(
   "/:username/matches/dislike/:user_id",
   async function (req, res, next) {
     try {
@@ -354,7 +297,6 @@ router.patch(
         user,
         currentUser,
         user_id: req.params.user_id,
-        // disliked_user: req.params.disliked_user,
       });
     } catch (err) {
       if (err.res) {
@@ -388,7 +330,7 @@ router.patch(
 //   }
 // );
 
-/** Update user match list after user dislikes user */
+/** Route for DELETE -- removes user dislikes   */
 router.delete(
   "/:username/matches/dislike/:user_id/removed",
   async function (req, res, next) {
