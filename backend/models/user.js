@@ -389,18 +389,32 @@ class User {
   //   return user;
   // }
 
-  static async getLikes(id, user_id) {
+  static async getLikes() {
+    // const result = await db.query(`SELECT * FROM likes`);
     const result = await db.query(
-      `SELECT * FROM likes 
-            WHERE user_id = $1 AND id = $2 
-            ORDER BY id ASC`,
-      [id, user_id]
+      `SELECT user_id, liked_user
+            FROM likes
+            ORDER BY user_id DESC LIMIT 5`
     );
+
     let users = result.rows;
 
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }
+
+  /** Return user's liked matches */
+  // static async getLikedMatches(id) {
+  //   const result = await db.query(
+  //     `SELECT user_id
+  //           FROM likes
+  //           WHERE id = $1`,
+  //     [id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
 
   /** Return user's likes */
 
@@ -562,20 +576,6 @@ class User {
   //   return user;
   // }
 
-  /** remove and delete disliked user match */
-
-  // static async removeMatch(id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes
-  //           WHERE user_id = $1
-  //           RETURNING user_id`,
-  //     [id]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
   /** User dislikes a match */
   // static async dislikeMatch(id) {
   //   const result = await db.query(
@@ -587,31 +587,6 @@ class User {
   //   const user = result.rows[0];
   //   if (!user) throw new NotFoundError(`No user: ${id}`);
   //   return user;
-  // }
-
-  static async getLikedMatches(username, id) {
-    const result = await db.query(
-      `SELECT user_id
-            FROM likes
-            WHERE user_id = $1`,
-      [username, id]
-    );
-    let users = result.rows;
-    if (!users) throw new NotFoundError(`No users found`);
-    return users;
-  }
-
-  /** Return user's liked matches */
-  // static async getLikedMatches(id) {
-  //   const result = await db.query(
-  //     `SELECT user_id
-  //           FROM likes
-  //           WHERE id = $1`,
-  //     [id]
-  //   );
-  //   let users = result.rows;
-  //   if (!users) throw new NotFoundError(`No users found`);
-  //   return users;
   // }
 
   // static async deleteMatch(username, id) {

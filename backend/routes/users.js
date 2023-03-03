@@ -368,24 +368,4 @@ router.delete(
   }
 );
 
-router.get("/:username/matches/liked", async function (req, res, next) {
-  try {
-    let currentUser = await User.get(req.params.username);
-    let users = await User.getLikedMatches(
-      currentUser.username,
-      req.params.user_id
-    );
-    console.log("currentUser=", currentUser, "user_id=", req.params.user_id);
-    return res.json({
-      users,
-      currentUser: req.params.username,
-      user_id: req.params.user_id,
-      // username: req.params.username,
-      // user_id: req.params.id,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
 module.exports = router;
