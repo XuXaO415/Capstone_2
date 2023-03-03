@@ -74,41 +74,6 @@ function MatchList() {
     [currentUser, user_id]
   );
 
-  // function getLikedMatches() {
-  //   async function getLikedMatches() {
-  //     let likedMatches = await UrGuideApi.getLikedMatches(
-  //       currentUser.username,
-  //       user_id
-  //     );
-  //     console.debug(
-  //       "MatchList useEffect getLikedMatches",
-  //       "likedMatches=",
-  //       likedMatches
-  //     );
-  //     setLikedMatches(likedMatches);
-  //   }
-  //   return getLikedMatches();
-  // }
-  // useEffect(getLikedMatches, [currentUser.username, user_id]);
-
-  // useEffect(
-  //   function getLikedMatches() {
-  //     async function getLikedMatches() {
-  //       let likedMatches = await UrGuideApi.getLikedMatches(
-  //         currentUser.username
-  //       );
-  //       console.debug(
-  //         "MatchList useEffect getLikedMatches",
-  //         "likedMatches=",
-  //         likedMatches
-  //       );
-  //       setLikedMatches(likedMatches);
-  //     }
-  //     getLikedMatches();
-  //   },
-  //   [currentUser.username]
-  // );
-
   function likeMatch(user_id) {
     async function likeUser() {
       try {
