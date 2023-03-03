@@ -95,23 +95,23 @@ class UrGuideApi {
     return res.user;
   }
 
-  static async matchList(currentUser) {
-    let res = await this.request(`users/${currentUser}/matches`, {});
-    console.log(
-      "res from matchList is working:",
-      Boolean(res.users),
-      "🥳",
-      "😭"
-    );
-    return res.users;
-  }
+  // static async matchList(currentUser) {
+  //   let res = await this.request(`users/${currentUser}/matches`, {});
+  //   console.log(
+  //     "res from matchList is working:",
+  //     Boolean(res.users),
+  //     "🥳",
+  //     "😭"
+  //   );
+  //   return res.users;
+  // }
 
   static async getPotentialMatches(currentUser) {
     let res = await this.request(`users/${currentUser}/matches/users`, {});
     console.log(
-      "res from getPotentialMatches is working properly:",
-      Boolean(res.users),
-      "🥳"
+      "res from getPotentialMatches:",
+      res,
+      Boolean(res.users) ? "working properly...🥳" : "fix this...😭"
     );
     return res.users;
   }
@@ -136,10 +136,29 @@ class UrGuideApi {
     let res = await this.request(
       `users/${currentUser}/matches/dislike/${user_id}`,
       {},
-      "POST"
+      "PUT"
     );
-    console.log("POST was successful and", { user_id }, "was disliked");
+    console.log("PUT was successful and", { user_id }, "was disliked");
     return res.status;
+  }
+
+  static async getMatchInfo(currentUser, user_id) {
+    let res = await this.request(
+      `users/${currentUser}/matches/info/${user_id}`,
+      {},
+      "GET"
+    );
+    return res.user;
+  }
+
+  static async getLikedMatches(currentUser) {
+    let res = await this.request(`users/${currentUser}/matches/liked`, {});
+    console.log(
+      "res from getLikedMatches:",
+      res,
+      Boolean(res.users) ? "🥳" : "doh...😭"
+    );
+    return res.users;
   }
 
   /**  remove a matched user -- DELETE from db */
@@ -151,29 +170,6 @@ class UrGuideApi {
       "DELETE"
     );
     return res.status;
-  }
-
-  /** Setup for return all user's liked matches */
-
-  static async getLikedMatches(currentUser) {
-    let res = await this.request(
-      `users/${currentUser}/matches/liked`,
-      {},
-      "GET"
-    );
-    console.log("res from getLikedMatches:", res);
-    return res.users;
-  }
-
-  /** Return info on clicked on match */
-
-  static async getMatchInfo(currentUser, user_id) {
-    let res = await this.request(
-      `users/${currentUser}/info/${user_id}`,
-      {},
-      "GET"
-    );
-    return res.user;
   }
 }
 
