@@ -391,9 +391,9 @@ class User {
 
   static async getLikes(id, user_id) {
     const result = await db.query(
-      `SELECT FROM likes 
-            WHERE user_id = $1 AND liked_user = $2 
-            ORDER BY user_id`,
+      `SELECT * FROM likes 
+            WHERE user_id = $1 AND id = $2 
+            ORDER BY id ASC`,
       [id, user_id]
     );
     let users = result.rows;
