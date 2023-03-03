@@ -259,7 +259,7 @@ router.get("/:username/matches/info/:user_id", async function (req, res, next) {
 router.get("/:username/matches/liked", async function (req, res, next) {
   try {
     let currentUser = await User.get(req.params.username);
-    let users = await User.getLikes(req.params.currentUser, req.params.user_id);
+    let users = await User.getLikes(req.params.user_id);
 
     return res.json({
       users,
