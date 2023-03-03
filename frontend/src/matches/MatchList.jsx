@@ -24,6 +24,7 @@ function MatchList() {
   const [user_id] = useState(null);
   const [matches, setMatches] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
+  const [likedMatches, setLikedMatches] = useState(null);
 
   console.debug(
     "MatchList",
@@ -54,26 +55,41 @@ function MatchList() {
     [currentUser, user_id]
   );
 
-  // useEffect(
-  //   function getPotentialUserMatches() {
-  //     async function getPotentialMatches() {
-  //       let matches = await UrGuideApi.getPotentialMatches(
-  //         currentUser.username,
-  //         user_id
-  //       );
-  //       console.debug(
-  //         "MatchList useEffect getPotentialMatches",
-  //         "matches=",
-  //         matches
-  //       );
-  //       setMatches(matches);
-  //     }
-  //     getPotentialMatches();
-  //   },
-  //   [currentUser.username, user_id]
-  // );
+  useEffect(
+    function getLikedMatches() {
+      async function getLikedMatches() {
+        let likedMatches = await UrGuideApi.getLikedMatches(
+          currentUser.username,
+          user_id
+        );
+        console.debug(
+          "MatchList useEffect getLikedMatches",
+          "likedMatches=",
+          likedMatches
+        );
+        setLikedMatches(likedMatches);
+      }
+      getLikedMatches();
+    },
+    [currentUser, user_id]
+  );
 
-  //** Show user their liked matches */
+  // function getLikedMatches() {
+  //   async function getLikedMatches() {
+  //     let likedMatches = await UrGuideApi.getLikedMatches(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     console.debug(
+  //       "MatchList useEffect getLikedMatches",
+  //       "likedMatches=",
+  //       likedMatches
+  //     );
+  //     setLikedMatches(likedMatches);
+  //   }
+  //   return getLikedMatches();
+  // }
+  // useEffect(getLikedMatches, [currentUser.username, user_id]);
 
   // useEffect(
   //   function getLikedMatches() {
@@ -188,6 +204,7 @@ function MatchList() {
           matchInfo={matchInfo}
           setMatchInfo={setMatchInfo}
           matches={matches}
+          getLikedMatches={setLikedMatches}
         />
       )}
     </div>
