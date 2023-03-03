@@ -176,6 +176,8 @@ router.delete(
  *
  * Returns basic user info
  *
+ * Todo: add user authentication
+ *
  * */
 
 router.get("/:username/:user_id", async function (req, res, next) {
@@ -227,31 +229,45 @@ router.get("/:username/matches/users", async function (req, res, next) {
   }
 });
 
-router.get("/:username/info/:user_id", async function (req, res, next) {
+/** Route for getting more info on a matched user */
+
+router.get("/:username/matches/info/:user_id", async function (req, res, next) {
   try {
-    let user = await User.getInfo(req.params.username, req.params.user_id);
+    let user = await User.getUserInfo(req.params.username, req.params.user_id);
     console.log(req.params.username, req.params.user_id);
     return res.json({
       user,
+      user_id: req.params.user_id,
     });
   } catch (err) {
     return next(err);
   }
 });
 
+// router.get("/:username/info/:user_id", async function (req, res, next) {
+//   try {
+//     let user = await User.getUserInfo(req.params.username, req.params.user_id);
+//     console.log(req.params.username, req.params.user_id);
+//     return res.json({
+//       user,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// });
+
 router.get("/:username/matches/liked", async function (req, res, next) {
   try {
-    let user = await User.getLikes(req.params.username, req.params.user_id);
-    console.log(req.params.username, req.params.user_id);
+    let currentUser = await User.get(req.params.username);
+    let users = await User.getLikes(req.params.currentUser, req.params.user_id);
+
     return res.json({
-      user,
-      username: req.params.username,
+      users,
+      currentUser,
       user_id: req.params.user_id,
     });
   } catch (err) {
-    if (err.res) {
-      return res.status(err.res.status).json(err.res.data);
-    }
+    return res.status(err.res.status).json(err.res.data);
   }
 });
 

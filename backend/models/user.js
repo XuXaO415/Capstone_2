@@ -335,12 +335,23 @@ class User {
     return users;
   }
 
-  static async getInfo(id) {
-    const result = await db.query(`SELECT * FROM users WHERE id = $1`, [id]);
+  static async getUserInfo() {
+    const result = await db.query(
+      `SELECT id AS "user_id", username, first_name, last_name, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests 
+            FROM users 
+            ORDER BY id`
+    );
     let user = result.rows[0];
     if (!user) throw new NotFoundError(`No user found`);
     return user;
   }
+
+  // static async getUserInfo(id) {
+  //   const result = await db.query(`SELECT * FROM users WHERE id = $1`, [id]);
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found`);
+  //   return user;
+  // }
 
   static async getUserById(user_id) {
     const result = await db.query(
@@ -366,18 +377,29 @@ class User {
     return user;
   }
 
-  static async getLikes(currentUsername, user_id) {
-    const currentUser = await this.get(currentUsername);
-    const likedUser = await this.findByUserId(user_id);
-    const getUserLikes = await this.getLikedMatches(currentUsername);
-    const getLikedUserLikes = await this.getLikedMatches(user_id);
+  // static async likeMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `INSERT INTO likes (user_id, liked_user )
+  //           VALUES ($1, $2)
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
 
-    return {
-      currentUser,
-      likedUser,
-      getUserLikes,
-      getLikedUserLikes,
-    };
+  static async getLikes(id, user_id) {
+    const result = await db.query(
+      `SELECT FROM likes 
+            WHERE user_id = $1 AND liked_user = $2 
+            ORDER BY user_id`,
+      [id, user_id]
+    );
+    let users = result.rows;
+
+    if (!users) throw new NotFoundError(`No users found`);
+    return users;
   }
 
   /** Return user's likes */
@@ -516,43 +538,43 @@ class User {
     return user;
   }
 
-  static async removeDislike(id, user_id) {
-    let result = await db.query(
-      `DELETE FROM dislikes
-            WHERE id = $1 AND user_id = $2
-            RETURNING id`,
-      [id, user_id]
-    );
-    const user = result.rows[0];
+  // static async removeDislike(id, user_id) {
+  //   let result = await db.query(
+  //     `DELETE FROM dislikes
+  //           WHERE id = $1 AND user_id = $2
+  //           RETURNING id`,
+  //     [id, user_id]
+  //   );
+  //   const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
-  }
+  //   if (!user) throw new NotFoundError(`No user: ${username}`);
+  // }
 
-  static async removeDislikedMatch(id, user_id) {
-    const result = await db.query(
-      `DELETE FROM dislikes
-            WHERE user_id = $1, disliked_user = $2
-            RETURNING user_id`,
-      [id, user_id]
-    );
-    const user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user: ${id}`);
-    return user;
-  }
+  // static async removeDislikedMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `DELETE FROM dislikes
+  //           WHERE user_id = $1, disliked_user = $2
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
 
   /** remove and delete disliked user match */
 
-  static async removeMatch(id) {
-    const result = await db.query(
-      `DELETE FROM likes
-            WHERE user_id = $1
-            RETURNING user_id`,
-      [id]
-    );
-    const user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user: ${id}`);
-    return user;
-  }
+  // static async removeMatch(id) {
+  //   const result = await db.query(
+  //     `DELETE FROM likes
+  //           WHERE user_id = $1
+  //           RETURNING user_id`,
+  //     [id]
+  //   );
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
 
   /** User dislikes a match */
   // static async dislikeMatch(id) {
