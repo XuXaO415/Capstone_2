@@ -392,10 +392,18 @@ class User {
   static async getLikes() {
     // const result = await db.query(`SELECT * FROM likes`);
     const result = await db.query(
-      `SELECT user_id, liked_user
+      `SELECT likes.id, likes.user_id, likes.liked_user
             FROM likes
-            ORDER BY user_id DESC LIMIT 5`
+            JOIN users
+            ON likes.liked_user = users.id
+            ORDER BY likes.user_id DESC LIMIT 5`
     );
+
+    // const result = await db.query(
+    //   `SELECT id, user_id, liked_user
+    //         FROM likes
+    //         ORDER BY user_id DESC LIMIT 5`
+    // );
 
     let users = result.rows;
 
