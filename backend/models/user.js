@@ -391,13 +391,22 @@ class User {
 
   static async getLikes() {
     // const result = await db.query(`SELECT * FROM likes`);
+
     const result = await db.query(
-      `SELECT likes.id, likes.user_id, likes.liked_user
+      `SELECT  likes.user_id, likes.liked_user
             FROM likes
-            JOIN users
+            JOIN users 
             ON likes.liked_user = users.id
-            ORDER BY likes.user_id DESC LIMIT 5`
+            ORDER BY user_id DESC LIMIT 5`
     );
+    //This query solved liked_user null problem
+    // const result = await db.query(
+    //   `SELECT likes.id, likes.user_id, likes.liked_user
+    //         FROM likes
+    //         JOIN users
+    //         ON likes.liked_user = users.id
+    //         ORDER BY likes.user_id LIMIT 5`
+    // );
 
     // const result = await db.query(
     //   `SELECT id, user_id, liked_user
