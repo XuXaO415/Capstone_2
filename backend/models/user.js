@@ -393,12 +393,13 @@ class User {
     // const result = await db.query(`SELECT * FROM likes`);
 
     const result = await db.query(
-      `SELECT  likes.user_id, likes.liked_user
+      `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user
             FROM likes
-            JOIN users 
-            ON likes.liked_user = users.id
-            ORDER BY user_id DESC LIMIT 5`
+            JOIN users ON likes.liked_user = users.id
+            GROUP BY likes.user_id, likes.liked_user
+            ORDER BY likes.user_id LIMIT 5`
     );
+
     //This query solved liked_user null problem
     // const result = await db.query(
     //   `SELECT likes.id, likes.user_id, likes.liked_user
@@ -406,12 +407,6 @@ class User {
     //         JOIN users
     //         ON likes.liked_user = users.id
     //         ORDER BY likes.user_id LIMIT 5`
-    // );
-
-    // const result = await db.query(
-    //   `SELECT id, user_id, liked_user
-    //         FROM likes
-    //         ORDER BY user_id DESC LIMIT 5`
     // );
 
     let users = result.rows;
