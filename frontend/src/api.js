@@ -116,6 +116,20 @@ class UrGuideApi {
     return res.users;
   }
 
+  static async getLikedMatches(currentUser) {
+    let res = await this.request(
+      `users/${currentUser}/matches/likes`,
+      {},
+      "GET"
+    );
+    console.log(
+      "res from getLikedMatches:",
+      res,
+      Boolean(res.users) ? "🥳" : "doh...😭"
+    );
+    return res.users;
+  }
+
   /** like user match -- POST matched user data */
 
   static async likeMatch(currentUser, user_id) {
@@ -140,16 +154,6 @@ class UrGuideApi {
     );
     console.log("PUT was successful and", { user_id }, "was disliked");
     return res.status;
-  }
-
-  static async getLikedMatches(currentUser) {
-    let res = await this.request(`users/${currentUser}/matches/liked`, {});
-    console.log(
-      "res from getLikedMatches:",
-      res,
-      Boolean(res.users) ? "🥳" : "doh...😭"
-    );
-    return res.users;
   }
 
   static async getMatchInfo(currentUser, user_id) {

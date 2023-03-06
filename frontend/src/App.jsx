@@ -138,15 +138,6 @@ function App() {
     }
   }
 
-  // async function getLikedUsers() {
-  //   try {
-  //     let likedUsers = await UrGuideApi.getLikedMatches(currentUser.username);
-  //     setPotentialMatches(likedUsers);
-  //   } catch (err) {
-  //     console.error("getLikedUsers failed", err);
-  //   }
-  // }
-
   // async function getLikedMatches() {
   //   if (token) {
   //     try {
