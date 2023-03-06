@@ -74,6 +74,30 @@ function MatchList() {
     [currentUser, user_id]
   );
 
+  // useEffect(
+  //   function getMatchInfo() {
+  //     async function getMatchInfo() {
+  //       let matchInfo = await UrGuideApi.getMatchInfo(user_id);
+  //       console.debug("MatchDetail useEffect getMatchInfo", "matchInfo=");
+  //       setMatchInfo(matchInfo);
+  //     }
+  //     getMatchInfo();
+  //   },
+  //   [user_id]
+  // );
+
+  // function loadUserInfo() {
+  //   async function loadUserInfo() {
+  //     let matchInfo = await UrGuideApi.getMatchInfo(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     console.debug("MatchList useEffect getMatchInfo", "matchInfo=");
+  //     setMatchInfo(matchInfo);
+  //   }
+  //   loadUserInfo();
+  // }
+
   function likeMatch(user_id) {
     async function likeUser() {
       try {
@@ -155,7 +179,6 @@ function MatchList() {
             image_url={m.image_url}
             like={likeMatch}
             dislike={dislikeMatch}
-            remove={removeMatch}
           ></MatchCard>
         ))}
       {matchInfo && (
@@ -163,13 +186,15 @@ function MatchList() {
           // username={currentUser.username}
           // getMatchInfo={getMatchInfo}
           // getMatchInfo={matchInfo}
+          // loadUserInfo={loadUserInfo}
           setMatchInfo={setMatchInfo}
           matches={setMatches}
-          // getLikedMatches={setLikedMatches}
+          matchInfo={matchInfo}
           getLikedMatches={likedMatches}
           setLikedMatches={setLikedMatches}
         />
       )}
+
       {/* {likedMatches && (
         <div className="LikedMatches">
           <h4 className="text-center">Liked Matches</h4>
