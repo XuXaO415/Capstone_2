@@ -218,26 +218,17 @@ router.get("/:username/matches/users", async function (req, res, next) {
     let currentUser = await User.get(req.params.username);
     let users = await User.matchUsers(currentUser.username, req.params.user_id);
 
-    console.log("currentUser=", req.params.username);
+    // console.log(
+    //   "currentUser=",
+    //   req.params.username,
+    //   "userMatches=",
+    //   users,
+    //   "user_id="
+    // );
 
     return res.json({
       currentUser: req.params.username,
       users,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** Route for getting more info on a matched user */
-
-router.get("/:username/matches/info/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.getUserInfo(req.params.username, req.params.user_id);
-    console.log(req.params.username, req.params.user_id);
-    return res.json({
-      user,
-      user_id: req.params.user_id,
     });
   } catch (err) {
     return next(err);
@@ -259,6 +250,21 @@ router.get("/:username/matches/liked", async function (req, res, next) {
     });
   } catch (err) {
     return res.status(err.res.status).json(err.res.data);
+  }
+});
+
+/** Route for getting more info on a matched user */
+
+router.get("/:username/matches/user/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.getUserInfo(req.params.username, req.params.user_id);
+    console.log(req.params.username, req.params.user_id);
+    return res.json({
+      user,
+      user_id: req.params.user_id,
+    });
+  } catch (err) {
+    return next(err);
   }
 });
 
