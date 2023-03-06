@@ -203,7 +203,6 @@ router.get("/:username/matches/users", async function (req, res, next) {
   try {
     let currentUser = await User.get(req.params.username);
     let users = await User.matchUsers(currentUser.username, req.params.user_id);
-
     // console.log(
     //   "currentUser=",
     //   req.params.username,
@@ -211,7 +210,6 @@ router.get("/:username/matches/users", async function (req, res, next) {
     //   users,
     //   "user_id="
     // );
-
     return res.json({
       currentUser: req.params.username,
       users,
@@ -221,30 +219,14 @@ router.get("/:username/matches/users", async function (req, res, next) {
   }
 });
 
-/** Route for getting more info on a matched user */
-
-router.get("/:username/matches/user/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.getUserInfo(req.params.username, req.params.user_id);
-    console.log(req.params.username, req.params.user_id);
-    return res.json({
-      user,
-
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
 /** Route for getting liked users  */
 
-router.get("/:username/matches/liked", async function (req, res, next) {
+router.get("/:username/matches/likes", async function (req, res, next) {
   try {
     let currentUser = await User.get(req.params.username);
     let users = await User.getLikes(req.params.user_id);
 
-    console.log("currentUser=", req.params.username, "users=", users);
+    console.log("currentUser=", req.params.username, "users=", Boolean(users));
     return res.json({
       users,
       currentUser,
@@ -305,6 +287,20 @@ router.put(
     }
   }
 );
+
+/** Route for getting more info on a matched user */
+
+router.get("/:username/matches/user/:user_id", async function (req, res, next) {
+  try {
+    let user = await User.getUserInfo(req.params.user_id);
+    console.log(req.params.user_id);
+    return res.json({
+      user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 // router.post(
 //   "/:username/matches/dislike/:user_id",

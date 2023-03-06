@@ -292,7 +292,6 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
-  /** Check if user exists */
   static async checkUserExists(username) {
     const result = await db.query(
       `SELECT username
@@ -316,11 +315,24 @@ class User {
     return users;
   }
 
-  static async getUserInfo() {
+  // static async matchUser(user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name, image_url, hobbies, interests
+  //           FROM users
+  //           WHERE id = $1`,
+  //     [user_id]
+  //   );
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found`);
+  //   return user;
+  // }
+
+  static async getUserInfo(user_id) {
     const result = await db.query(
-      `SELECT id AS "user_id", username, first_name, last_name, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests 
-            FROM users 
-            ORDER BY id`
+      `SELECT id AS "user_id", username, first_name, last_name, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests
+            FROM users
+            WHERE id = $1`,
+      [user_id]
     );
     let user = result.rows[0];
     if (!user) throw new NotFoundError(`No user found`);
@@ -359,7 +371,7 @@ class User {
             FROM likes
             JOIN users ON likes.liked_user = users.id
             GROUP BY likes.user_id, likes.liked_user
-            ORDER BY likes.user_id DESC LIMIT 5`
+            ORDER BY array_agg(likes.id) DESC LIMIT 5`
     );
 
     let users = result.rows;
