@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import UserContext from "../context/UserContext";
 import UrGuideApi from "../api";
 import "./MatchCard.css";
+import Alert from "../common/Alert";
 
 /** Show limited information about a user
  *
@@ -31,11 +32,14 @@ function MatchCard({
   const { currentUser } = useContext(UserContext);
   const [matchInfo, setMatchInfo] = useState(null);
 
+  // const history = useHistory();
+
   /** Handle user like button when user likes a user */
   function handleLike(e) {
     e.preventDefault();
     console.log("MatchCard handleLike: user_id=", user_id, "was liked");
     like(user_id);
+    // history.push(`/users/${currentUser.username}/matches/user/${user_id}`);
   }
 
   /** Handle onClick for disliking a user */
@@ -48,23 +52,13 @@ function MatchCard({
     }
   }
 
-  // async function handleMatchClick(e) {
-  //   e.preventDefault();
-  //   console.debug("MatchDetail handleMatchClick", "user_id=", user_id);
-  //   let matchInfo = await UrGuideApi.getMatchInfo(
-  //     currentUser.username,
-  //     user_id
-  //   );
-  //   setMatchInfo(matchInfo);
-  // }
+  // <Button onClick={() => history.goBack()}>Go Back</Button>;
 
   return (
     <div className="MatchCard card" to={`${username}/matches `}>
-      {/* <Link to={`users/${currentUser.username}/info/${user_id}`}> */}
-      {/* <Link to={`users/${currentUser.username}/info/${username}`}> */}
-      {/* <Link to={`users/${currentUser.username}/matches/${username}`}> */}
-      {/* <Link to={`users/${currentUser.username}/matches/like/${username}`}> */}
-      {/* <Link to={`users/${currentUser.username}/matches/liked/${user_id}`}> */}
+      {/* <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
+        More info
+      </Link> */}
       <div className="card-body">
         <h3>
           <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
@@ -82,9 +76,7 @@ function MatchCard({
             />
           )}
         </h6>
-        <p>
-          Name: {first_name} {last_name}
-        </p>
+        <p>Name: {first_name}</p>
         {/* <p>City: {city}</p>
         <p>State: {state}</p> */}
         <p>Interests: {interests}</p>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, Route } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import MatchDetail from "./MatchDetail";
@@ -20,8 +20,8 @@ import MatchCard from "./MatchCard";
 function MatchList() {
   // const { currentUser, user_id } = useContext(UserContext);
 
-  const { currentUser } = useContext(UserContext);
-  const [user_id] = useState(null);
+  const { currentUser, user_id } = useContext(UserContext);
+  // const [user_id] = useState(null);
   const [matches, setMatches] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
   const [likedMatches, setLikedMatches] = useState(null);
@@ -94,7 +94,8 @@ function MatchList() {
         console.error(err);
       }
     }
-    return likeUser(user_id);
+    likeUser(user_id);
+    // <Route path="/users/:username/matches" component={MatchList} />;
   }
 
   function dislikeMatch(user_id) {
@@ -112,7 +113,6 @@ function MatchList() {
     }
     // return dislikeMatch(user_id);
     dislikeMatch(user_id);
-    // return <Link to={`/users/${currentUser.username}/matches`} />;
   }
 
   function removeMatch(user_id) {
@@ -128,34 +128,30 @@ function MatchList() {
         console.error(err);
       }
     }
-    // return removeMatch(user_id);
     removeMatch(user_id);
     <Alert type="danger" messages={["Match removed"]} />;
   }
 
-  if (!matches) return <p>Loading...</p>;
+  if (!matches || !likedMatches) return <p>Loading...</p>;
 
   return (
     <div className="MatchList">
-      <h3 className="text-center">
+      <h4 className="text-center">
         Hey {currentUser.username}, here are some of your matches
-      </h3>
+      </h4>
       {Array.isArray(matches) &&
         matches.map((m) => (
           <MatchCard
             key={m.username}
             user_id={m.user_id}
-            // id={m.id}
             username={m.username}
             first_name={m.first_name}
-            last_name={m.last_name}
-            // matchInfo={m.matchInfo}
+            // last_name={m.last_name}
             // city={m.city}
             // state={m.state}
             interests={m.interests}
             hobbies={m.hobbies}
             setMatchInfo={setMatchInfo}
-            // matches={setMatches}
             image_url={m.image_url}
             like={likeMatch}
             dislike={dislikeMatch}
@@ -165,13 +161,37 @@ function MatchList() {
       {matchInfo && (
         <MatchDetail
           // username={currentUser.username}
-          getMatchInfo={matchInfo}
-          matchInfo={matchInfo}
+          // getMatchInfo={getMatchInfo}
+          // getMatchInfo={matchInfo}
           setMatchInfo={setMatchInfo}
-          matches={matches}
-          getLikedMatches={setLikedMatches}
+          matches={setMatches}
+          // getLikedMatches={setLikedMatches}
+          getLikedMatches={likedMatches}
+          setLikedMatches={setLikedMatches}
         />
       )}
+      {/* {likedMatches && (
+        <div className="LikedMatches">
+          <h4 className="text-center">Liked Matches</h4>
+          {Array.isArray(likedMatches) &&
+            likedMatches.map((l) => (
+              <MatchCard
+                key={l.username}
+                user_id={l.user_id}
+                username={l.username}
+                first_name={l.first_name}
+                // last_name={l.last_name}
+                // city={l.city}
+                // state={l.state}
+                interests={l.interests}
+                hobbies={l.hobbies}
+                setMatchInfo={setMatchInfo}
+                image_url={l.image_url}
+                dislike={dislikeMatch}
+              ></MatchCard>
+            ))}
+        </div>
+      )} */}
     </div>
   );
 }
