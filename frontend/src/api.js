@@ -142,15 +142,6 @@ class UrGuideApi {
     return res.status;
   }
 
-  static async getMatchInfo(currentUser, user_id) {
-    let res = await this.request(
-      `users/${currentUser}/matches/info/${user_id}`,
-      {},
-      "GET"
-    );
-    return res.user;
-  }
-
   static async getLikedMatches(currentUser) {
     let res = await this.request(`users/${currentUser}/matches/liked`, {});
     console.log(
@@ -159,6 +150,15 @@ class UrGuideApi {
       Boolean(res.users) ? "🥳" : "doh...😭"
     );
     return res.users;
+  }
+
+  static async getMatchInfo(currentUser, user_id) {
+    let res = await this.request(
+      `users/${currentUser}/matches/user/${user_id}`,
+      {},
+      "GET"
+    );
+    return res.user;
   }
 
   /**  remove a matched user -- DELETE from db */

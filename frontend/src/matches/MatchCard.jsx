@@ -1,5 +1,5 @@
-import React, { useContext, useCallback } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import UserContext from "../context/UserContext";
 import UrGuideApi from "../api";
@@ -29,6 +29,7 @@ function MatchCard({
   dislike,
 }) {
   const { currentUser } = useContext(UserContext);
+  const [matchInfo, setMatchInfo] = useState(null);
 
   /** Handle user like button when user likes a user */
   function handleLike(e) {
@@ -47,6 +48,16 @@ function MatchCard({
     }
   }
 
+  // async function handleMatchClick(e) {
+  //   e.preventDefault();
+  //   console.debug("MatchDetail handleMatchClick", "user_id=", user_id);
+  //   let matchInfo = await UrGuideApi.getMatchInfo(
+  //     currentUser.username,
+  //     user_id
+  //   );
+  //   setMatchInfo(matchInfo);
+  // }
+
   return (
     <div className="MatchCard card" to={`${username}/matches `}>
       {/* <Link to={`users/${currentUser.username}/info/${user_id}`}> */}
@@ -56,7 +67,7 @@ function MatchCard({
       {/* <Link to={`users/${currentUser.username}/matches/liked/${user_id}`}> */}
       <div className="card-body">
         <h3>
-          <Link to={`users/${currentUser.username}/info/${user_id}`}>
+          <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
             You matched with: {username},
             <br />
             user_id:{user_id}
@@ -78,7 +89,6 @@ function MatchCard({
         <p>State: {state}</p> */}
         <p>Interests: {interests}</p>
         <p>Hobbies: {hobbies}</p>
-        {/* <Button color="primary" size="sm" onClick={() => like(user_id)}> */}
         <Button color="primary" size="sm" onClick={handleLike}>
           Like
         </Button>{" "}

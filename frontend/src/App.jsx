@@ -60,44 +60,6 @@ function App() {
     [token]
   );
 
-  /** Handle loading user matches -- UPDATE, this is causing too many calls **/
-
-  // useEffect(
-  //   function loadPotentialMatches() {
-  //     console.debug("App loadPotentialMatches loading...", Boolean(token));
-  //     async function getPotentialMatches() {
-  //       if (token) {
-  //         try {
-  //           let { username, user_id } = jwt.decode(token);
-  //           console.log("decode token:", { username, user_id });
-  //           // console.log("currentUser=", currentUser, "user_id", user_id);
-  //           let potentialMatches = await UrGuideApi.getPotentialMatches(
-  //             username,
-  //             user_id
-  //           );
-  //           setPotentialMatches({
-  //             data: potentialMatches,
-  //             isLoaded: true,
-  //           });
-  //         } catch (err) {
-  //           console.error("App loadPotentialMatches error", err);
-  //           setPotentialMatches((currPotentialMatches) => ({
-  //             ...currPotentialMatches,
-  //             isLoaded: true,
-  //           }));
-  //         }
-  //       } else {
-  //         setPotentialMatches({
-  //           data: null,
-  //           isLoaded: true,
-  //         });
-  //       }
-  //     }
-  //     getPotentialMatches();
-  //   },
-  //   [token]
-  // );
-
   /** Handle site-wide user logout */
   function logout() {
     setCurrentUser({
@@ -118,31 +80,6 @@ function App() {
   async function signup(signupData) {
     let token = await UrGuideApi.signup(signupData);
     setToken(token);
-  }
-
-  async function getLikedMatches() {
-    if (token) {
-      try {
-        let { username, user_id } = jwt.decode(token);
-        console.log("username", username, "user_id", user_id);
-        let likedMatches = await UrGuideApi.getLikedMatches(username, user_id);
-        setPotentialMatches({
-          data: likedMatches,
-          isLoaded: true,
-        });
-      } catch (err) {
-        console.error("App loadPotentialMatches error", err);
-        setPotentialMatches((currPotentialMatches) => ({
-          ...currPotentialMatches,
-          isLoaded: true,
-        }));
-      }
-    } else {
-      setPotentialMatches({
-        data: null,
-        isLoaded: true,
-      });
-    }
   }
 
   /** Handle URL image upload -- not working yet  */
@@ -188,6 +125,52 @@ function App() {
     }
   }
 
+  async function getLikedMatches() {
+    try {
+      let { username, user_id } = jwt.decode(token);
+      console.log("username", username, "user_id", user_id);
+      await UrGuideApi.getLikedMatches(username, user_id);
+      setPotentialMatches(
+        await UrGuideApi.getLikedMatches(currentUser.username, user_id)
+      );
+    } catch (err) {
+      console.error("getLikedMatches failed", err);
+    }
+  }
+
+  // async function getLikedUsers() {
+  //   try {
+  //     let likedUsers = await UrGuideApi.getLikedMatches(currentUser.username);
+  //     setPotentialMatches(likedUsers);
+  //   } catch (err) {
+  //     console.error("getLikedUsers failed", err);
+  //   }
+  // }
+
+  // async function getLikedMatches() {
+  //   if (token) {
+  //     try {
+  //       let { username, user_id } = jwt.decode(token);
+  //       console.log("username", username, "user_id", user_id);
+  //       let likedMatches = await UrGuideApi.getLikedMatches(username, user_id);
+  //       setPotentialMatches({
+  //         data: likedMatches,
+  //         isLoaded: true,
+  //       });
+  //     } catch (err) {
+  //       console.error("App loadPotentialMatches error", err);
+  //       setPotentialMatches((currPotentialMatches) => ({
+  //         ...currPotentialMatches,
+  //         isLoaded: true,
+  //       }));
+  //     }
+  //   } else {
+  //     setPotentialMatches({
+  //       data: null,
+  //       isLoaded: true,
+  //     });
+  //   }
+  // }
   return (
     <div className="App">
       <UserContext.Provider
@@ -197,6 +180,7 @@ function App() {
           potentialMatches,
           setPotentialMatches,
           getLikedMatches,
+          // getLikedUsers,
           likeUser,
           dislikeMatch,
         }}
