@@ -8,6 +8,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import MatchDetail from "./matches/MatchDetail";
 import MatchList from "./matches/MatchList";
 import MatchCard from "./matches/MatchCard";
+import LikeMatchList from "./matches/LikeMatchList";
 // import UserInfo from "./matches/UserInfo";
 
 function Routes({
@@ -18,6 +19,7 @@ function Routes({
   like,
   dislike,
   potentialMatches,
+  likedMatches,
   getLikedMatches,
   matchInfo,
   user_id,
@@ -61,10 +63,14 @@ function Routes({
               <MatchList potentialMatches={potentialMatches} />
               <MatchCard like={like} dislike={dislike} />
             </PrivateRoute>
+            {/* 
+            <PrivateRoute exact path="/matches/user/:user_id">
+              <MatchDetail matchInfo={matchInfo} />
+            </PrivateRoute> */}
 
             <PrivateRoute exact path="/likes">
-              <MatchList getLikedMatches={getLikedMatches} />
-              {/* <MatchCard like={like} dislike={dislike} /> */}
+              <LikeMatchList likedMatches={likedMatches} />
+              <MatchCard like={like} dislike={dislike} />
             </PrivateRoute>
             {/* 
             <PrivateRoute exact path="/:username/matches/info/:user_id">
