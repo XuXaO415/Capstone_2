@@ -14,13 +14,10 @@
   transition: all 0.3s ease-out;
 }
 
-/* .MatchCard-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
-
 .MatchCard-title {
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
   margin: 0;
   padding: 0;
   font-size: 1.5rem;
@@ -29,9 +26,23 @@
 }
 
 .MatchCard img {
-  width: 50%;
+  width: 35%;
+  height: 25%;
+  margin: 0 auto;
+  display: block;
 }
 .MatchCard:hover,
 .MatchCard:focus {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.user-info-pill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 3px #ccc;
 }

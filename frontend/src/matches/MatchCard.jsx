@@ -1,10 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { Component, useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import UserContext from "../context/UserContext";
 import UrGuideApi from "../api";
-import "./MatchCard.css";
 import Alert from "../common/Alert";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+import "./MatchCard.css";
 
 /** Show limited information about a user
  *
@@ -16,7 +18,7 @@ import Alert from "../common/Alert";
  *
  */
 
-function MatchCard({
+const MatchCard = ({
   username,
   user_id,
   first_name,
@@ -28,18 +30,17 @@ function MatchCard({
   hobbies,
   like,
   dislike,
-}) {
+}) => {
   const { currentUser } = useContext(UserContext);
-  const [matchInfo, setMatchInfo] = useState(null);
 
-  // const history = useHistory();
+  const history = useHistory();
 
   /** Handle user like button when user likes a user */
   function handleLike(e) {
     e.preventDefault();
     console.log("MatchCard handleLike: user_id=", user_id, "was liked");
     like(user_id);
-    // history.push(`/users/${currentUser.username}/matches/user/${user_id}`);
+    history.push(`/users/${currentUser.username}/matches/user/${user_id}`);
   }
 
   /** Handle onClick for disliking a user */
@@ -52,20 +53,15 @@ function MatchCard({
     }
   }
 
-  // <Button onClick={() => history.goBack()}>Go Back</Button>;
-
   return (
     <div className="MatchCard card" to={`${username}/matches `}>
-      {/* <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
-        More info
-      </Link> */}
       <div className="card-body">
         <h3>
-          <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
-            You matched with: {username},
-            <br />
-            user_id:{user_id}
-          </Link>
+          {/* <Link to={`users/${currentUser.username}/matches/user/${user_id}`}> */}
+          You matched with: {username},
+          <br />
+          user_id:{user_id}
+          {/* </Link> */}
         </h3>
         <h6 className="card-title">
           {image_url && (
@@ -77,8 +73,6 @@ function MatchCard({
           )}
         </h6>
         <p>Name: {first_name}</p>
-        {/* <p>City: {city}</p>
-        <p>State: {state}</p> */}
         <p>Interests: {interests}</p>
         <p>Hobbies: {hobbies}</p>
         <Button color="primary" size="sm" onClick={handleLike}>
@@ -86,11 +80,94 @@ function MatchCard({
         </Button>{" "}
         <Button color="danger" size="sm" onClick={handleDislike}>
           Dislike
-        </Button>
+        </Button>{" "}
+        <footer className="user-info-pill">
+          <Badge pill bg="light" text="white" position="right">
+            <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
+              user info
+            </Link>
+          </Badge>
+        </footer>
       </div>
-      {/* </Link> */}
     </div>
   );
-}
+};
+
+// function MatchCard({
+//   username,
+//   user_id,
+//   first_name,
+//   last_name,
+//   image_url,
+//   city,
+//   state,
+//   interests,
+//   hobbies,
+//   like,
+//   dislike,
+// }) {
+//   const { currentUser } = useContext(UserContext);
+//   const [matchInfo, setMatchInfo] = useState(null);
+
+//   // const history = useHistory();
+
+//   /** Handle user like button when user likes a user */
+//   function handleLike(e) {
+//     e.preventDefault();
+//     console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+//     like(user_id);
+//     // history.push(`/users/${currentUser.username}/matches/user/${user_id}`);
+//   }
+
+//   /** Handle onClick for disliking a user */
+//   function handleDislike(e) {
+//     try {
+//       e.preventDefault();
+//       dislike(user_id);
+//     } catch (err) {
+//       console.log("MatchCard dislike: problem with dislike", err);
+//     }
+//   }
+
+//   // <Button onClick={() => history.goBack()}>Go Back</Button>;
+
+//   return (
+//     <div className="MatchCard card" to={`${username}/matches `}>
+//       {/* <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
+//         More info
+//       </Link> */}
+//       <div className="card-body">
+//         <h3>
+//           <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
+//             You matched with: {username},
+//             <br />
+//             user_id:{user_id}
+//           </Link>
+//         </h3>
+//         <h6 className="card-title">
+//           {image_url && (
+//             <img
+//               src={image_url}
+//               alt={`User ${first_name} ${last_name}}`}
+//               className="float-end ms-5"
+//             />
+//           )}
+//         </h6>
+//         <p>Name: {first_name}</p>
+//         {/* <p>City: {city}</p>
+//         <p>State: {state}</p> */}
+//         <p>Interests: {interests}</p>
+//         <p>Hobbies: {hobbies}</p>
+//         <Button color="primary" size="sm" onClick={handleLike}>
+//           Like
+//         </Button>{" "}
+//         <Button color="danger" size="sm" onClick={handleDislike}>
+//           Dislike
+//         </Button>
+//       </div>
+//       {/* </Link> */}
+//     </div>
+//   );
+// }
 
 export default MatchCard;
