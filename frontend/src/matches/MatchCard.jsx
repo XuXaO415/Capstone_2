@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import "./MatchCard.css";
+import MatchList from "./MatchList";
 
 /** Show limited information about a user
  *
@@ -33,35 +34,39 @@ const MatchCard = ({
 }) => {
   const { currentUser } = useContext(UserContext);
 
-  const history = useHistory();
-
   /** Handle user like button when user likes a user */
-  function handleLike(e) {
+  // function handleLike(e) {
+  //   e.preventDefault();
+  //   console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+  //   like(user_id);
+  // }
+
+  async function handleLike(e) {
     e.preventDefault();
     console.log("MatchCard handleLike: user_id=", user_id, "was liked");
-    like(user_id);
-    history.push(`/users/${currentUser.username}/matches/user/${user_id}`);
+    await like(user_id);
+  }
+
+  async function handleDislike(e) {
+    e.preventDefault();
+    console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
+    await dislike(user_id);
   }
 
   /** Handle onClick for disliking a user */
-  function handleDislike(e) {
-    try {
-      e.preventDefault();
-      dislike(user_id);
-    } catch (err) {
-      console.log("MatchCard dislike: problem with dislike", err);
-    }
-  }
+  // function handleDislike(e) {
+  //   e.preventDefault();
+  //   console.log("MatchCard dislike: problem with dislike", user_id);
+  //   dislike(user_id);
+  // }
 
   return (
     <div className="MatchCard card" to={`${username}/matches `}>
       <div className="card-body">
         <h3>
-          {/* <Link to={`users/${currentUser.username}/matches/user/${user_id}`}> */}
           You matched with: {username},
           <br />
           user_id:{user_id}
-          {/* </Link> */}
         </h3>
         <h6 className="card-title">
           {image_url && (
@@ -72,15 +77,21 @@ const MatchCard = ({
             />
           )}
         </h6>
-        <p>Name: {first_name}</p>
+        <p>
+          Name: {first_name} {last_name}
+        </p>
+        <p>City: {city}</p>
+        <p>State: {state}</p>
         <p>Interests: {interests}</p>
         <p>Hobbies: {hobbies}</p>
         <Button color="primary" size="sm" onClick={handleLike}>
           Like
         </Button>{" "}
+        {/* <Button onClick={handleLike}>Like</Button> */}
         <Button color="danger" size="sm" onClick={handleDislike}>
           Dislike
         </Button>{" "}
+        {/* <Button onClick={handleDislike}>Dislike</Button> */}
         <footer className="user-info-pill">
           <Badge pill bg="light" text="white" position="right">
             <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>

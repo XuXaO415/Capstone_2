@@ -15,17 +15,29 @@ import MatchCard from "./MatchCard";
  */
 
 const LikeMatchList = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, user_id } = useContext(UserContext);
   const [likedMatches, setLikedMatches] = useState(null);
+
+  // const [user_id] = useState(null);
 
   useEffect(() => {
     (async () => {
-      let likedMatches = await UrGuideApi.getLikedMatches(currentUser.username);
-      setLikedMatches(likedMatches);
+      await UrGuideApi.getLikedMatches(currentUser.username, user_id).then(
+        (res) => setLikedMatches(res)
+      );
     })();
-  }, [currentUser.username]);
+  }, [currentUser.username, user_id]);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     let likedMatches = await UrGuideApi.getLikedMatches(currentUser.username);
+  //     setLikedMatches(likedMatches);
+  //   })();
+  // }, [currentUser.username]);
 
   if (!likedMatches) return <p>Loading...</p>;
+
+  /** When rendering liked matches, show liked user's info and only show dislike button */
 
   return (
     <div className="MatchList">
@@ -34,7 +46,7 @@ const LikeMatchList = () => {
         <div className="MatchList-list">
           {likedMatches.map((l) => (
             <MatchCard
-              key={l.user_id}
+              key={l.id}
               user_id={l.user_id}
               username={l.username}
               first_name={l.first_name}

@@ -68,7 +68,7 @@ const MatchList = () => {
     }
 
     setTimeout(() => {
-      setMatchInfo(user_id);
+      setMatchInfo(user_id || null);
     }, 2000);
   }
 
