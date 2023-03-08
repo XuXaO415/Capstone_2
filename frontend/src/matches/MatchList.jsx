@@ -21,14 +21,13 @@ import LikeMatchList from "./LikeMatchList";
 const MatchList = () => {
   const { currentUser, user_id } = useContext(UserContext);
   const [matches, setMatches] = useState(null);
-  const [setMatchInfo] = useState();
+  const [matchInfo, setMatchInfo] = useState(true);
   const [error, setError] = useState(null);
-  const history = useHistory();
 
-  const message = {
-    liked: `${currentUser.username} liked ${user_id}`,
-    disliked: `${currentUser.username} disliked ${user_id}`,
-  };
+  // const message = {
+  //   liked: `${currentUser.username} liked ${user_id}`,
+  //   disliked: `${currentUser.username} disliked ${user_id}`,
+  // };
 
   useEffect(() => {
     (async () => {
@@ -42,10 +41,7 @@ const MatchList = () => {
 
   async function likeMatch(user_id) {
     try {
-      const matchInfo = await UrGuideApi.likeMatch(
-        currentUser.username,
-        user_id
-      );
+      let matchInfo = await UrGuideApi.likeMatch(currentUser.username, user_id);
       setMatchInfo(matchInfo);
       setMatches((m) => m.filter((match) => match.user_id !== user_id));
     } catch (errors) {
@@ -53,8 +49,7 @@ const MatchList = () => {
     }
 
     setTimeout(() => {
-      setMatchInfo(message.liked, { user_id });
-      //setMatchInfo(null);
+      setMatchInfo(user_id);
     }, 2000);
   }
 
@@ -73,8 +68,7 @@ const MatchList = () => {
     }
 
     setTimeout(() => {
-      setMatchInfo(message.disliked);
-      //setMatchInfo(null);
+      setMatchInfo(user_id);
     }, 2000);
   }
 
@@ -89,7 +83,7 @@ const MatchList = () => {
         <div className="MatchList-list">
           {matches.map((m) => (
             <MatchCard
-              key={m.username}
+              key={m.user_id}
               user_id={m.user_id}
               username={m.username}
               first_name={m.first_name}
