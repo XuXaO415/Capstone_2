@@ -32,18 +32,18 @@ const LikeMatchList = () => {
       <h1 className="mb-4">Liked Matches</h1>
       {likedMatches.length ? (
         <div className="MatchList-list">
-          {likedMatches.map((m) => (
+          {likedMatches.map((l) => (
             <MatchCard
-              key={m.username}
-              user_id={m.user_id}
-              username={m.username}
-              first_name={m.first_name}
-              last_name={m.last_name}
-              image_url={m.image_url}
-              city={m.city}
-              state={m.state}
-              interests={m.interests}
-              hobbies={m.hobbies}
+              key={l.user_id}
+              user_id={l.user_id}
+              username={l.username}
+              first_name={l.first_name}
+              last_name={l.last_name}
+              image_url={l.image_url}
+              city={l.city}
+              state={l.state}
+              interests={l.interests}
+              hobbies={l.hobbies}
             />
           ))}
         </div>
@@ -87,15 +87,15 @@ const LikeMatchList = () => {
 //         <div className="MatchList-list">
 //           {likedMatches.map((m) => (
 //             <MatchCard
-//               key={m.username}
-//               username={m.username}
-//               first_name={m.first_name}
-//               last_name={m.last_name}
-//               image_url={m.image_url}
-//               city={m.city}
-//               state={m.state}
-//               interests={m.interests}
-//               hobbies={m.hobbies}
+//               key={l.username}
+//               username={l.username}
+//               first_name={l.first_name}
+//               last_name={l.last_name}
+//               image_url={l.image_url}
+//               city={l.city}
+//               state={l.state}
+//               interests={l.interests}
+//               hobbies={l.hobbies}
 //             />
 //           ))}
 //         </div>
