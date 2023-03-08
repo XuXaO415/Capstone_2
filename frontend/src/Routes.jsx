@@ -60,7 +60,10 @@ function Routes({
             </PrivateRoute>
 
             <PrivateRoute exact path="/matches">
-              <MatchList potentialMatches={potentialMatches} />
+              <MatchList
+                potentialMatches={potentialMatches}
+                setMatchInfo={matchInfo}
+              />
               <MatchCard like={like} dislike={dislike} />
             </PrivateRoute>
             {/* 
