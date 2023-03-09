@@ -116,7 +116,7 @@ class UrGuideApi {
     return res.users;
   }
 
-  static async getLikedMatches(currentUser) {
+  static async getLikedMatches(currentUser, user_id) {
     let res = await this.request(
       `users/${currentUser}/matches/likes`,
       {},
@@ -159,8 +159,7 @@ class UrGuideApi {
   static async getMatchInfo(currentUser, user_id) {
     let res = await this.request(
       `users/${currentUser}/matches/user/${user_id}`,
-      {},
-      "GET"
+      {}
     );
     return res.user;
   }
