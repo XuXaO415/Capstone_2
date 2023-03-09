@@ -305,27 +305,19 @@ class User {
 
   static async matchUsers() {
     const result = await db.query(
-      // `SELECT * FROM users ORDER BY RANDOM() LIMIT 5`
-      `SELECT id AS "user_id", username, first_name, image_url, hobbies, interests
+      `SELECT id AS "user_id", username, first_name, city, state, image_url, hobbies, interests
       FROM users
+      WHERE image_url IS NOT NULL
       ORDER BY RANDOM() LIMIT 5`
+
+      // `SELECT id AS "user_id", username, first_name, image_url, hobbies, interests
+      // FROM users
+      // ORDER BY RANDOM() LIMIT 5`
     );
     let users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }
-
-  // static async matchUser(user_id) {
-  //   const result = await db.query(
-  //     `SELECT id AS "user_id", username, first_name, image_url, hobbies, interests
-  //           FROM users
-  //           WHERE id = $1`,
-  //     [user_id]
-  //   );
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found`);
-  //   return user;
-  // }
 
   static async getUserInfo(user_id) {
     const result = await db.query(
@@ -339,38 +331,24 @@ class User {
     return user;
   }
 
-  static async getUserById(user_id) {
-    const result = await db.query(
-      `SELECT id AS "user_id", username
-            FROM users
-            WHERE id = $1`,
-      [user_id]
-    );
-    let user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user found`);
-    return user;
-  }
-
-  static async findByUserId(user_id) {
-    const result = await db.query(
-      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"
-            FROM users
-            WHERE id = $1`,
-      [user_id]
-    );
-    let user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user found`);
-    return user;
-  }
+  // static async getUserById(user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username
+  //           FROM users
+  //           WHERE id = $1`,
+  //     [user_id]
+  //   );
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found`);
+  //   return user;
+  // }
 
   static async getLikes() {
-    // const result = await db.query(`SELECT * FROM likes`);
-
     const result = await db.query(
-      `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user
+      `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user, users.username, users.first_name, users.image_url, users.hobbies, users.interests
             FROM likes
             JOIN users ON likes.liked_user = users.id
-            GROUP BY likes.user_id, likes.liked_user
+            GROUP BY likes.user_id, likes.liked_user, users.username, users.first_name, users.image_url, users.hobbies, users.interests
             ORDER BY array_agg(likes.id) DESC LIMIT 5`
     );
 
@@ -380,10 +358,25 @@ class User {
     return users;
   }
 
+  // static async getLikes() {
+  //   // const result = await db.query(`SELECT * FROM likes`);
+
+  //   const result = await db.query(
+  //     `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user
+  //           FROM likes
+  //           JOIN users ON likes.liked_user = users.id
+  //           GROUP BY likes.user_id, likes.liked_user
+  //           ORDER BY array_agg(likes.id) DESC LIMIT 5`
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
   static async likeMatch(id, user_id) {
     const result = await db.query(
-      `INSERT INTO likes (user_id, liked_user )
-            VALUES ($1, $2)
+      `INSERT INTO likes (user_id, liked_user, liked_username) 
+            VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
             RETURNING user_id`,
       [id, user_id]
     );
