@@ -25,12 +25,6 @@
   text-align: center;
 }
 
-.MatchCard img {
-  width: 35%;
-  height: 25%;
-  margin: 0 auto;
-  display: block;
-}
 .MatchCard:hover,
 .MatchCard:focus {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -41,8 +35,5 @@
   top: 0;
   right: 0;
   margin: 0.5rem;
-  padding: 0.5rem;
   border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 2px 3px #ccc;
 }

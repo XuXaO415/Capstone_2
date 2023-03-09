@@ -83,9 +83,9 @@ const MatchList = () => {
               username={m.username}
               first_name={m.first_name}
               last_name={m.last_name}
-              image_url={m.image_url}
               city={m.city}
               state={m.state}
+              image_url={m.image_url}
               interests={m.interests}
               hobbies={m.hobbies}
               like={likeMatch}
