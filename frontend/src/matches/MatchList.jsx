@@ -21,7 +21,7 @@ import LikeMatchList from "./LikeMatchList";
 const MatchList = () => {
   const { currentUser, user_id } = useContext(UserContext);
   const [matches, setMatches] = useState(null);
-  const [matchInfo, setMatchInfo] = useState(true);
+  const [matchInfo, setMatchInfo] = useState();
   const [error, setError] = useState(null);
 
   // const message = {
@@ -55,20 +55,15 @@ const MatchList = () => {
 
   async function dislikeMatch(user_id) {
     try {
-      let matchInfo = await UrGuideApi.dislikeMatch(
-        currentUser.username,
-        user_id
-      );
+      let matchInfo = UrGuideApi.dislikeMatch(currentUser.username, user_id);
       setMatchInfo(matchInfo);
-      setMatches((m) => {
-        return m.filter((match) => match.user_id !== user_id);
-      });
+      setMatches((m) => m.filter((match) => match.user_id !== user_id));
     } catch (errors) {
       setError(errors);
     }
 
     setTimeout(() => {
-      setMatchInfo(user_id || null);
+      setMatchInfo(user_id);
     }, 2000);
   }
 
