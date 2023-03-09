@@ -14,51 +14,77 @@ CREATE TABLE users (
 	image_url TEXT, 
 	hobbies TEXT,
 	interests TEXT,
-	is_admin BOOLEAN NOT NULL DEFAULT FALSE
+	is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+	UNIQUE (id)
 );
 
+ALTER TABLE users ADD CONSTRAINT unique_username UNIQUE (username);
 
-CREATE TABLE user_likes (
+
+CREATE TABLE likes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	liked_user_id INTEGER REFERENCES users(id)
+	liked_user INTEGER  NOT NULL REFERENCES users(id),
+	liked_username TEXT REFERENCES users(username),
+	UNIQUE (user_id, liked_user)
 );
 
 
-CREATE TABLE user_dislikes (
+CREATE TABLE dislikes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	disliked_user_id INTEGER REFERENCES users(id)
+	disliked_user INTEGER REFERENCES users(id)
 );
 
-
-CREATE TABLE user_matches (
+CREATE TABLE matches (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	matched_user_id INTEGER REFERENCES users(id)
+	matched_user INTEGER REFERENCES users(id)
 );
 
 
 
 
--- CREATE TABLE likes (
+-- CREATE TABLE users (
 -- 	id SERIAL PRIMARY KEY,
--- 	user_id INTEGER REFERENCES users(id),
--- 	liked_user INTEGER REFERENCES users(id)
+-- 	first_name TEXT NOT NULL,
+-- 	last_name TEXT NOT NULL,
+-- 	username TEXT NOT NULL,
+-- 	password TEXT NOT NULL,
+-- 	email VARCHAR(50) NOT NULL,
+-- 	city TEXT NOT NULL,
+-- 	state TEXT NOT NULL,
+-- 	country TEXT NOT NULL,
+-- 	zip_code INTEGER,
+-- 	latitude DECIMAL,
+-- 	longitude DECIMAL,
+-- 	image_url TEXT, 
+-- 	hobbies TEXT,
+-- 	interests TEXT,
+-- 	is_admin BOOLEAN NOT NULL DEFAULT FALSE
 -- );
 
 
--- CREATE TABLE dislikes (
+-- CREATE TABLE user_likes (
 -- 	id SERIAL PRIMARY KEY,
 -- 	user_id INTEGER REFERENCES users(id),
--- 	disliked_user INTEGER REFERENCES users(id)
+-- 	liked_user_id INTEGER REFERENCES users(id)
 -- );
 
--- CREATE TABLE matches (
+
+-- CREATE TABLE user_dislikes (
 -- 	id SERIAL PRIMARY KEY,
 -- 	user_id INTEGER REFERENCES users(id),
--- 	matched_user INTEGER REFERENCES users(id)
+-- 	disliked_user_id INTEGER REFERENCES users(id)
 -- );
+
+
+-- CREATE TABLE user_matches (
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INTEGER REFERENCES users(id),
+-- 	matched_user_id INTEGER REFERENCES users(id)
+-- );
+
 
 
 
