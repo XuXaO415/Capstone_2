@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import { Card } from "react-bootstrap";
@@ -39,39 +39,39 @@ function MatchDetail() {
           "matchInfo=",
           matchInfo
         );
-        // setMatchInfo(await UrGuideApi.getPotentialMatches(username, user_id));
       }
       getPotentialMatches();
     },
     [user_id, currentUser.username]
   );
 
-  // const getMatchInfo = () => {
+  /** Get user match info */
+
+  // function getMatchInfo() {
   //   async function getMatchInfo() {
-  //     let matchInfo = await UrGuideApi.getMatchInfo(
-  //       currentUser.username,
-  //       user_id
-  //     );
-  //     console.debug(
-  //       "MatchDetail useEffect getPotentialMatches",
-  //       "matchInfo=",
-  //       matchInfo
-  //     );
+  //     let MatchCard = await UrGuideApi.getMatchInfo(user_id);
+  //     console.debug("MatchDetail useEffect getMatchInfo", "setMatchInfo=");
   //   }
   //   getMatchInfo();
-  // };
+  // }
 
   if (!matchInfo) return <p>Loading...</p>;
 
   return (
     <div className="MatchDetail">
       <Card>
+        <Card.Header>Hello!!!!</Card.Header>
         <h3 className="text-center">
-          Hey {currentUser.username}, you matched with: {matchInfo.username}
-        </h3>
+          <Link to={`/users/${currentUser.username}/matches`}>
+            Back to Matches
+          </Link>
 
-        <Card.Img variant="top" src={matchInfo.image_url} />
-        <Card.Body>
+          {/* Hey {currentUser.username}, you matched with: {matchInfo.username} */}
+        </h3>
+        {/* <Card.Link href={`/users/matches/user/${matchInfo.user_id}`} />
+
+        <Card.Img variant="top" src={matchInfo.image_url} /> */}
+        {/* <Card.Body>
           <Card.Title>
             {matchInfo.first_name} {matchInfo.last_name}
           </Card.Title>
@@ -93,7 +93,7 @@ function MatchDetail() {
           <Card.Text>
             <strong>Interests:</strong> {matchInfo.interests}
           </Card.Text>
-        </Card.Body>
+        </Card.Body> */}
       </Card>
     </div>
   );
