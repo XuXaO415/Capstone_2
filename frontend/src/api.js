@@ -150,9 +150,9 @@ class UrGuideApi {
     let res = await this.request(
       `users/${currentUser}/matches/dislike/${user_id}`,
       {},
-      "PUT"
+      "POST"
     );
-    console.log("PUT was successful and", { user_id }, "was disliked");
+    console.log("POSt was successful and", { user_id }, "was disliked");
     return res.status;
   }
 
