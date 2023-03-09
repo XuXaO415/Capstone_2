@@ -260,7 +260,7 @@ router.post(
 
 /** Route for UPDATE -- updates user dislikes   */
 
-router.put(
+router.post(
   "/:username/matches/dislike/:user_id",
   async function (req, res, next) {
     try {
@@ -292,10 +292,12 @@ router.put(
 
 router.get("/:username/matches/user/:user_id", async function (req, res, next) {
   try {
+    let currentUser = await User.get(req.params.username);
     let user = await User.getUserInfo(req.params.user_id);
     console.log(req.params.user_id);
     return res.json({
       user,
+      currentUser,
     });
   } catch (err) {
     return next(err);
