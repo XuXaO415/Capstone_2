@@ -7,11 +7,37 @@
   "properties": {
     "user_id": {
       "description": "user_id of the user who liked other user",
-      "type": "integer"
+      "type": "string"
     },
     "liked_user": {
       "description": "user_id of user who is being liked",
-      "type": "integer"
+      "type": "string"
+    },
+    "liked_username": {
+      "description": "username of user who is being liked",
+      "type": "string"
+    },
+    "liked_first_name": {
+      "description": "first name of user who is being liked",
+      "type": "string"
+    },
+    "liked_image_url": {
+      "description": "image url of user who is being liked",
+      "type": "string"
+    },
+    "liked_hobbies": {
+      "description": "hobbies of user who is being liked",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "liked_interests": {
+      "description": "interests of user who is being liked",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "additionalProperties": false,

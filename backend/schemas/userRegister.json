@@ -67,16 +67,22 @@
       "description": "A URL to an image of a user."
     },
     "interests": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 50,
-      "description": "The users's hobbies."
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50,
+        "description": "User's interests."
+      }
     },
     "hobbies": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 100,
-      "description": "User's hobbies."
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50,
+        "description": "User's hobbies."
+      }
     }
   },
   "additionalProperties": false,
@@ -86,12 +92,10 @@
     "username",
     "password",
     "email",
-
     "city",
     "state",
     "country",
     "zipCode",
-
     "imageUrl",
     "interests",
     "hobbies"
