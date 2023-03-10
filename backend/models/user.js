@@ -43,27 +43,6 @@ class User {
     throw new UnauthorizedError("Invalid username/password");
   }
 
-  /** Given a user_id, return data about user
-   * Returns { username, first_name, last_name, email }
-   *
-   * Throws NotFoundError if user not found.
-   */
-
-  // static async getUserById(user_id) {
-  //   const userRes = await db.query(
-  //     `SELECT username, first_name AS "firstName", last_name AS "lastName", email
-  //           FROM users
-  //           WHERE user_id = $1`,
-  //     [user_id]
-  //   );
-
-  //   const user = userRes.rows[0];
-
-  //   if (!user) throw new NotFoundError(`No user: ${user_id}`);
-
-  //   return user;
-  // }
-
   /** Given a username, return data about users
    * Returns { username, first_name, last_name, email, is_admin }
    *
@@ -227,7 +206,6 @@ class User {
     );
 
     return result.rows;
-    // return result.rows[0].id;
   }
 
   /** Update user data with `data`.
@@ -305,31 +283,54 @@ class User {
 
   static async matchUsers() {
     const result = await db.query(
-      `SELECT id AS "user_id", username, first_name, city, state, image_url, hobbies, interests
+      `SELECT id AS "user_id", username, first_name, city, state, country, zip_code, image_url, hobbies, interests
       FROM users
-      WHERE image_url IS NOT NULL
+      WHERE image_url IS NOT NULL 
       ORDER BY RANDOM() LIMIT 5`
-
-      // `SELECT id AS "user_id", username, first_name, image_url, hobbies, interests
-      // FROM users
-      // ORDER BY RANDOM() LIMIT 5`
     );
     let users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
+    if (users.length < 5)
+      throw new BadRequestError(`Not enough users to match`);
+
+    if (!users[0].zip_code) {
+      users[0].zip_code = users[0].state;
+      users[0].message = "No zip code for this country";
+    }
+
+    // if (users[0].country !== users[1].country) {
+    //   users[1].zip_code = 0;
+    //   users[1].message = "No zip code for this country";
+    // }
+
     return users;
   }
 
   static async getUserInfo(user_id) {
     const result = await db.query(
-      `SELECT id AS "user_id", username, first_name, last_name, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests
-            FROM users
-            WHERE id = $1`,
+      `SELECT id AS "user_id", username, first_name, city, state, country, zip_code, image_url, hobbies, interests
+      FROM users
+      WHERE image_url IS NOT NULL
+      AND id = $1
+      ORDER BY id LIMIT 1`,
       [user_id]
     );
     let user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user found`);
+    if (!user) throw new NotFoundError(`No user`);
     return user;
   }
+
+  // static async getUserInfo(user_id) {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name, city, state, country, zip_code, image_url, hobbies, interests
+  //           FROM users
+  //           WHERE id = $1`,
+  //     [user_id]
+  //   );
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found`);
+  //   return user;
+  // }
 
   // static async getUserById(user_id) {
   //   const result = await db.query(
@@ -345,10 +346,10 @@ class User {
 
   static async getLikes() {
     const result = await db.query(
-      `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user, users.username, users.first_name, users.image_url, users.hobbies, users.interests
+      `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user, likes.liked_username, users.username, users.first_name, users.image_url, users.hobbies, users.interests
             FROM likes
             JOIN users ON likes.liked_user = users.id
-            GROUP BY likes.user_id, likes.liked_user, users.username, users.first_name, users.image_url, users.hobbies, users.interests
+            GROUP BY likes.user_id, likes.liked_user, likes.liked_username,  users.username, users.first_name, users.image_url, users.hobbies, users.interests
             ORDER BY array_agg(likes.id) DESC LIMIT 5`
     );
 
@@ -375,7 +376,7 @@ class User {
 
   static async likeMatch(id, user_id) {
     const result = await db.query(
-      `INSERT INTO likes (user_id, liked_user, liked_username) 
+      `INSERT INTO likes (user_id, liked_user, liked_username, liked_first_name, liked_last_name, liked_city, liked_state, liked_country, liked_zip_code, liked_image_url, liked_hobbies, liked_interests) 
             VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
             RETURNING user_id`,
       [id, user_id]
@@ -384,6 +385,20 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
+
+  /** pull liked user information such as, first_name, city, state, image_url, hobbies, interests from users table and merge this information in likes table so we can later pull this information when going to a like page */
+
+  // static async likeUser(user_id, liked_user_id) {
+  //   const result = await db.query(
+  //     `INSERT INTO likes (user_id, liked_user_id)
+  //     VALUES ($1, $2)
+  //     RETURNING user_id, liked_user_id`,
+  //     [user_id, liked_user_id]
+  //   );
+  //   const like = result.rows[0];
+  //   if (!like) throw new NotFoundError(`No like found`);
+  //   return like;
+  // }
 
   static async updateDislikedMatch(id, user_id) {
     const result = await db.query(
