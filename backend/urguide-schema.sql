@@ -14,9 +14,13 @@ CREATE TABLE users (
 	image_url TEXT, 
 	hobbies TEXT,
 	interests TEXT,
-	is_admin BOOLEAN NOT NULL DEFAULT FALSE,
-	UNIQUE (id)
+	is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+CREATE UNIQUE INDEX users_id_idx ON users (id);
+
+ALTER TABLE likes ADD CONSTRAINT fk_likes_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE likes ADD CONSTRAINT fk_likes_liked_user FOREIGN KEY (liked_user) REFERENCES users(id);
 
 ALTER TABLE users ADD CONSTRAINT unique_username UNIQUE (username);
 
@@ -25,9 +29,29 @@ CREATE TABLE likes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
 	liked_user INTEGER  NOT NULL REFERENCES users(id),
-	liked_username TEXT REFERENCES users(username),
+	liked_username TEXT REFERENCES users(username), 
 	UNIQUE (user_id, liked_user)
 );
+
+
+ALTER TABLE likes ADD COLUMN liked_city TEXT REFERENCES users(city);
+ALTER TABLE likes ADD COLUMN liked_state TEXT REFERENCES users(state);
+ALTER TABLE likes ADD COLUMN liked_country TEXT REFERENCES users(country);
+ALTER TABLE likes ADD COLUMN liked_zip_code INTEGER REFERENCES users(zip_code);
+ALTER TABLE likes ADD COLUMN liked_hobbies TEXT REFERENCES users(hobbies);
+ALTER TABLE likes ADD COLUMN liked_interests TEXT REFERENCES users(interests);
+ALTER TABLE likes ADD COLUMN liked_image_url TEXT REFERENCES users(image_url);
+
+
+
+
+-- CREATE TABLE dislikes (
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INTEGER REFERENCES users(id),
+-- 	disliked_user INTEGER NOT NULL REFERENCES users(id),
+-- 	disliked_username TEXT REFERENCES users(username), 
+-- 	UNIQUE (user_id, disliked_user)
+-- );
 
 
 CREATE TABLE dislikes (
