@@ -41,7 +41,7 @@ const MatchList = () => {
 
   async function likeMatch(user_id) {
     try {
-      let matchInfo = await UrGuideApi.likeMatch(currentUser.username, user_id);
+      let matchInfo = UrGuideApi.likeMatch(currentUser.username, user_id);
       setMatchInfo(matchInfo);
       setMatches((m) => m.filter((match) => match.user_id !== user_id));
     } catch (errors) {
@@ -66,6 +66,18 @@ const MatchList = () => {
       setMatchInfo(user_id);
     }, 2000);
   }
+
+  useEffect(() => {
+    if (matches && matches.length === 0) {
+      (async () => {
+        const matches = await UrGuideApi.getPotentialMatches(
+          currentUser.username,
+          user_id
+        );
+        setMatches(matches);
+      })();
+    }
+  }, [matches, currentUser, user_id]);
 
   if (!matches) return <p>Loading...</p>;
 
@@ -96,6 +108,7 @@ const MatchList = () => {
       ) : (
         <p className="lead">No matches yet!</p>
       )}
+
       {/* <Link to="/users/:username/matches/likes">
         <Button variant="primary">Liked Matches</Button>
       </Link> */}
