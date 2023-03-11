@@ -17,8 +17,7 @@ import MatchCard from "./MatchCard";
 const LikeMatchList = () => {
   const { currentUser, user_id } = useContext(UserContext);
   const [likedMatches, setLikedMatches] = useState(null);
-
-  // const [user_id] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -28,20 +27,23 @@ const LikeMatchList = () => {
     })();
   }, [currentUser.username, user_id]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     let likedMatches = await UrGuideApi.getLikedMatches(currentUser.username);
-  //     setLikedMatches(likedMatches);
-  //   })();
-  // }, [currentUser.username]);
+  async function dislikeMatch(user_id) {
+    try {
+      let matchInfo = UrGuideApi.dislikeMatch(currentUser.username, user_id);
+      setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
+    } catch (errors) {
+      setError(errors);
+    }
+  }
 
   if (!likedMatches) return <p>Loading...</p>;
 
-  /** When rendering liked matches, show liked user's info and only show dislike button */
-
   return (
     <div className="MatchList">
-      <h1 className="mb-4">Liked Matches</h1>
+      <div className="text-center">
+        <h1 className="mb-4">Liked Matches</h1>
+      </div>
+
       {likedMatches.length ? (
         <div className="MatchList-list">
           {likedMatches.map((l) => (
@@ -54,10 +56,15 @@ const LikeMatchList = () => {
               image_url={l.image_url}
               city={l.city}
               state={l.state}
+              zip_code={l.zip_code}
               interests={l.interests}
               hobbies={l.hobbies}
+              dislike={dislikeMatch}
             />
           ))}
+          {/* <Route exact path="/:users/:username/matches/likes/:user_id">
+            <MatchDetail />
+          </Route> */}
         </div>
       ) : (
         <p>You haven't liked any users yet.</p>
@@ -65,57 +72,5 @@ const LikeMatchList = () => {
     </div>
   );
 };
-
-// function LikeMatchList() {
-//   const { currentUser } = useContext(UserContext);
-//   const [likedMatches, setLikedMatches] = useState(null);
-
-//   console.debug("LikeMatchList", "likedMatches=", likedMatches);
-
-//   useEffect(
-//     function getLikedMatches() {
-//       async function getLikedMatches() {
-//         let likedMatches = await UrGuideApi.getLikedMatches(
-//           currentUser.username
-//         );
-//         console.debug(
-//           "LikeMatchList useEffect getLikedMatches",
-//           "likedMatches=",
-//           likedMatches
-//         );
-//         setLikedMatches(likedMatches);
-//       }
-//       getLikedMatches();
-//     },
-//     [currentUser.username]
-//   );
-
-//   if (!likedMatches) return <p>Loading...</p>;
-
-//   return (
-//     <div className="MatchList">
-//       <h1 className="mb-4">Liked Matches</h1>
-//       {likedMatches.length ? (
-//         <div className="MatchList-list">
-//           {likedMatches.map((m) => (
-//             <MatchCard
-//               key={l.username}
-//               username={l.username}
-//               first_name={l.first_name}
-//               last_name={l.last_name}
-//               image_url={l.image_url}
-//               city={l.city}
-//               state={l.state}
-//               interests={l.interests}
-//               hobbies={l.hobbies}
-//             />
-//           ))}
-//         </div>
-//       ) : (
-//         <p>You haven't liked any users yet.</p>
-//       )}
-//     </div>
-//   );
-// }
 
 export default LikeMatchList;

@@ -203,7 +203,7 @@ router.get("/:username/matches/users", async function (req, res, next) {
   try {
     let currentUser = await User.get(req.params.username);
     let users = await User.matchUsers(currentUser.username, req.params.user_id);
-    // console.log(
+
     //   "currentUser=",
     //   req.params.username,
     //   "userMatches=",
@@ -216,24 +216,6 @@ router.get("/:username/matches/users", async function (req, res, next) {
     });
   } catch (err) {
     return next(err);
-  }
-});
-
-/** Route for getting liked users  */
-
-router.get("/:username/matches/likes", async function (req, res, next) {
-  try {
-    let currentUser = await User.get(req.params.username);
-    let users = await User.getLikes(req.params.user_id);
-
-    console.log("currentUser=", req.params.username, "users=", Boolean(users));
-    return res.json({
-      users,
-      currentUser,
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return res.status(err.res.status).json(err.res.data);
   }
 });
 
@@ -258,6 +240,46 @@ router.post(
   }
 );
 
+/** Route for getting liked users  */
+
+router.get("/:username/matches/likes", async function (req, res, next) {
+  try {
+    let currentUser = await User.get(req.params.username);
+    let users = await User.getLikes(req.params.user_id);
+
+    console.log("currentUser=", req.params.username, "users=", Boolean(users));
+    return res.json({
+      users,
+      currentUser,
+      user_id: req.params.user_id,
+    });
+  } catch (err) {
+    return res.status(err.res.status).json(err.res.data);
+  }
+});
+
+// router.post(
+//   "/:username/matches/dislike/user/:user_id",
+//   async function (req, res, next) {
+//     try {
+//       let currentUser = await User.get(req.params.username);
+//       let user = await User.dislikeMatch(
+//         req.params.user_id,
+//         currentUser.user_id
+//       );
+//       return res.json({
+//         user,
+//         username: req.params.username,
+//         user_id: req.params.user_id,
+//       });
+//     } catch (err) {
+//       if (err.res) {
+//         return res.status(err.res.status).json(err.res.data);
+//       }
+//     }
+//   }
+// );
+
 /** Route for UPDATE -- updates user dislikes   */
 
 router.post(
@@ -265,7 +287,7 @@ router.post(
   async function (req, res, next) {
     try {
       let currentUser = await User.get(req.params.username);
-      let user = await User.updateDislikedMatch(
+      let user = await User.unlikeMatch(
         req.params.user_id,
         currentUser.user_id
       );
@@ -277,7 +299,7 @@ router.post(
       );
       return res.json({
         user,
-        currentUser,
+        username: req.params.username,
         user_id: req.params.user_id,
       });
     } catch (err) {
@@ -303,30 +325,6 @@ router.get("/:username/matches/user/:user_id", async function (req, res, next) {
     return next(err);
   }
 });
-
-// router.post(
-//   "/:username/matches/dislike/:user_id",
-//   async function (req, res, next) {
-//     try {
-//       let currentUser = await User.get(req.params.username);
-//       let user = await User.dislikeMatch(
-//         req.params.user_id,
-//         currentUser.user_id
-//       );
-
-//       console.log(" currentUser=", currentUser, "user_id=", req.params.user_id);
-//       return res.json({
-//         user,
-//         username: req.params.username,
-//         user_id: req.params.user_id,
-//       });
-//     } catch (err) {
-//       if (err.res) {
-//         return res.status(err.res.status).json(err.res.data);
-//       }
-//     }
-//   }
-// );
 
 /** Route for DELETE -- removes user dislikes   */
 router.delete(

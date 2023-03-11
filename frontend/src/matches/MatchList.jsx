@@ -6,6 +6,7 @@ import MatchDetail from "./MatchDetail";
 import Alert from "../common/Alert";
 import MatchCard from "./MatchCard";
 import LikeMatchList from "./LikeMatchList";
+import { Button } from "react-bootstrap";
 
 /** Show page with a list of potential matches
  *
@@ -21,7 +22,7 @@ import LikeMatchList from "./LikeMatchList";
 const MatchList = () => {
   const { currentUser, user_id } = useContext(UserContext);
   const [matches, setMatches] = useState(null);
-  const [matchInfo, setMatchInfo] = useState();
+  const [matchInfo, setMatchInfo] = useState(null);
   const [error, setError] = useState(null);
 
   // const message = {
@@ -44,13 +45,12 @@ const MatchList = () => {
       let matchInfo = UrGuideApi.likeMatch(currentUser.username, user_id);
       setMatchInfo(matchInfo);
       setMatches((m) => m.filter((match) => match.user_id !== user_id));
+      setTimeout(() => {
+        setMatchInfo(user_id);
+      }, 2000);
     } catch (errors) {
       setError(errors);
     }
-
-    setTimeout(() => {
-      setMatchInfo(user_id);
-    }, 2000);
   }
 
   async function dislikeMatch(user_id) {
@@ -58,26 +58,25 @@ const MatchList = () => {
       let matchInfo = UrGuideApi.dislikeMatch(currentUser.username, user_id);
       setMatchInfo(matchInfo);
       setMatches((m) => m.filter((match) => match.user_id !== user_id));
+      setTimeout(() => {
+        setMatchInfo(user_id);
+      }, 2000);
     } catch (errors) {
       setError(errors);
     }
-
-    setTimeout(() => {
-      setMatchInfo(user_id);
-    }, 2000);
   }
 
-  useEffect(() => {
-    if (matches && matches.length === 0) {
-      (async () => {
-        const matches = await UrGuideApi.getPotentialMatches(
-          currentUser.username,
-          user_id
-        );
-        setMatches(matches);
-      })();
-    }
-  }, [matches, currentUser, user_id]);
+  // useEffect(() => {
+  //   if (matches && matches.length === 0) {
+  //     (async () => {
+  //       const matches = await UrGuideApi.getPotentialMatches(
+  //         currentUser.username,
+  //         user_id
+  //       );
+  //       setMatches(matches);
+  //     })();
+  //   }
+  // }, [matches, currentUser, user_id]);
 
   if (!matches) return <p>Loading...</p>;
 
@@ -94,24 +93,27 @@ const MatchList = () => {
               user_id={m.user_id}
               username={m.username}
               first_name={m.first_name}
-              last_name={m.last_name}
+              // last_name={m.last_name}
               city={m.city}
               state={m.state}
+              zip_code={m.zip_code}
+              country={m.country}
               image_url={m.image_url}
               interests={m.interests}
               hobbies={m.hobbies}
               like={likeMatch}
               dislike={dislikeMatch}
+              matchInfo={matchInfo}
             />
           ))}
+
+          <Link to={`/likes`}>
+            <Button variant="primary">Liked Matches</Button>
+          </Link>
         </div>
       ) : (
         <p className="lead">No matches yet!</p>
       )}
-
-      {/* <Link to="/users/:username/matches/likes">
-        <Button variant="primary">Liked Matches</Button>
-      </Link> */}
     </div>
   );
 };
