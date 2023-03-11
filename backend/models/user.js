@@ -122,10 +122,10 @@ class User {
     isAdmin,
   }) {
     const duplicateCheck = await db.query(
-      `SELECT username
+      `SELECT username, last_name 
             FROM users
-            WHERE username = $1`,
-      [username]
+            WHERE username = $1 OR last_name = $2`,
+      [username, lastName]
     );
 
     if (duplicateCheck.rows[0]) {
@@ -376,17 +376,28 @@ class User {
 
   static async likeMatch(id, user_id) {
     const result = await db.query(
-      `INSERT INTO likes (user_id, liked_user, liked_username, liked_first_name, liked_last_name, liked_city, liked_state, liked_country, liked_zip_code, liked_image_url, liked_hobbies, liked_interests) 
+      `INSERT INTO likes (user_id, liked_user, liked_username) 
             VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
             RETURNING user_id`,
       [id, user_id]
     );
-    const user = result.rows[0];
+    let user = result.rows[0];
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
 
-  /** pull liked user information such as, first_name, city, state, image_url, hobbies, interests from users table and merge this information in likes table so we can later pull this information when going to a like page */
+  static async unlikeMatch(id, user_id) {
+    const result = await db.query(
+      `DELETE FROM likes
+            WHERE user_id = $1
+            AND liked_user = $2
+            RETURNING user_id`,
+      [id, user_id]
+    );
+    let user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
+  }
 
   // static async likeUser(user_id, liked_user_id) {
   //   const result = await db.query(
@@ -400,15 +411,40 @@ class User {
   //   return like;
   // }
 
+  static async dislikeMatch(id, user_id) {
+    const result = await db.query(
+      `INSERT INTO dislikes (user_id, disliked_user, disliked_username)
+            VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
+            RETURNING user_id`,
+      [id, user_id]
+    );
+    let user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
+  }
+
+  // static async dislikeMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `INSERT INTO dislikes (user_id, disliked_user)
+  //           VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
+  //           ON CONFLICT (user_id, disliked_user)
+  //           DO UPDATE SET disliked_user = $2
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
   static async updateDislikedMatch(id, user_id) {
     const result = await db.query(
-      `UPDATE dislikes
+      `INSERT dislikes
             SET user_id = $1
             WHERE disliked_user = $2
             RETURNING user_id`,
       [id, user_id]
     );
-    const user = result.rows[0];
+    let user = result.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
     return user;
@@ -428,19 +464,6 @@ class User {
 
     return user;
   }
-
-  // static async deleteMatch(username, id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes
-  //           WHERE user_id = $1 AND id = $2
-  //           RETURNING user_id, id`,
-
-  //     [username, id]
-  //   );
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
 }
 
 module.exports = User;
