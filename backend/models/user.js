@@ -320,6 +320,18 @@ class User {
     return user;
   }
 
+  // static async getLikedUsers() {
+  //   const result = await db.query(
+  //     `SELECT id AS "user_id", username, first_name, last_name, hobbies, interests
+  //     FROM users
+  //     JOIN likes ON users.id = likes.liked_user_id
+  //     WHERE likes.user_id = $1`
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users`);
+  //   return users;
+  // }
+
   // static async getUserInfo(user_id) {
   //   const result = await db.query(
   //     `SELECT id AS "user_id", username, first_name, city, state, country, zip_code, image_url, hobbies, interests
@@ -344,20 +356,47 @@ class User {
   //   return user;
   // }
 
+  // `SELECT u.username, u.city, u.state, u.hobbies, u.interests, l.liked_user
+  //   FROM users u
+  //   JOIN likes l ON u.id = l.user_id`
+
   static async getLikes() {
     const result = await db.query(
-      `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user, likes.liked_username, users.username, users.first_name, users.image_url, users.hobbies, users.interests
-            FROM likes
-            JOIN users ON likes.liked_user = users.id
-            GROUP BY likes.user_id, likes.liked_user, likes.liked_username,  users.username, users.first_name, users.image_url, users.hobbies, users.interests
-            ORDER BY array_agg(likes.id) DESC LIMIT 5`
+      `SELECT u.username, u.city, u.state, u.country, u.zip_code, u.hobbies, u.interests, u.image_url, l.liked_user, l.user_id
+      FROM users u
+      LEFT JOIN likes l ON u.id = l.user_id`
     );
-
     let users = result.rows;
-
     if (!users) throw new NotFoundError(`No users found`);
     return users;
   }
+
+  // static async getLikes(user_id) {
+  //   const result = await db.query(
+  //     `SELECT * FROM likes
+  //         JOIN users ON likes.liked_user = users.id
+  //         WHERE likes.user_id = $1`,
+  //     [user_id]
+  //   );
+  //   let users = result.rows;
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
+
+  // static async getLikes() {
+  //   const result = await db.query(
+  //     `SELECT MIN(likes.id) AS id, likes.user_id, likes.liked_user, likes.liked_username, users.username, users.first_name, users.image_url, users.hobbies, users.interests
+  //           FROM likes
+  //           JOIN users ON likes.liked_user = users.id
+  //           GROUP BY likes.user_id, likes.liked_user, likes.liked_username,  users.username, users.first_name, users.image_url, users.hobbies, users.interests
+  //           ORDER BY array_agg(likes.id) DESC LIMIT 5`
+  //   );
+
+  //   let users = result.rows;
+
+  //   if (!users) throw new NotFoundError(`No users found`);
+  //   return users;
+  // }
 
   // static async getLikes() {
   //   // const result = await db.query(`SELECT * FROM likes`);
