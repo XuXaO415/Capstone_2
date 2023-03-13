@@ -66,17 +66,17 @@ const MatchList = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (matches && matches.length === 0) {
-  //     (async () => {
-  //       const matches = await UrGuideApi.getPotentialMatches(
-  //         currentUser.username,
-  //         user_id
-  //       );
-  //       setMatches(matches);
-  //     })();
-  //   }
-  // }, [matches, currentUser, user_id]);
+  useEffect(() => {
+    if (matches && matches.length === 0) {
+      (async () => {
+        const matches = await UrGuideApi.getPotentialMatches(
+          currentUser.username,
+          user_id
+        );
+        setMatches(matches);
+      })();
+    }
+  }, [matches, currentUser, user_id]);
 
   if (!matches) return <p>Loading...</p>;
 
