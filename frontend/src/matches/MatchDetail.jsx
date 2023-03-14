@@ -67,18 +67,27 @@ function MatchDetail() {
   return (
     <div className="MatchDetail">
       <Card>
-        <Card.Header>User Details</Card.Header>
+        <Card.Body>
+          <Card.Title>Match Details</Card.Title>
+        </Card.Body>
         <h3 className="text-center">
           <Link to={`/matches`}>Back to Matches</Link>
         </h3>
+        {currentUser && currentUser.username ? (
+          <p className="lead">
+            Welcome, {currentUser.username}. You clicked on {user_id}!
+          </p>
+        ) : (
+          <p className="lead">Welcome!</p>
+        )}
         {matchInfo && matchInfo.length ? (
-          matchInfo.map((user) => (
-            <div key={user.user_id} className="MatchDetail-list">
-              <div className="MatchDetail-card">User: {user.username}</div>
+          matchInfo.map((u) => (
+            <div key={u.user_id} className="MatchDetail-list">
+              <div className="MatchDetail-card">User: {user_id.username}</div>
               <div className="MatchDetail-card">
-                <Card.Img variant="top" src={user.image_url} />
+                <Card.Img variant="top" src={user_id.image_url} />
                 <Card.Body>
-                  <Card.Title>{user.username}</Card.Title>
+                  <Card.Title>{user_id.username}</Card.Title>
                 </Card.Body>
               </div>
             </div>
