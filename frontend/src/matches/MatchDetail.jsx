@@ -27,73 +27,65 @@ function MatchDetail() {
     user_id
   );
 
+  // useEffect(
+  //   function getPotentialUserMatches() {
+  //     async function getPotentialMatches() {
+  //       let matchInfo = await UrGuideApi.getPotentialMatches(
+  //         currentUser.username,
+  //         user_id
+  //       );
+  //       console.debug(
+  //         "MatchDetail useEffect getPotentialMatches",
+  //         "matchInfo=",
+  //         matchInfo
+  //       );
+  //     }
+  //     getPotentialMatches();
+  //   },
+  //   [user_id, currentUser.username]
+  // );
+
   useEffect(
-    function getPotentialUserMatches() {
-      async function getPotentialMatches() {
-        let matchInfo = await UrGuideApi.getPotentialMatches(
+    function getMatchInfo() {
+      async function getMatchInfo() {
+        let matchInfo = await UrGuideApi.getMatchInfo(
           currentUser.username,
           user_id
         );
         console.debug(
-          "MatchDetail useEffect getPotentialMatches",
+          "MatchDetail useEffect getMatchInfo",
           "matchInfo=",
           matchInfo
         );
+        setMatchInfo(matchInfo);
       }
-      getPotentialMatches();
+      getMatchInfo();
     },
     [user_id, currentUser.username]
   );
 
-  /** Get user match info */
-
-  // function getMatchInfo() {
-  //   async function getMatchInfo() {
-  //     let MatchCard = await UrGuideApi.getMatchInfo(user_id);
-  //     console.debug("MatchDetail useEffect getMatchInfo", "setMatchInfo=");
-  //   }
-  //   getMatchInfo();
-  // }
-
-  if (!matchInfo) return <p>Loading...</p>;
-
   return (
     <div className="MatchDetail">
       <Card>
-        <Card.Header>Hello!!!!</Card.Header>
+        <Card.Header>User Details</Card.Header>
         <h3 className="text-center">
-          <Link to={`/users/${currentUser.username}/matches`}>
-            Back to Matches
-          </Link>
-
-          {/* Hey {currentUser.username}, you matched with: {matchInfo.username} */}
+          <Link to={`/matches`}>Back to Matches</Link>
         </h3>
-        {/* <Card.Link href={`/users/matches/user/${matchInfo.user_id}`} />
-
-        <Card.Img variant="top" src={matchInfo.image_url} /> */}
-        {/* <Card.Body>
-          <Card.Title>
-            {matchInfo.first_name} {matchInfo.last_name}
-          </Card.Title>
-          <Card.Text>
-            <strong>City:</strong> {matchInfo.city}
-          </Card.Text>
-          <Card.Text>
-            <Card.Text>
-              <strong>State:</strong> {matchInfo.state}
-            </Card.Text>
-            <strong>Country:</strong> {matchInfo.country}
-          </Card.Text>
-          <Card.Text>
-            <strong>Zip Code:</strong> {matchInfo.zipCode}
-          </Card.Text>
-          <Card.Text>
-            <strong>Hobbies:</strong> {matchInfo.hobbies}
-          </Card.Text>
-          <Card.Text>
-            <strong>Interests:</strong> {matchInfo.interests}
-          </Card.Text>
-        </Card.Body> */}
+        {matchInfo && matchInfo.length ? (
+          matchInfo.map((user) => (
+            <div key={user.user_id} className="MatchDetail-list">
+              <div className="MatchDetail-card">User: {user.username}</div>
+              <div className="MatchDetail-card">
+                <Card.Img variant="top" src={user.image_url} />
+                <Card.Body>
+                  <Card.Title>{user.username}</Card.Title>
+                </Card.Body>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
       </Card>
     </div>
   );
