@@ -75,18 +75,6 @@ class UrGuideApi {
     return res.user;
   }
 
-  /** Upload user image */
-
-  static async uploadImage(data) {
-    let headers = {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${UrGuideApi.token}`,
-    };
-    let res = await axios.post(`${BASE_URL}/users/upload`, data, { headers });
-    console.log(res, "res from uploadImage was successful");
-    return res.data;
-  }
-
   /* Update user profile */
 
   static async updateProfile(username, data) {
@@ -94,6 +82,18 @@ class UrGuideApi {
     console.log(res, "res from updateProfile was successful");
     return res.user;
   }
+
+  /** Upload user image */
+
+  // static async uploadImage(data) {
+  //   let headers = {
+  //     "Content-Type": "multipart/form-data",
+  //     Authorization: `Bearer ${UrGuideApi.token}`,
+  //   };
+  //   let res = await axios.post(`${BASE_URL}/users/upload`, data, { headers });
+  //   console.log(res, "res from uploadImage was successful");
+  //   return res.data;
+  // }
 
   // static async matchList(currentUser) {
   //   let res = await this.request(`users/${currentUser}/matches`, {});
@@ -105,6 +105,15 @@ class UrGuideApi {
   //   );
   //   return res.users;
   // }
+
+  static async getMatchInfo(currentUser, user_id) {
+    let res = await this.request(
+      `users/${currentUser}/matches/user/${user_id}`,
+      {},
+      "GET"
+    );
+    return res;
+  }
 
   static async getPotentialMatches(currentUser) {
     let res = await this.request(`users/${currentUser}/matches/users`, {});
@@ -144,7 +153,15 @@ class UrGuideApi {
     return res.status;
   }
 
-  /**  disliking a matched user -- POST to db */
+  /* Dislike a specific user and post */
+  // static async dislikeUser(currentUser, user_id) {
+  //   let res = await this.request(
+  //     `users/${currentUser}/matches/dislike/user/${user_id}`,
+  //     {},
+  //     "POST"
+  //   );
+  //   return res.status;
+  // }
 
   static async dislikeMatch(currentUser, user_id) {
     let res = await this.request(
@@ -152,16 +169,8 @@ class UrGuideApi {
       {},
       "POST"
     );
-    console.log("POSt was successful and", { user_id }, "was disliked");
+    console.log("POST was successful and", { user_id }, "was disliked");
     return res.status;
-  }
-
-  static async getMatchInfo(currentUser, user_id) {
-    let res = await this.request(
-      `users/${currentUser}/matches/user/${user_id}`,
-      {}
-    );
-    return res.user;
   }
 
   /**  remove a matched user -- DELETE from db */
