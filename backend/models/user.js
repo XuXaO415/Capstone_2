@@ -307,16 +307,22 @@ class User {
   }
 
   static async getUserInfo(user_id) {
-    const result = await db.query(
-      `SELECT id AS "user_id", username, first_name, city, state, country, zip_code, image_url, hobbies, interests
+    try {
+      const result = await db.query(
+        `SELECT id AS "user_id", username, first_name, city, state, country, zip_code, image_url, hobbies, interests
       FROM users
-      WHERE id = $1`,
-      [user_id]
-    );
-    console.log(result.rows);
-    let user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user`);
-    return user;
+      WHERE id = $1
+      ORDER BY id LIMIT 1`,
+        [user_id]
+      );
+      console.log(result.rows);
+      let user = result.rows[0];
+      if (!user) throw new NotFoundError(`No user`);
+      return user;
+    } catch (err) {
+      console.log(err);
+      throw error;
+    }
   }
 
   // static async getUserInfo(user_id) {
