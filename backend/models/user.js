@@ -278,13 +278,13 @@ class User {
       return user;
     } catch (err) {
       console.log(err);
-      throw error;
+      throw err;
     }
   }
 
   static async getLikes() {
     const result = await db.query(
-      `SELECT u.username, u.city, u.state, u.country, u.zip_code, u.hobbies, u.interests, u.image_url, l.liked_user, l.user_id
+      `SELECT u.username, u.first_name, u.city, u.state, u.country, u.zip_code, u.hobbies, u.interests, u.image_url, l.liked_user, l.user_id
       FROM users u
       LEFT JOIN likes l ON u.id = l.user_id`
     );
