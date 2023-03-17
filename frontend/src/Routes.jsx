@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Switch, Route, Link, NavLink, Redirect } from "react-router-dom";
 import Homepage from "./Homepage";
 import LoginForm from "./forms/LoginForm";
@@ -9,7 +9,7 @@ import MatchDetail from "./matches/MatchDetail";
 import MatchList from "./matches/MatchList";
 import MatchCard from "./matches/MatchCard";
 import LikeMatchList from "./matches/LikeMatchList";
-// import UserInfo from "./matches/UserInfo";
+import UserInfo from "./matches/UserInfo";
 
 function Routes({
   login,
@@ -18,22 +18,13 @@ function Routes({
   currentUser,
   like,
   dislike,
+  dislikeMatch,
   potentialMatches,
   likedMatches,
-  getLikedMatches,
   matchInfo,
-  user_id,
+  getLikedMatches,
+  userInfo,
 }) {
-  // console.debug(
-  //   "Routes",
-  //   "login=",
-  //   login,
-  //   "signup=",
-  //   signup,
-  //   "currentUser=",
-  //   currentUser
-  // );
-
   return (
     <div className="Routes">
       <Switch>
@@ -64,21 +55,22 @@ function Routes({
                 potentialMatches={potentialMatches}
                 setMatchInfo={matchInfo}
               />
-              <MatchCard like={like} dislike={dislike} />
+              <MatchCard like={like} dislike={dislikeMatch} />
             </PrivateRoute>
-            {/* 
-            <PrivateRoute exact path="/matches/user/:user_id">
-              <MatchDetail matchInfo={matchInfo} />
-            </PrivateRoute> */}
+
+            <PrivateRoute exact path="/users/:username/matches/user/:user_id">
+              <MatchDetail matchInfo={userInfo} setMatchInfo={matchInfo} />
+            </PrivateRoute>
 
             <PrivateRoute exact path="/likes">
-              <LikeMatchList likedMatches={likedMatches} />
-              <MatchCard like={like} dislike={dislike} />
+              <LikeMatchList
+                likedMatches={likedMatches}
+                getLikedMatches={getLikedMatches}
+                dislike={dislike}
+              />
+              <MatchDetail matchInfo={userInfo} setMatchInfo={matchInfo} />
+              {/* <MatchCard like={like} dislike={dislike} /> */}
             </PrivateRoute>
-            {/* 
-            <PrivateRoute exact path="/:username/matches/info/:user_id">
-              <MatchDetail matchInfo={matchInfo} />
-            </PrivateRoute> */}
           </>
         )}
         <Route>

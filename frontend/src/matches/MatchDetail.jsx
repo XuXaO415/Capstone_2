@@ -118,13 +118,20 @@ function MatchDetail() {
 
   useEffect(() => {
     async function getMatchInfo() {
-      const { user } = await UrGuideApi.getMatchInfo(
-        // eslint-disable-next-line no-use-before-define
-        currentUser.username,
-        user_id
-      );
-      let matchInfo = { currentUser, user };
-      setMatchInfo(matchInfo);
+      try {
+        let { user } = await UrGuideApi.getMatchInfo(
+          // eslint-disable-next-line no-use-before-define
+          currentUser.username,
+          user_id
+        );
+        let matchInfo = { currentUser, user, user_id };
+        setMatchInfo(matchInfo);
+      } catch (err) {
+        console.error(
+          "MatchDetail useEffect getMatchInfo: problem loading",
+          err
+        );
+      }
     }
     getMatchInfo();
   }, [currentUser, currentUser.username, user_id]);
