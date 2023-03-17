@@ -203,13 +203,6 @@ router.get("/:username/matches/users", async function (req, res, next) {
   try {
     let currentUser = await User.get(req.params.username);
     let users = await User.matchUsers(currentUser.username, req.params.user_id);
-
-    //   "currentUser=",
-    //   req.params.username,
-    //   "userMatches=",
-    //   users,
-    //   "user_id="
-    // );
     return res.json({
       currentUser: req.params.username,
       users,
@@ -218,8 +211,6 @@ router.get("/:username/matches/users", async function (req, res, next) {
     return next(err);
   }
 });
-
-/** Route for POST  */
 
 router.post(
   "/:username/matches/like/:user_id",
@@ -239,8 +230,6 @@ router.post(
     }
   }
 );
-
-/** Route for getting liked users  */
 
 router.get("/:username/matches/likes", async function (req, res, next) {
   try {
@@ -280,8 +269,6 @@ router.get("/:username/matches/likes", async function (req, res, next) {
 //   }
 // );
 
-/** Route for UPDATE -- updates user dislikes   */
-
 router.post(
   "/:username/matches/dislike/:user_id",
   async function (req, res, next) {
@@ -310,8 +297,6 @@ router.post(
   }
 );
 
-/** Route for getting more info on a matched user */
-
 router.get("/:username/matches/user/:user_id", async function (req, res, next) {
   try {
     let currentUser = await User.get(req.params.username);
@@ -326,7 +311,6 @@ router.get("/:username/matches/user/:user_id", async function (req, res, next) {
   }
 });
 
-/** Route for DELETE -- removes user dislikes   */
 router.delete(
   "/:username/matches/dislike/:user_id/removed",
   async function (req, res, next) {
