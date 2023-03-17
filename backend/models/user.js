@@ -284,10 +284,13 @@ class User {
 
   static async getLikes() {
     const result = await db.query(
-      `SELECT u.username, u.first_name, u.city, u.state, u.country, u.zip_code, u.hobbies, u.interests, u.image_url, l.liked_user, l.user_id
+      `SELECT  u.username, u.first_name, u.city, u.state, u.country, u.zip_code, u.hobbies, u.interests, u.image_url, l.liked_user, l.user_id
       FROM users u
-      LEFT JOIN likes l ON u.id = l.user_id`
+      LEFT JOIN likes l ON u.id = l.user_id
+      WHERE l.user_id IS NOT NULL
+      ORDER BY l.id DESC`
     );
+    console.log(result.rows);
     let users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
     return users;
@@ -313,6 +316,7 @@ class User {
             RETURNING user_id`,
       [id, user_id]
     );
+    // console.log(result.rows);
     let user = result.rows[0];
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
