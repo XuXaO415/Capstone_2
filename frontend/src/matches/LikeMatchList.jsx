@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useHistory, Route, useParams } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import MatchCard from "./MatchCard";
@@ -9,7 +8,6 @@ import MatchCard from "./MatchCard";
  * On mount, retrieves a list of liked users
  *
  * Routed at /:users/:username/matches/likes
- *
  *
  */
 

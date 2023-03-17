@@ -7,6 +7,7 @@ import Alert from "../common/Alert";
 import MatchCard from "./MatchCard";
 import LikeMatchList from "./LikeMatchList";
 import { Button } from "react-bootstrap";
+import Pagination from "react-bootstrap/Pagination";
 
 /** Show page with a list of potential matches
  *
@@ -93,7 +94,6 @@ const MatchList = () => {
               user_id={m.user_id}
               username={m.username}
               first_name={m.first_name}
-              // last_name={m.last_name}
               city={m.city}
               state={m.state}
               zip_code={m.zip_code}
@@ -107,9 +107,9 @@ const MatchList = () => {
             />
           ))}
 
-          <Link to={`/likes`}>
+          {/* <Link to={`/likes`}>
             <Button variant="primary">Liked Matches</Button>
-          </Link>
+          </Link> */}
         </div>
       ) : (
         <p className="lead">No matches yet!</p>

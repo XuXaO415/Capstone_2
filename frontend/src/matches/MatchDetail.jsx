@@ -120,7 +120,6 @@ function MatchDetail() {
     async function getMatchInfo() {
       try {
         let { user } = await UrGuideApi.getMatchInfo(
-          // eslint-disable-next-line no-use-before-define
           currentUser.username,
           user_id
         );
@@ -139,17 +138,15 @@ function MatchDetail() {
   return (
     <div className="MatchDetail">
       <Card>
+        <Card.Header as="h1">Match Details</Card.Header>
         <Card.Body>
-          <Card.Title>Match Details</Card.Title>
+          <Card.Title className="text-center">
+            Here's some more info about me
+          </Card.Title>
         </Card.Body>
-        <h3 className="text-center">
-          <Link to={`/matches`}>Back to Matches</Link>
-        </h3>
+
         {currentUser && currentUser.username ? (
-          <p className="lead">
-            Welcome, {currentUser.username}. You clicked on {user_id}! more
-            details coming soon...
-          </p>
+          <p className="lead">Here's more info on {user_id}!</p>
         ) : (
           <p className="lead">Welcome!! HERE are your matches</p>
         )}

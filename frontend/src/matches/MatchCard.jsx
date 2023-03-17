@@ -32,51 +32,59 @@ const MatchCard = ({
   interests,
   hobbies,
   like,
-  // likeMatch,
   dislike,
-  // dislikeMatch,
 }) => {
   const { currentUser } = useContext(UserContext);
-  const [matches, setMatches] = useState(null);
-  const [matchInfo, setMatchInfo] = useState(null);
 
-  // async function like(user_id) {
-  //   console.log("MatchCard like: user_id=", user_id, "was liked");
-  //   UrGuideApi.likeMatch(currentUser.username, user_id);
-  // }
+  function likeButton({ user_id, like }) {
+    const handleLike = (e) => {
+      e.preventDefault();
+      console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+      like(user_id);
+    };
 
-  // async function dislike(user_id) {
-  //   console.log("MatchCard like: user_id=", user_id, "was liked");
-  //   UrGuideApi.dislikeMatch(currentUser.username, user_id);
-  // }
-
-  // function like(user_id,) {
-  //   console.log("MatchCard like: user_id=", user_id, "was liked");
-  //   UrGuideApi.likeMatch(currentUser.username, user_id);
-  // }
-
-  // function dislike(user_id) {
-  //   console.log("MatchCard like: user_id=", user_id, "was liked");
-  //   UrGuideApi.dislikeMatch(currentUser.username, user_id);
-  // }
-
-  function handleLike(e) {
-    e.preventDefault();
-    console.log("MatchCard handleLike: user_id=", user_id, "was liked");
-    like(user_id);
+    return (
+      <Button
+        variant="primary"
+        size="sm"
+        className="float-end"
+        onClick={handleLike}
+      >
+        Like
+      </Button>
+    );
   }
 
-  function handleDislike(e) {
-    e.preventDefault();
-    console.log("MatchCard dislike: user_id=", user_id, "was disliked");
-    dislike(user_id);
-  }
-
-  // const handleDislike = (e) => {
+  // function handleLike(e) {
   //   e.preventDefault();
-  //   console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
+  //   console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+  //   like(user_id);
+  // }
+
+  // function handleDislike(e) {
+  //   e.preventDefault();
+  //   console.log("MatchCard dislike: user_id=", user_id, "was disliked");
   //   dislike(user_id);
-  // };
+  // }
+
+  function dislikeButton({ user_id, dislike }) {
+    const handleDislike = (e) => {
+      e.preventDefault();
+      console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
+      dislike(user_id);
+    };
+
+    return (
+      <Button
+        variant="danger"
+        size="sm"
+        className="float-end"
+        onClick={handleDislike}
+      >
+        Dislike
+      </Button>
+    );
+  }
 
   return (
     <div
@@ -87,7 +95,7 @@ const MatchCard = ({
         <h3>
           You matched with: {username},
           <br />
-          user_id:{user_id}
+          {/* user_id:{user_id} */}
         </h3>
         <h6 className="card-title">
           {image_url && (
@@ -105,12 +113,15 @@ const MatchCard = ({
         <p>Zip Code: {zip_code}</p>
         <p>Interests: {interests}</p>
         <p>Hobbies: {hobbies}</p>
-        <Button color="primary" size="sm" onClick={handleLike}>
+        {likeButton({ user_id, like })}
+        <span> </span>
+        {/* <Button color="primary" size="sm" onClick={handleLike}>
           Like
-        </Button>{" "}
-        <Button color="danger" size="sm" onClick={handleDislike}>
+        </Button>{" "} */}
+        {/* <Button color="danger" size="sm" onClick={handleDislike}>
           Dislike
-        </Button>{" "}
+        </Button>{" "} */}
+        {dislikeButton({ user_id, dislike })}
         <div className="user-info-pill">
           <Badge pill bg="light" text="white" position="right">
             <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
