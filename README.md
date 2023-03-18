@@ -12,6 +12,33 @@ Why use UrGuide?
 * Explore the dopest sightseeing places, or experience the best locally known places to eat.
 * Learn about the best kept secrets in town from your friends.
 
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#backend-built-with">Backend Built With</a></li>
+        <li><a href="#frontend-built-with">Frontend Built With</a></li>
+      </ul>
+    </li>
+      <li>
+      <a href="features">Features</a>
+      <ul>
+        <li><a href="#functionality">Functionality</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+  </ol>
+</details>
+
 ### Backend built with
 
 * ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
@@ -43,8 +70,7 @@ Why use UrGuide?
 * ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB)
 * ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=red)
 
-
-
+<!-- table option (looks okay) -->
 <!-- | Backend built with |
 |------------|
 | ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) | Express.js |
@@ -89,6 +115,12 @@ Why use UrGuide?
 | ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white) | Bootstrap |
 | ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) | CSS3 |
 | ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB) | Bcrypt | -->
--->
 
+
+### Functionality
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+## Installation
 
