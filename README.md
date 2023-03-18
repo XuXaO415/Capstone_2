@@ -4,6 +4,7 @@
 UrGuide is an app where people from all over the world come to make friends.
 
 Why use UrGuide?
+
 * Make friends when traveling.
 * Your friends are your guides.
 * Match with friends based on related interests and hobbies.
@@ -11,8 +12,17 @@ Why use UrGuide?
 * Explore the dopest sightseeing places, or experience the best locally known places to eat.
 * Learn about the best kept secrets in town from your friends.
   
-### Backend built with:
-* ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+### Backend built with
+
+<div style="display:flex;">
+<div style="flex:1;">
+<h2>Tech stack used</h2>
+<ul>
+<li>![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)</li>
+</ul>
+</div>
+</div>
+
 * ![axios](https://img.shields.io/badge/axios-5A29E4.svg?style=for-the-badge&logo=axios&logoColor=purple)
 * ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 * ![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
@@ -25,8 +35,7 @@ Why use UrGuide?
 * ![Nodemon](https://img.shields.io/badge/NODEMON-white.svg?style=for-the-badge&logo=nodemon&logoColor=#76D04B)
 * ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=red)
 
-
-# Frontend built with:
+### Frontend built with
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
@@ -42,4 +51,3 @@ Why use UrGuide?
 ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=red)
 
 <!-- ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) -->
-
