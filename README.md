@@ -1,5 +1,18 @@
-# Capstone 2
-Home for everything related to my 2nd capstone
+<!-- About my project -->
+# About The Project
+
+UrGuide is an app where people from all over the world come to make friends.
+
+Why use UrGuide?
+* Make friends when traveling.
+* Your friends are your guides.
+* Match with friends based on related interests and hobbies.
+* Learn about the places you visit from your friends.
+* Explore the dopest sightseeing places, or experience the best locally known places to eat.
+* Learn about the best kept secrets in town from your friends.
+  
+### Backend built with:
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 
 More stuff coming soon!
 
