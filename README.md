@@ -25,7 +25,7 @@ Why use UrGuide?
       </ul>
     </li>
       <li>
-      <a href="features">Features</a>
+      <a href="#features">Features</a>
       <ul>
         <li><a href="#functionality">Functionality</a></li>
       </ul>
@@ -116,11 +116,19 @@ Why use UrGuide?
 | ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) | CSS3 |
 | ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB) | Bcrypt | -->
 
+### Features 
 
-### Functionality
+## Functionality
+
+* Login and Authentication
+* Will add more soon...
 
 <!-- GETTING STARTED -->
 ## Getting Started
+1. Clone the the repo 
+```
+(https://github.com/XuXaO415/Capstone_2/tree/main/frontend)
+```
 
 ## Installation
 
