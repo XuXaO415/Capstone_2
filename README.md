@@ -129,7 +129,8 @@ Why use UrGuide?
 ```
 git clone https://github.com/XuXaO415/Capstone_2.git
 ```
-2. ```
+2. 
+```
 cd into backend
 ```
 
