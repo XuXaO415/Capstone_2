@@ -127,7 +127,7 @@ Why use UrGuide?
 ## Getting Started
 1. Clone the the repo 
 ```
-(https://github.com/XuXaO415/Capstone_2/tree/main/frontend)
+https://github.com/XuXaO415/Capstone_2/tree/main/frontend
 ```
 
 ## Installation
