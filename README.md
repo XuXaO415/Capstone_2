@@ -15,7 +15,7 @@ Why use UrGuide?
 * ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 * ![axios](https://img.shields.io/badge/axios-5A29E4.svg?style=for-the-badge&logo=axios&logoColor=purple)
 * ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
-* ![PostgreSQL](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+* ![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 * ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB)
 * ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white)
 * ![JSON Schema](https://img.shields.io/badge/json-schema-%230769AD.svg?style=for-the-badge&logo=json-schema&logoColor=black)
