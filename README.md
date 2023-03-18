@@ -13,15 +13,6 @@ Why use UrGuide?
 * Learn about the best kept secrets in town from your friends.
 
 ### Backend built with
-<!-- |               |         |
-| -------       | ------- |
-
-
-|         |         |
-| ------- | ------- |
-| ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) Item 1 | ![React.js](https://img.shields.io/badge/react.js-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) Item 2 |
-| ![Node.js](https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white) Item 3 -->
-
 
 * ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 
@@ -52,4 +43,52 @@ Why use UrGuide?
 * ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB)
 * ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=red)
 
-<!-- ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) -->
+
+
+<!-- | Backend built with |
+|------------|
+| ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) | Express.js |
+| ![axios](https://img.shields.io/badge/axios-5A29E4.svg?style=for-the-badge&logo=axios&logoColor=purple) | Axios |
+| ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens) | JWT |
+| ![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) | PostgreSQL |
+| ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white) | jQuery |
+| ![JSON Schema](https://img.shields.io/badge/json-schema-black.svg?style=for-the-badge&logo=json-schema&logoColor=white) | JSON Schema |
+| ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) | JavaScript |
+| ![Node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white) | Node.js |
+| ![Express morgan](https://img.shields.io/badge/morgan-%23404d59.svg?style=for-the-badge&logo=express&logoColor=black) | Express morgan |
+| ![Nodemon](https://img.shields.io/badge/NODEMON-white.svg?style=for-the-badge&logo=nodemon&logoColor=#76D04B) | Nodemon |
+| ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=red) | NPM |
+
+| Frontend built with |
+|------------|
+| ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) | React |
+| ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) | React Router |
+| ![React DOM](https://img.shields.io/badge/ReactDOM-black?style=for-the-badge&logo=react-dom&logoColor=white) | React DOM |
+| ![React-Bootstrap](https://img.shields.io/badge/react-bootstrap-7952B3.svg?style=for-the-badge&logo=react&bootstraplogoColor=purple) | React-Bootstrap |
+| ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white) | Bootstrap |
+| ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) | CSS3 |
+| ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB) | Bcrypt | -->
+
+<!-- | Package | Name |
+|------|------|
+| ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) | Express.js |
+| ![axios](https://img.shields.io/badge/axios-5A29E4.svg?style=for-the-badge&logo=axios&logoColor=purple) | Axios |
+| ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens) | JWT |
+| ![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) | PostgreSQL |
+| ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white) | jQuery |
+| ![JSON Schema](https://img.shields.io/badge/json-schema-black.svg?style=for-the-badge&logo=json-schema&logoColor=white) | JSON Schema |
+| ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) | JavaScript |
+| ![Node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white) | Node.js |
+| ![Express morgan](https://img.shields.io/badge/morgan-%23404d59.svg?style=for-the-badge&logo=express&logoColor=black) | Express morgan |
+| ![Nodemon](https://img.shields.io/badge/NODEMON-white.svg?style=for-the-badge&logo=nodemon&logoColor=#76D04B) | Nodemon |
+| ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=red) | NPM |
+| ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) | React |
+| ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) | React Router |
+| ![React DOM](https://img.shields.io/badge/ReactDOM-black?style=for-the-badge&logo=react-dom&logoColor=white) | React DOM |
+| ![React-Bootstrap](https://img.shields.io/badge/react-bootstrap-7952B3.svg?style=for-the-badge&logo=react&bootstraplogoColor=purple) | React-Bootstrap |
+| ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white) | Bootstrap |
+| ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) | CSS3 |
+| ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB) | Bcrypt | -->
+-->
+
+
