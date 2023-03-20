@@ -1,6 +1,6 @@
+<a name="readme-top"></a>
 <!-- About my project -->
 # About The Project - UrGuide
-<a name="readme-top"></a>
 
 UrGuide is an app where people from all over the world come to make friends.
 
