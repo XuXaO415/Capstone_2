@@ -139,7 +139,7 @@ Why use UrGuide?
 
 ## Getting Started
 
-* Please note in order to run this project, you need to 
+* Please note in order to run this project, you need to have [PostgreSQL](https://www.postgresql.org/) installed on your machine.
 1. Clone the the repo 
 ```
 git clone https://github.com/XuXaO415/Capstone_2.git
