@@ -116,15 +116,30 @@ Why use UrGuide?
 | ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) | CSS3 |
 | ![Bcrypt](https://img.shields.io/badge/bcrypt-%23404d59.svg?style=for-the-badge&logo=bcrypt&logoColor=%2361DAFB) | Bcrypt | -->
 
-### Features 
+## Features 
+
+- Users can login or join
+- Users can edit their profile
+- Users are matched with other users based on their interests and hobbies
+- Users can like or dislike matches
+- Like matches are saved and can be viewed later
+- Users can view more information on a user when they click on a user.
 
 ## Functionality
 
-* Login and Authentication
-* Will add more soon...
+* Login and Authentication using JWT. Hashes password for increased security
+* When a user signs up, they fill out a form that includes a list of hobbies and interests  they can chose from 
+* Users can edit their profile at anytime and all changes are saved
+* Users are shown a list of potential matches where they can like or dislike a user
+* Users can find more detailed information about a user by clicking on their card
+
 
 <!-- GETTING STARTED -->
+
+
 ## Getting Started
+
+* Please note in order to run this project, you need to 
 1. Clone the the repo 
 ```
 git clone https://github.com/XuXaO415/Capstone_2.git
@@ -133,6 +148,7 @@ git clone https://github.com/XuXaO415/Capstone_2.git
 ```
 cd into backend
 ```
+3. 
 
 ## Installation
 
