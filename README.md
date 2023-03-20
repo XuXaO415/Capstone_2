@@ -156,9 +156,11 @@ createdb <urguide>
 ``` 
 psql < urguide.sql
 ```
-5. Follow instructions when script runs
+5. Follow script instructions 
 6. You can also manually add these commands in psql
 ```\i urguide-schema.sql
+```
+```
 \i urguide-seed.sql
 ```
 7. Start your server
