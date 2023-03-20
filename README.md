@@ -31,9 +31,9 @@ Why use UrGuide?
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#getting-started">Getting Started on the Server-Side</a>
       <ul>
-        <li><a href="#installation">Installation</a></li>
+       <li><a href="#getting-started">Getting Started on the Client-Side</a></li>
       </ul>
     </li>
   </ol>
@@ -136,19 +136,36 @@ Why use UrGuide?
 
 <!-- GETTING STARTED -->
 
-
 ## Getting Started
 
 * Please note in order to run this project, you need to have [PostgreSQL](https://www.postgresql.org/) installed on your machine.
+### Getting Started on the Server-Side
 1. Clone the the repo 
 ```
 git clone https://github.com/XuXaO415/Capstone_2.git
 ```
-2. 
+1. 
 ```
 cd into backend
 ```
-3. 
+1. Create your database
+``` 
+createdb <urguide>
+```
+1. Seed data
+``` psql < urguide.sql
+```
+1. Follow instructions when script runs
+2. You can also manually add these commands in psql
+``` \i urguide-schema.sql
+    \i urguide-seed.sql
+```
+7. Start your server
+   ```
+   node server.js
+   ```
 
-## Installation
+### Getting Started on the Client-Side
+
+1. 
 
