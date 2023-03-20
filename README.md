@@ -199,8 +199,9 @@ npm install
 - [ ] Add [React Icons](https://react-icons.github.io/react-icons/search)
 
 <!-- Author -->
-Christina O
-Project link: [UrGuide](https://github.com/XuXaO415/Capstone_2)
+### Author
+- Christina O
+- Project link: [UrGuide](https://github.com/XuXaO415/Capstone_2)
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
