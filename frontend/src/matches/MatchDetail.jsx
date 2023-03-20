@@ -103,7 +103,6 @@ import { Card } from "react-bootstrap";
 // }
 
 function MatchDetail() {
-  // const = useContext(UserContext);
   let { currentUser } = useContext(UserContext);
   let { user_id } = useParams();
 
