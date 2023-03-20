@@ -55,6 +55,8 @@ Why use UrGuide?
 * ![Nodemon](https://img.shields.io/badge/NODEMON-white.svg?style=for-the-badge&logo=nodemon&logoColor=#76D04B)
 * ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=red)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Frontend built with
 
 * ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
