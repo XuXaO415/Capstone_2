@@ -55,7 +55,7 @@ function Routes({
                 potentialMatches={potentialMatches}
                 setMatchInfo={matchInfo}
               />
-              <MatchCard like={like} dislike={dislikeMatch} />
+              {/* <MatchCard like={like} dislike={dislikeMatch} /> */}
             </PrivateRoute>
 
             <PrivateRoute exact path="/users/:username/matches/user/:user_id">
@@ -68,8 +68,7 @@ function Routes({
                 getLikedMatches={getLikedMatches}
                 dislike={dislike}
               />
-              <MatchDetail matchInfo={userInfo} setMatchInfo={matchInfo} />
-              {/* <MatchCard like={like} dislike={dislike} /> */}
+              {/* <MatchCard dislike={dislikeMatch} /> */}
             </PrivateRoute>
           </>
         )}
