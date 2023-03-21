@@ -13,7 +13,7 @@ function getDatabaseUri() {
     : process.env.DATABASE_URL || "urguide";
 }
 
-const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;
+const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 13;
 
 console.log("urGuide Config:".green);
 console.log("SECRET_KEY:".red, SECRET_KEY);
