@@ -11,7 +11,7 @@ describe("config can come from env", function () {
     expect(config.SECRET_KEY).toEqual("abc");
     expect(config.PORT).toEqual(5000);
     expect(config.getDatabaseUri()).toEqual("other");
-    expect(config.BCRYPT_WORK_FACTOR).toEqual(13);
+    expect(config.BCRYPT_WORK_FACTOR).toEqual(12);
   });
 
   test("test env overrides", function () {
