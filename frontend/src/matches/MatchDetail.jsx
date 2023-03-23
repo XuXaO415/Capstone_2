@@ -60,7 +60,6 @@ function MatchDetail() {
 
   return (
     <div className="MatchDetail">
-      {/* <div className="card-container"> */}
       <div className="user-image">
         {matchInfo && matchInfo.user && (
           <Card.Img variant="top" src={matchInfo.user.image_url} />
@@ -110,7 +109,6 @@ function MatchDetail() {
         )}
       </div>
     </div>
-    // </div>
   );
 }
 
