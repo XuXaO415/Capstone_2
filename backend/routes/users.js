@@ -247,6 +247,29 @@ router.get("/:username/matches/likes", async function (req, res, next) {
   }
 });
 
+router.post(
+  "/:username/matches/likes/:user_id/removed",
+  async function (req, res, next) {
+    try {
+      let currentUser = await User.get(req.params.username);
+      let user = await User.unlikeMatch(
+        currentUser.user_id,
+        req.params.user_id
+      );
+      console.log(currentUser.user_id, req.params.user_id, user);
+      return res.json({
+        user,
+        username: req.params.username,
+        user_id: req.params.user_id,
+      });
+    } catch (err) {
+      if (err.res) {
+        return res.status(err.res.status).json(err.res.data);
+      }
+    }
+  }
+);
+
 // router.post(
 //   "/:username/matches/dislike/user/:user_id",
 //   async function (req, res, next) {
@@ -274,7 +297,7 @@ router.post(
   async function (req, res, next) {
     try {
       let currentUser = await User.get(req.params.username);
-      let user = await User.unlikeMatch(
+      let user = await User.dislikeMatch(
         req.params.user_id,
         currentUser.user_id
       );
@@ -310,26 +333,5 @@ router.get("/:username/matches/user/:user_id", async function (req, res, next) {
     return next(err);
   }
 });
-
-router.delete(
-  "/:username/matches/dislike/:user_id/removed",
-  async function (req, res, next) {
-    try {
-      let user = await User.removeDislikedMatch(
-        req.params.username,
-        req.params.user_id
-      );
-      return res.json({
-        user,
-        username: req.params.username,
-        user_id: req.params.user_id,
-      });
-    } catch (err) {
-      if (err.res) {
-        return res.status(err.res.status).json(err.res.data);
-      }
-    }
-  }
-);
 
 module.exports = router;
