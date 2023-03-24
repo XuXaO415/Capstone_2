@@ -288,12 +288,25 @@ class User {
       FROM users u
       LEFT JOIN likes l ON u.id = l.user_id
       WHERE l.user_id IS NOT NULL
-      ORDER BY l.id DESC`
+      ORDER BY l.id DESC LIMIT 5`
     );
     console.log(result.rows);
     let users = result.rows;
     if (!users) throw new NotFoundError(`No users found`);
     return users;
+  }
+
+  static async unlikeMatch(id, user_id) {
+    const result = await db.query(
+      `DELETE FROM likes
+            WHERE user_id = $1 AND liked_user = $2
+            RETURNING user_id`,
+      [id, user_id]
+    );
+    console.log(result.rows);
+    let user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
   }
 
   static async likeMatch(id, user_id) {
@@ -308,19 +321,32 @@ class User {
     return user;
   }
 
-  static async unlikeMatch(id, user_id) {
-    const result = await db.query(
-      `DELETE FROM likes
-            WHERE user_id = $1
-            AND liked_user = $2
-            RETURNING user_id`,
-      [id, user_id]
-    );
-    // console.log(result.rows);
-    let user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user: ${id}`);
-    return user;
-  }
+  // static async unlikeMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `DELETE FROM likes (user_id, liked_user, liked_username)
+  //           VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   console.log(result.rows);
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
+
+  // static async unlikeMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `DELETE FROM likes
+  //           WHERE user_id = $1
+  //           AND liked_user = $2
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   console.log(result.rows);
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
 
   static async dislikeMatch(id, user_id) {
     const result = await db.query(
