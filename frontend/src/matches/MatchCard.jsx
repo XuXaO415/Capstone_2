@@ -20,6 +20,120 @@ import LikeMatchList from "./LikeMatchList";
  *
  */
 
+// const MatchCard = ({
+//   username,
+//   user_id,
+//   first_name,
+//   image_url,
+//   country,
+//   city,
+//   state,
+//   zip_code,
+//   interests,
+//   hobbies,
+//   like,
+//   dislike,
+// }) => {
+//   const { currentUser } = useContext(UserContext);
+
+//   function likeMatch({ user_id, like }) {
+//     const handleLike = (e) => {
+//       e.preventDefault();
+//       console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+//       like(user_id);
+//     };
+
+//     return (
+//       <Button
+//         variant="primary"
+//         size="sm"
+//         className="float-end"
+//         onClick={handleLike}
+//       >
+//         Like
+//       </Button>
+//     );
+//   }
+
+//   // function handleLike(e) {
+//   //   e.preventDefault();
+//   //   console.log("MatchCard handleLike: user_id=", user_id, "was liked");
+//   //   like(user_id);
+//   // }
+
+//   // function handleDislike(e) {
+//   //   e.preventDefault();
+//   //   console.log("MatchCard dislike: user_id=", user_id, "was disliked");
+//   //   dislike(user_id);
+//   // }
+
+//   function dislikeMatch({ user_id, dislike }) {
+//     const handleDislike = (e) => {
+//       e.preventDefault();
+//       console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
+//       dislike(user_id);
+//     };
+
+//     return (
+//       <Button
+//         variant="danger"
+//         size="sm"
+//         className="float-end"
+//         onClick={handleDislike}
+//       >
+//         Dislike
+//       </Button>
+//     );
+//   }
+
+//   return (
+//     <div
+//       className="MatchCard card"
+//       to={`users/${username}/matches/user/${user_id} `}
+//     >
+//       <div className="card-body">
+//         <h3>
+//           You matched with: {username},
+//           <br />
+//           {/* user_id:{user_id} */}
+//         </h3>
+//         <h6 className="card-title">
+//           {image_url && (
+//             <img
+//               src={image_url}
+//               alt={`User ${username} profile pic`}
+//               className="float-end ms-5"
+//             />
+//           )}
+//         </h6>
+//         <p>Name: {first_name}</p>
+//         <p>City: {city}</p>
+//         <p>State: {state}</p>
+//         <p>Country: {country}</p>
+//         <p>Zip Code: {zip_code}</p>
+//         <p>Interests: {interests}</p>
+//         <p>Hobbies: {hobbies}</p>
+//         {likeMatch({ user_id, like })}
+//         <span> </span>
+//         {/* <Button color="primary" size="sm" onClick={handleLike}>
+//           Like
+//         </Button>{" "} */}
+//         {/* <Button color="danger" size="sm" onClick={handleDislike}>
+//           Dislike
+//         </Button>{" "} */}
+//         {dislikeMatch({ user_id, dislike })}
+//         <div className="user-info-pill">
+//           <Badge pill bg="light" text="white" position="right">
+//             <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
+//               user info
+//             </Link>{" "}
+//           </Badge>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
 const MatchCard = ({
   username,
   user_id,
@@ -36,7 +150,7 @@ const MatchCard = ({
 }) => {
   const { currentUser } = useContext(UserContext);
 
-  function likeMatch({ user_id, like }) {
+  function likeMatch() {
     const handleLike = (e) => {
       e.preventDefault();
       console.log("MatchCard handleLike: user_id=", user_id, "was liked");
@@ -55,19 +169,14 @@ const MatchCard = ({
     );
   }
 
-  // function handleLike(e) {
-  //   e.preventDefault();
-  //   console.log("MatchCard handleLike: user_id=", user_id, "was liked");
-  //   like(user_id);
-  // }
+  // function dislikeMatch() {
+  //   const handleDislike = (e) => {
+  //     e.preventDefault();
+  //     console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
+  //     dislike(user_id);
+  //   };
 
-  // function handleDislike(e) {
-  //   e.preventDefault();
-  //   console.log("MatchCard dislike: user_id=", user_id, "was disliked");
-  //   dislike(user_id);
-  // }
-
-  function dislikeMatch({ user_id, dislike }) {
+  function dislikeMatch() {
     const handleDislike = (e) => {
       e.preventDefault();
       console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
@@ -113,15 +222,11 @@ const MatchCard = ({
         <p>Zip Code: {zip_code}</p>
         <p>Interests: {interests}</p>
         <p>Hobbies: {hobbies}</p>
-        {likeMatch({ user_id, like })}
+        {likeMatch()}
         <span> </span>
-        {/* <Button color="primary" size="sm" onClick={handleLike}>
-          Like
-        </Button>{" "} */}
-        {/* <Button color="danger" size="sm" onClick={handleDislike}>
-          Dislike
-        </Button>{" "} */}
+
         {dislikeMatch({ user_id, dislike })}
+        {/* {dislikeMatch()} */}
         <div className="user-info-pill">
           <Badge pill bg="light" text="white" position="right">
             <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
