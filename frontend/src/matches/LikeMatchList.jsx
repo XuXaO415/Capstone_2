@@ -15,7 +15,8 @@ const LikeMatchList = () => {
   const { currentUser, user_id } = useContext(UserContext);
   // const { user_id } = useParams();
   const [likedMatches, setLikedMatches] = useState(null);
-  const [setError] = useState(null);
+  const [error, setError] = useState(null);
+  const [matchInfo, setMatchInfo] = useState(null);
 
   // useEffect(() => {
   //   (async () => {
@@ -28,6 +29,54 @@ const LikeMatchList = () => {
   //     }
   //   })();
   // }, [currentUser.username, user_id]);
+
+  /** Add await to async dislike function */
+
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     await UrGuideApi.dislikeMatch(currentUser.username, user_id);
+  //     setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //     setTimeout(() => {
+  //       setMatchInfo(user_id);
+  //     }, 2000);
+  //   } catch (errors) {
+  //     setError(errors);
+  //   }
+  //   return matchInfo;
+  // }
+
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     let matchInfo = UrGuideApi.dislikeMatch(currentUser.username, user_id);
+  //     setMatchInfo(matchInfo);
+  //     setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //     setTimeout(() => {
+  //       setMatchInfo(user_id);
+  //     }, 2000);
+  //   } catch (errors) {
+  //     setError(errors);
+  //   }
+  // }
+
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     await new Promise((resolve) => {
+  //       UrGuideApi.dislikeMatch(currentUser.username, user_id).then(() => {
+  //         setMatchInfo(user_id);
+  //         setLikedMatches((m) =>
+  //           m.filter((match) => match.user_id !== user_id)
+  //         );
+  //         console.log("dislikeMatch: ", user_id);
+  //         setTimeout(() => {
+  //           setMatchInfo(user_id);
+  //           resolve();
+  //         }, 2000);
+  //       });
+  //     });
+  //   } catch (err) {
+  //     setError(err);
+  //   }
+  // }
 
   useEffect(() => {
     (async () => {
@@ -47,13 +96,36 @@ const LikeMatchList = () => {
     })();
   }, [currentUser.username, user_id]);
 
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //   } catch (err) {
+  //     setError(err);
+  //   }
+  // }
+
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     let matchInfo = await UrGuideApi.dislikeMatch(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //   } catch (err) {
+  //     setError(err);
+  //   }
+  // }
+
   async function dislikeMatch(user_id) {
     try {
+      await UrGuideApi.dislikeMatch(currentUser.username, user_id);
       setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
     } catch (err) {
       setError(err);
     }
   }
+
+  if (error) return <p>Sorry, there was an error</p>;
 
   if (!likedMatches) return <p>Loading...</p>;
 
@@ -74,41 +146,20 @@ const LikeMatchList = () => {
             zip_code={l.zip_code}
             interests={l.interests}
             hobbies={l.hobbies}
-            dislike={dislikeMatch}
           />
         ))}
+        {/* 
+        <button
+          className="btn btn-danger"
+          onClick={() => dislikeMatch(user_id)}
+        >
+          Dislike
+        </button> */}
       </div>
     </div>
   ) : (
     <p className="lead">You haven't liked any users yet</p>
   );
-
-  //     {likedMatches.length ? (
-  //       <div className="MatchList-list">
-  //         {likedMatches.map((l) => (
-  //           <MatchCard
-  //             key={l.id}
-  //             // key={l.user_id}
-  //             user_id={l.user_id}
-  //             username={l.username}
-  //             first_name={l.first_name}
-  //             image_url={l.image_url}
-  //             city={l.city}
-  //             state={l.state}
-  //             country={l.country}
-  //             zip_code={l.zip_code}
-  //             interests={l.interests}
-  //             hobbies={l.hobbies}
-  //             dislike={dislikeMatch}
-  //             // dislike={(matchInfo) => dislikeMatch(matchInfo.user_id)}
-  //           />
-  //         ))}
-  //       </div>
-  //     ) : (
-  //       <p>You haven't liked any users yet.</p>
-  //     )}
-  //   </div>
-  // );
 };
 
 export default LikeMatchList;
