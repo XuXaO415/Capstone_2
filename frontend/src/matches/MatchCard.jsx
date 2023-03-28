@@ -36,7 +36,7 @@ const MatchCard = ({
 }) => {
   const { currentUser } = useContext(UserContext);
 
-  function likeButton({ user_id, like }) {
+  function likeMatch({ user_id, like }) {
     const handleLike = (e) => {
       e.preventDefault();
       console.log("MatchCard handleLike: user_id=", user_id, "was liked");
@@ -67,7 +67,7 @@ const MatchCard = ({
   //   dislike(user_id);
   // }
 
-  function dislikeButton({ user_id, dislike }) {
+  function dislikeMatch({ user_id, dislike }) {
     const handleDislike = (e) => {
       e.preventDefault();
       console.log("MatchCard handleDislike: user_id=", user_id, "was disliked");
@@ -89,7 +89,7 @@ const MatchCard = ({
   return (
     <div
       className="MatchCard card"
-      to={`${username}/matches/users/${user_id} `}
+      to={`users/${username}/matches/user/${user_id} `}
     >
       <div className="card-body">
         <h3>
@@ -113,7 +113,7 @@ const MatchCard = ({
         <p>Zip Code: {zip_code}</p>
         <p>Interests: {interests}</p>
         <p>Hobbies: {hobbies}</p>
-        {likeButton({ user_id, like })}
+        {likeMatch({ user_id, like })}
         <span> </span>
         {/* <Button color="primary" size="sm" onClick={handleLike}>
           Like
@@ -121,7 +121,7 @@ const MatchCard = ({
         {/* <Button color="danger" size="sm" onClick={handleDislike}>
           Dislike
         </Button>{" "} */}
-        {dislikeButton({ user_id, dislike })}
+        {dislikeMatch({ user_id, dislike })}
         <div className="user-info-pill">
           <Badge pill bg="light" text="white" position="right">
             <Link to={`users/${currentUser.username}/matches/user/${user_id}`}>
