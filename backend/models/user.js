@@ -309,6 +309,32 @@ class User {
     return user;
   }
 
+  // static async unlikeMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `DELETE FROM likes l on u.id = l.user_id
+  //           WHERE l.user_id = $1 AND l.liked_user = $2
+  //           RETURNING l.user_id`,
+  //     [id, user_id]
+  //   );
+  //   console.log(result.rows);
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
+
+  // static async unlikeMatch(id, user_id) {
+  //   const result = await db.query(
+  //     `DELETE FROM likes
+  //           WHERE user_id = $1 AND liked_user = $2
+  //           RETURNING user_id`,
+  //     [id, user_id]
+  //   );
+  //   console.log(result.rows);
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
+
   static async likeMatch(id, user_id) {
     const result = await db.query(
       `INSERT INTO likes (user_id, liked_user, liked_username) 
