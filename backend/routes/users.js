@@ -212,6 +212,22 @@ router.get("/:username/matches/users", async function (req, res, next) {
   }
 });
 
+router.get("/:username/matches/likes", async function (req, res, next) {
+  try {
+    let currentUser = await User.get(req.params.username);
+    let users = await User.getLikes(req.params.user_id);
+
+    console.log("currentUser=", req.params.username, "users=", Boolean(users));
+    return res.json({
+      users,
+      currentUser,
+      user_id: req.params.user_id,
+    });
+  } catch (err) {
+    return res.status(err.res.status).json(err.res.data);
+  }
+});
+
 router.post(
   "/:username/matches/like/:user_id",
   async function (req, res, next) {
@@ -231,27 +247,12 @@ router.post(
   }
 );
 
-router.get("/:username/matches/likes", async function (req, res, next) {
-  try {
-    let currentUser = await User.get(req.params.username);
-    let users = await User.getLikes(req.params.user_id);
-
-    console.log("currentUser=", req.params.username, "users=", Boolean(users));
-    return res.json({
-      users,
-      currentUser,
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return res.status(err.res.status).json(err.res.data);
-  }
-});
-
 router.post(
-  "/:username/matches/likes/:user_id/removed",
+  "/:username/matches/dislike/:user_id",
   async function (req, res, next) {
     try {
       let currentUser = await User.get(req.params.username);
+      // console.log("unlikeMatch", "user", req.params.user_id);
       let user = await User.unlikeMatch(
         currentUser.user_id,
         req.params.user_id
@@ -292,33 +293,33 @@ router.post(
 //   }
 // );
 
-router.post(
-  "/:username/matches/dislike/:user_id",
-  async function (req, res, next) {
-    try {
-      let currentUser = await User.get(req.params.username);
-      let user = await User.dislikeMatch(
-        req.params.user_id,
-        currentUser.user_id
-      );
-      console.log(
-        "currentUser=",
-        currentUser,
-        "Disliked user_id=",
-        req.params.user_id
-      );
-      return res.json({
-        user,
-        username: req.params.username,
-        user_id: req.params.user_id,
-      });
-    } catch (err) {
-      if (err.res) {
-        return res.status(err.res.status).json(err.res.data);
-      }
-    }
-  }
-);
+// router.post(
+//   "/:username/matches/dislike/:user_id",
+//   async function (req, res, next) {
+//     try {
+//       let currentUser = await User.get(req.params.username);
+//       let user = await User.dislikeMatch(
+//         req.params.user_id,
+//         currentUser.user_id
+//       );
+//       console.log(
+//         "currentUser=",
+//         currentUser,
+//         "Disliked user_id=",
+//         req.params.user_id
+//       );
+//       return res.json({
+//         user,
+//         username: req.params.username,
+//         user_id: req.params.user_id,
+//       });
+//     } catch (err) {
+//       if (err.res) {
+//         return res.status(err.res.status).json(err.res.data);
+//       }
+//     }
+//   }
+// );
 
 router.get("/:username/matches/user/:user_id", async function (req, res, next) {
   try {
