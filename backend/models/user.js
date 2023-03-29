@@ -296,24 +296,11 @@ class User {
     return users;
   }
 
-  static async unlikeMatch(id, user_id) {
-    const result = await db.query(
-      `DELETE FROM likes
-            WHERE user_id = $1 AND liked_user = $2
-            RETURNING user_id`,
-      [id, user_id]
-    );
-    console.log(result.rows);
-    let user = result.rows[0];
-    if (!user) throw new NotFoundError(`No user: ${id}`);
-    return user;
-  }
-
   // static async unlikeMatch(id, user_id) {
   //   const result = await db.query(
-  //     `DELETE FROM likes l on u.id = l.user_id
-  //           WHERE l.user_id = $1 AND l.liked_user = $2
-  //           RETURNING l.user_id`,
+  //     `DELETE FROM likes
+  //           WHERE user_id = $1 AND liked_user = $2
+  //           RETURNING user_id`,
   //     [id, user_id]
   //   );
   //   console.log(result.rows);
@@ -349,8 +336,8 @@ class User {
 
   // static async unlikeMatch(id, user_id) {
   //   const result = await db.query(
-  //     `DELETE FROM likes (user_id, liked_user, liked_username)
-  //           VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
+  //     `DELETE FROM likes l.liked_user, l.user_id
+  //           WHERE user_id = $1 AND liked_user = $2
   //           RETURNING user_id`,
   //     [id, user_id]
   //   );
@@ -362,9 +349,8 @@ class User {
 
   // static async unlikeMatch(id, user_id) {
   //   const result = await db.query(
-  //     `DELETE FROM likes
-  //           WHERE user_id = $1
-  //           AND liked_user = $2
+  //     `DELETE FROM likes (user_id, liked_user, liked_username)
+  //           VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
   //           RETURNING user_id`,
   //     [id, user_id]
   //   );
@@ -373,6 +359,34 @@ class User {
   //   if (!user) throw new NotFoundError(`No user: ${id}`);
   //   return user;
   // }
+
+  // static async unlikeMatch(user_id, liked_user) {
+  //   const result = await db.query(
+  //     `SELECT FROM likes
+  //           WHERE user_id = $1
+  //           AND liked_user = $2
+  //           RETURNING user_id`,
+  //     [user_id, liked_user]
+  //   );
+  //   console.log(result.rows);
+  //   let user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user: ${id}`);
+  //   return user;
+  // }
+
+  static async unlikeMatch(user_id, liked_user) {
+    const result = await db.query(
+      `SELECT user_id FROM likes
+          WHERE user_id = $1
+          AND liked_user = $2
+          RETURNING user_id`,
+      [user_id, liked_user]
+    );
+    console.log(result.rows);
+    let user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${id}`);
+    return user;
+  }
 
   static async dislikeMatch(id, user_id) {
     const result = await db.query(
