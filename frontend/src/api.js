@@ -153,15 +153,7 @@ class UrGuideApi {
     return res.status;
   }
 
-  /* Dislike a specific user and post */
-  // static async dislikeUser(currentUser, user_id) {
-  //   let res = await this.request(
-  //     `users/${currentUser}/matches/dislike/user/${user_id}`,
-  //     {},
-  //     "POST"
-  //   );
-  //   return res.status;
-  // }
+  /**  remove a matched user -- DELETE from db */
 
   static async dislikeMatch(currentUser, user_id) {
     let res = await this.request(
@@ -169,18 +161,9 @@ class UrGuideApi {
       {},
       "POST"
     );
-    console.log("POST was successful and", { user_id }, "was disliked");
-    return res.status;
-  }
+    // console.log("Post was successful and", { user_id }, "was removed");
 
-  /**  remove a matched user -- DELETE from db */
-
-  static async removeMatch(currentUser, user_id) {
-    let res = await this.request(
-      `users/${currentUser}/matches/dislike/${user_id}/removed`,
-      {},
-      "DELETE"
-    );
+    console.log("res from dislikeMatch:", res.status);
     return res.status;
   }
 }
