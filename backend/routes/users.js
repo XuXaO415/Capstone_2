@@ -263,11 +263,11 @@ router.post(
         currentUser.user_id
       );
       console.log(currentUser.user_id, req.params.user_id);
+
       return res.json({
         user,
-        username: req.params.username,
-
-        user_id: req.params.user_id,
+        currentUser,
+        // user_id: req.params.user_id,
       });
     } catch (err) {
       if (err.res) {
