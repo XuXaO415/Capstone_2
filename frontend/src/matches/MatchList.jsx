@@ -7,7 +7,6 @@ import Alert from "../common/Alert";
 import MatchCard from "./MatchCard";
 import LikeMatchList from "./LikeMatchList";
 import { Button } from "react-bootstrap";
-import Pagination from "react-bootstrap/Pagination";
 
 /** Show page with a list of potential matches
  *
@@ -24,7 +23,7 @@ const MatchList = () => {
   const { currentUser, user_id } = useContext(UserContext);
   const [matches, setMatches] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
-  const [error, setError] = useState(null);
+  const [setError] = useState(null);
 
   // const message = {
   //   liked: `${currentUser.username} liked ${user_id}`,
@@ -54,18 +53,73 @@ const MatchList = () => {
     }
   }
 
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     await UrGuideApi.dislikeMatch(currentUser.username, user_id);
+  //     console.log("Promise resolved");
+  //     setMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //     setTimeout(() => {
+  //       setMatchInfo(user_id);
+  //     }, 2000);
+  //   } catch (errors) {
+  //     setError(errors);
+  //     console.log("Promise rejected with", errors);
+  //   } finally {
+  //     console.log("Promise settled");
+  //   }
+  // }
+
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     let matchInfo = new Promise((resolve, reject) => {
+  //       resolve(UrGuideApi.dislikeMatch(currentUser.username, user_id));
+  //     });
+  //     setMatchInfo(matchInfo);
+  //     setMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //     setTimeout(() => {
+  //       setMatchInfo(user_id);
+  //     }, 2000);
+  //   } catch (errors) {
+  //     setError(errors);
+  //   }
+  // }
+
   async function dislikeMatch(user_id) {
     try {
       let matchInfo = UrGuideApi.dislikeMatch(currentUser.username, user_id);
+      console.log("matchInfo", matchInfo);
       setMatchInfo(matchInfo);
       setMatches((m) => m.filter((match) => match.user_id !== user_id));
       setTimeout(() => {
         setMatchInfo(user_id);
       }, 2000);
-    } catch (errors) {
-      setError(errors);
+    } catch (err) {
+      setError(err);
     }
   }
+
+  // async function likeMatch(user_id) {
+  //   try {
+  //     let matchInfo = await UrGuideApi.likeMatch(currentUser.username, user_id);
+  //     setMatchInfo(matchInfo);
+  //     setMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //   } catch (errors) {
+  //     setError(errors);
+  //   }
+  // }
+
+  // async function dislikeMatch(user_id) {
+  //   try {
+  //     let matchInfo = await UrGuideApi.dislikeMatch(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     setMatchInfo(matchInfo);
+  //     setMatches((m) => m.filter((match) => match.user_id !== user_id));
+  //   } catch (errors) {
+  //     setError(errors);
+  //   }
+  // }
 
   useEffect(() => {
     if (matches && matches.length === 0) {
@@ -83,37 +137,42 @@ const MatchList = () => {
 
   return (
     <div className="MatchList">
-      <h1 className="mb-4">
-        Hey {currentUser.username}, here are some of your matches
-      </h1>
-      {matches.length ? (
-        <div className="MatchList-list">
-          {matches.map((m) => (
-            <MatchCard
-              key={m.user_id}
-              user_id={m.user_id}
-              username={m.username}
-              first_name={m.first_name}
-              city={m.city}
-              state={m.state}
-              zip_code={m.zip_code}
-              country={m.country}
-              image_url={m.image_url}
-              interests={m.interests}
-              hobbies={m.hobbies}
-              like={likeMatch}
-              dislike={dislikeMatch}
-              matchInfo={matchInfo}
-            />
-          ))}
+      <div className="text-center">
+        <h1 className="mb-4">
+          Hey {currentUser.username}, here are some of your matches
+        </h1>
+        <p className="lead">Click on user info for more details</p>
+        {matches.length ? (
+          <div className="MatchList-list">
+            {matches.map((m) => (
+              <MatchCard
+                key={m.user_id}
+                user_id={m.user_id}
+                username={m.username}
+                first_name={m.first_name}
+                city={m.city}
+                state={m.state}
+                zip_code={m.zip_code}
+                country={m.country}
+                image_url={m.image_url}
+                interests={m.interests}
+                hobbies={m.hobbies}
+                like={likeMatch}
+                dislike={dislikeMatch}
+                matchInfo={matchInfo}
+                // handleDislike={dislikeMatch}
+                // handleLike={likeMatch}
+              />
+            ))}
 
-          {/* <Link to={`/likes`}>
+            {/* <Link to={`/likes`}>
             <Button variant="primary">Liked Matches</Button>
           </Link> */}
-        </div>
-      ) : (
-        <p className="lead">No matches yet!</p>
-      )}
+          </div>
+        ) : (
+          <p className="lead">No matches yet!</p>
+        )}
+      </div>
     </div>
   );
 };
