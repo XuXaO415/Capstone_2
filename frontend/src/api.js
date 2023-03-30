@@ -124,8 +124,7 @@ class UrGuideApi {
     );
     return res.users;
   }
-
-  static async getLikedMatches(currentUser, user_id) {
+  static async getLikedMatches(currentUser) {
     let res = await this.request(
       `users/${currentUser}/matches/likes`,
       {},
@@ -134,12 +133,12 @@ class UrGuideApi {
     console.log(
       "res from getLikedMatches:",
       res,
+      "currentUser:",
+      currentUser,
       Boolean(res.users) ? "🥳" : "doh...😭"
     );
     return res.users;
   }
-
-  /** like user match -- POST matched user data */
 
   static async likeMatch(currentUser, user_id) {
     let res = await this.request(
@@ -153,16 +152,17 @@ class UrGuideApi {
     return res.status;
   }
 
-  /**  remove a matched user -- DELETE from db */
-
   static async dislikeMatch(currentUser, user_id) {
     let res = await this.request(
       `users/${currentUser}/matches/dislike/${user_id}`,
-
+      {},
       "POST"
+      // { currentUser, user_id }
     );
-    // console.log("Post was successful and", { user_id }, "was removed");
-    console.log("res from dislikeMatch:", res.status);
+    // console.log("currentUser:", currentUser, "user_id:", user_id);
+    console.log("res from dislikeMatch:", res, { currentUser }, "disliked", {
+      user_id,
+    });
     return res.status;
   }
 }
