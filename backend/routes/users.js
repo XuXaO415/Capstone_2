@@ -217,7 +217,12 @@ router.get("/:username/matches/likes", async function (req, res, next) {
     let currentUser = await User.get(req.params.username);
     let users = await User.getLikes(req.params.user_id);
 
-    console.log("currentUser=", req.params.username, "users=", Boolean(users));
+    console.log(
+      "currentUser=",
+      req.params.username,
+      "usersLoaded=",
+      Boolean(users)
+    );
     return res.json({
       users,
       currentUser,
@@ -252,15 +257,16 @@ router.post(
   async function (req, res, next) {
     try {
       let currentUser = await User.get(req.params.username);
-      // console.log("unlikeMatch", "user", req.params.user_id);
+
       let user = await User.unlikeMatch(
-        currentUser.user_id,
-        req.params.user_id
+        req.params.user_id,
+        currentUser.user_id
       );
-      console.log(currentUser.user_id, req.params.user_id, user);
+      console.log(currentUser.user_id, req.params.user_id);
       return res.json({
         user,
         username: req.params.username,
+
         user_id: req.params.user_id,
       });
     } catch (err) {
