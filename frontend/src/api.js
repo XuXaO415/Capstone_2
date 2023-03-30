@@ -158,11 +158,10 @@ class UrGuideApi {
   static async dislikeMatch(currentUser, user_id) {
     let res = await this.request(
       `users/${currentUser}/matches/dislike/${user_id}`,
-      {},
+
       "POST"
     );
     // console.log("Post was successful and", { user_id }, "was removed");
-
     console.log("res from dislikeMatch:", res.status);
     return res.status;
   }
