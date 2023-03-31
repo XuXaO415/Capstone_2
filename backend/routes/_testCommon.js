@@ -5,10 +5,7 @@ const User = require("../models/user");
 const { createToken } = require("../helpers/tokens");
 
 const userIds = [];
-
-// async function commonBeforeAll() {
-//   await db.query("DELETE FROM users");
-//   await db.query("DELETE FROM likes");
+let getUserToken, adminToken;
 
 const commonBeforeAll = async () => {
   await db.query("DELETE FROM users");
@@ -22,6 +19,7 @@ const commonBeforeAll = async () => {
     password: "password",
     is_admin: false,
   });
+
   await User.register({
     username: "johndoe",
     first_name: "John",
@@ -30,6 +28,7 @@ const commonBeforeAll = async () => {
     password: "password",
     is_admin: false,
   });
+
   await User.register({
     username: "janeDoe",
     first_name: "Jane",
@@ -38,23 +37,6 @@ const commonBeforeAll = async () => {
     password: "password",
     is_admin: false,
   });
-
-  // userIds.[0] = (await User.register({
-  //     username: "user1",
-  //     first_name: "User",
-  //     last_name: "One",
-  //     email: "theOneUser@test@email.com",
-  //     password: "password",
-  //     is_admin: false,
-  // }));
-  // userIds.[1] = await User.register({
-  //     username: "user2",
-  //     first_name: "User",
-  //     last_name: "Two",
-  //     email: "theTwoUser@email.com",
-  //     password: "password",
-  //     is_admin: false,
-  // });
 
   await User.register({
     username: "admin",
@@ -65,27 +47,28 @@ const commonBeforeAll = async () => {
     is_admin: true,
   });
 
-  async function commonBeforeEach() {
-    await db.query("BEGIN");
-  }
-
-  async function commonAfterEach() {
-    await db.query("ROLLBACK");
-  }
-
-  async function commonAfterAll() {
-    await db.end();
-  }
-
-  const getUserToken = createToken({ username: "testuser", is_admin: false });
-  const adminToken = createToken({ username: "admin", is_admin: true });
+  getUserToken = createToken({ username: "testuser", is_admin: false });
+  adminToken = createToken({ username: "admin", is_admin: true });
 };
+
+async function commonBeforeEach() {
+  await db.query("BEGIN");
+}
+
+async function commonAfterEach() {
+  await db.query("ROLLBACK");
+}
+
+async function commonAfterAll() {
+  await db.end();
+}
 
 module.exports = {
   commonBeforeAll,
   commonAfterEach,
   commonAfterAll,
-  getUserToken,
+  commonBeforeEach,
   userIds,
+  getUserToken,
   adminToken,
 };
