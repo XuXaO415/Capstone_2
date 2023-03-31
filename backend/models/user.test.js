@@ -21,113 +21,121 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-test("should authenticate a user", () => {
-  const user = User.authenticate("johndoe", "password");
-  expect(user).toBe({
-    username: "testuser",
-    first_name: "Test",
-    last_name: "User",
-    email: "test@email.com",
-    is_admin: false,
+describe("authenticate", function () {
+  test("works", async function () {
+    const user = await User.authenticate("johndoe", "password");
+    expect(user).toEqual({
+      username: "johndoe",
+      first_name: "John",
+      last_name: "Doe",
+      email: "test3@email.com",
+      is_admin: false,
+    });
   });
 
-  test("should not authenticate a user", () => {
+  test("throws UnauthorizedError if invalid password", async function () {
+    expect.assertions(1);
     try {
-      User.authenticate("johndoe", "password");
-      fail();
+      await User.authenticate("johndoe", "wrongpassword");
     } catch (err) {
       expect(err instanceof UnauthorizedError).toBeTruthy();
     }
   });
 
-  describe("authenticate", function () {
-    test("works", async function () {
-      const user = await User.authenticate("johndoe", "password");
-      expect(user).toEqual({
-        username: "johndoe",
-        first_name: "John",
-        last_name: "Doe",
-        email: "test3@email.com",
-        is_admin: false,
-      });
+  test("throws NotFoundError if user not found", async function () {
+    expect.assertions(1);
+    try {
+      await User.authenticate("nonexistentuser", "password");
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+});
+
+describe("create", function () {
+  test("works", async function () {
+    const newUser = {
+      username: "newuser",
+      password: "newpassword",
+      first_name: "New",
+      last_name: "User",
+      email: "newuser@example.com",
+      is_admin: false,
+    };
+    const user = await User.create(newUser);
+    expect(user).toEqual({
+      username: "newuser",
+      first_name: "New",
+      last_name: "User",
+      email: "newuser@example.com",
+      is_admin: false,
     });
+  });
 
-    // test("unauthorized if no such user", async function () {
-    //   try {
-    //     await User.authenticate("nope", "password");
-    //     fail();
-    //   } catch (err) {
-    //     expect(err instanceof UnauthorizedError).toBeTruthy();
-    //   }
-    // });
+  test("throws BadRequestError if missing required fields", async function () {
+    expect.assertions(1);
+    try {
+      await User.create({
+        username: "newuser",
+        password: "newpassword",
+        first_name: "New",
+        last_name: "User",
+      });
+    } catch (err) {
+      expect(err instanceof BadRequestError).toBeTruthy();
+    }
+  });
+});
 
-    // test("unauthorized if wrong password", async function () {
-    //   try {
-    //     await User.authenticate("jdoe", "wrong");
-    //     fail();
-    //   } catch (err) {
-    //     expect(err instanceof UnauthorizedError).toBeTruthy();
-    //   }
-    // });
+describe("get", function () {
+  test("works", async function () {
+    const user = await User.get("johndoe");
+    expect(user).toEqual({
+      username: "johndoe",
+      first_name: "John",
+      last_name: "Doe",
+      email: "test3@email.com",
+      is_admin: false,
+    });
+  });
 
-    // // /** test register/signup */
-    // describe("register", function () {
-    //   const newUser = {
-    //     username: "new",
-    //     password: "password",
-    //     first_name: "Test",
-    //     last_name: "User",
-    //     email: "test@gmail.com",
-    //     isAdmin: false,
-    //   };
+  test("throws NotFoundError if user not found", async function () {
+    expect.assertions(1);
+    try {
+      await User.get("nonexistentuser");
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+});
 
-    //   test("works", async function () {
-    //     let user = await User.register({ ...newUser, password: "password" });
-    //     expect(user).toEqual(newUser);
-    //     const found = await db.query("SELECT * FROM users WHERE username = 'new'");
-    //     expect(found.rows.length).toEqual(1);
-    //     expect(found.rows[0].is_admin).toEqual(false);
-    //     expect(found.rows[0].password.startsWith(`$2b$`)).toEqual(true);
-    //   });
+describe("update", function () {
+  test("works", async function () {
+    const updateData = {
+      first_name: "Jane",
+      last_name: "Doe",
+      email: "janedoe@example.com",
+    };
+    const user = await User.update("johndoe", updateData);
+    expect(user).toEqual({
+      username: "johndoe",
+      first_name: "Jane",
+      last_name: "Doe",
+      email: "janedoe@example.com",
+      is_admin: false,
+    });
+  });
 
-    //   test("bad request with dupe data", async function () {
-    //     try {
-    //       await User.register({
-    //         ...newUser,
-    //         username: "jdoe",
-    //         password: "password",
-    //       });
-    //       await User.register({
-    //         ...newUser,
-    //         username: "jdoe",
-    //         password: "password",
-    //       });
-    //       fail();
-    //     } catch (err) {
-    //       expect(err instanceof BadRequestError).toBeTruthy();
-    //     }
-    //   });
-    // });
-
-    // describe("get", function () {
-    //   test("works", async function () {
-    //     let user = await User.get("jdoe");
-    //     expect(user).toEqual({
-    //       username: "jdoe",
-    //       first_name: "Jane",
-    //       last_name: "Doe",
-    //       email: "test@email.com",
-    //       is_admin: true,
-    //     });
-    //   });
-
-    //   test("not found if no such user", async function () {
-    //     try {
-    //       await User.get("nope");
-    //       fail();
-    //     } catch (err) {
-    //       expect(err instanceof NotFoundError).toBeTruthy();
-    //     }
-    //   });
+  test("throws NotFoundError if user not found", async function () {
+    expect.assertions(1);
+    try {
+      await User.update("nonexistentuser", {
+        first_name: "Jane",
+        last_name: "Doe",
+        email: "janedoe@example.com",
+      });
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
   });
 });

@@ -11,9 +11,7 @@ const {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
-
   getUserToken,
-
   adminToken,
 } = require("./_testCommon");
 
