@@ -73,14 +73,14 @@ const commonAfterAll = async () => {
   await db.end();
 };
 
-//   await User.register({
-//     username: "testuser",
-//     first_name: "Test",
-//     last_name: "User",
-//     email: "test@email.com",
-//     password: "password",
-//     is_admin: false,
-//   });
+await User.register({
+  username: "testuser",
+  first_name: "Test",
+  last_name: "User",
+  email: "test@email.com",
+  password: "password",
+  is_admin: false,
+});
 
 //   await User.register({
 //     username: "johndoe",
