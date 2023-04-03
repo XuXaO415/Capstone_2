@@ -139,3 +139,22 @@ describe("update", function () {
     }
   });
 });
+
+describe("remove", function () {
+  test("works", async function () {
+    await User.remove("testuser");
+    const res = await db.query(
+      "SELECT username FROM users WHERE username='testuser'"
+    );
+    expect(res.rows.length).toEqual(0);
+  });
+
+  test("throws NotFoundError if user not found", async function () {
+    expect.assertions(1);
+    try {
+      await User.remove("nonexistentuser");
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+});
