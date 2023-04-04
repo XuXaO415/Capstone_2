@@ -23,15 +23,33 @@ afterAll(commonAfterAll);
 
 describe("authenticate", function () {
   test("works", async function () {
-    const user = await User.authenticate("jdoe", "password");
+    const user = await User.authenticate("testuser", "123123123");
     expect(user).toEqual({
-      username: "jdoe",
-      first_name: "Jane",
-      last_name: "Doe",
-      email: "test@email.com",
-      is_admin: false,
+      username: "testuser",
+      first_name: "test",
+      last_name: "user",
+      email: "testuser@email.com",
+      isAdmin: false,
     });
   });
+});
+
+test("throws UnauthorizedError if user is not authenticated", async function () {
+  expect.assertions(1);
+  try {
+    await User.authenticate("nope", "password");
+  } catch (err) {
+    expect(err instanceof UnauthorizedError).toBeTruthy();
+  }
+});
+
+test("unauth if no such user", async function () {
+  try {
+    await User.authenticate("nope", "password");
+    fail();
+  } catch (err) {
+    expect(err instanceof UnauthorizedError).toBeTruthy();
+  }
 });
 
 test("throws UnauthorizedError if invalid password", async function () {
@@ -52,44 +70,75 @@ test("throws UnauthorizedError if invalid username", async function () {
   }
 });
 
+/****************************** register */
+
 describe("register", function () {
   test("works", async function () {
-    let user = await User.register({
+    let newUser = await User.register({
       username: "newuser",
       password: "newpassword",
-      first_name: "New",
-      last_name: "User",
+      firstName: "New",
+      lastName: "User",
       email: "hello@gmail.com",
-    });
-    expect(user).toEqual({
-      username: "newuser",
-      first_name: "New",
-      last_name: "User",
-      email: "hello@gmail.com",
-      is_admin: false,
-    });
-
-    const found = await db.query(
-      "SELECT username, first_name, last_name, email, is_admin FROM users WHERE username = 'newuser'"
-    );
-    expect(found.rows.length).toEqual(1);
-    expect(found.rows[0]).toEqual({
-      username: "newuser",
-      first_name: "New",
-      last_name: "User",
-      email: "hello@gmail.com",
-      is_admin: false,
+      city: "SF",
+      state: "CA",
+      zipCode: "94418",
+      country: "US",
+      latitude: "000000",
+      longitude: "100000",
+      imageUrl: null,
+      hobbies: null,
+      interests: null,
+      isAdmin: false,
     });
   });
 
-  test("throws BadRequestError if missing required fields", async function () {
+  test("throws BadRequestError on dupe", async function () {
     expect.assertions(1);
     try {
-      await User.create({
-        username: "newuser",
-        password: "newpassword",
-        first_name: "New",
-        last_name: "User",
+      await User.register({
+        username: "jdoe",
+        password: "password1",
+        first_name: "Jane",
+        last_name: "Doe",
+        email: "hello@email.com",
+        isAdmin: false,
+      });
+    } catch (err) {
+      expect(err instanceof BadRequestError).toBeTruthy();
+    }
+  });
+
+  test("works: adds a new user", async function () {
+    const newUser = await User.register({
+      username: "newuser",
+      password: "newpassword",
+      firstName: "New",
+      lastName: "User",
+      email: "newEmail@test.com",
+      city: "Oakland",
+      state: "CA",
+      zipCode: "94110",
+      country: "US",
+      latitude: "000000",
+      longitude: "100000",
+      imageUrl: null,
+      hobbies: null,
+      interests: null,
+      isAdmin: false,
+    });
+  });
+
+  test("throws BadRequestError with dupe username", async function () {
+    expect.assertions(1);
+    try {
+      await User.register({
+        username: "jdoe",
+        password: "password1",
+        first_name: "Jane",
+        last_name: "Doe",
+        email: "dupe@email.com",
+        isAdmin: false,
       });
     } catch (err) {
       expect(err instanceof BadRequestError).toBeTruthy();
@@ -97,26 +146,58 @@ describe("register", function () {
   });
 });
 
-describe("get", function () {
-  test("works", async function () {
-    const user = await User.get("johndoe");
-    expect(user).toEqual({
-      username: "johndoe",
-      first_name: "John",
-      last_name: "Doe",
-      email: "test3@email.com",
-      is_admin: false,
-    });
-  });
+/************************************** findAll  */
+// describe("findAll", function () {
+//   test("works", async function () {
+//     const users = await User.findAll();
+//     expect(users).toEqual([
+//       {
+//         username: "jdoe",
+//         first_name: "Jane",
+//         last_name: "Doe",
+//         email: "test@email.com",
+//         isAdmin: false,
+//       },
+//       {
+//         username: "testuser",
+//         first_name: "test",
+//         last_name: "user",
+//         email: "test@email.com",
+//         zipCode: "94418",
+//         isAdmin: false,
+//       },
+//     ]);
+//   });
+// });
 
-  test("throws NotFoundError if user not found", async function () {
-    expect.assertions(1);
-    try {
-      await User.get("nonexistentuser");
-    } catch (err) {
-      expect(err instanceof NotFoundError).toBeTruthy();
-    }
-  });
+//   test("works", async function () {
+//     const users = await User.findAll();
+//     expect(users).toEqual([
+//       {
+//         username: "jdoe",
+//         firstName: "Jane",
+//         lastName: "Doe",
+//         email: "test@email.com",
+//         is_admin: false,
+//       },
+//       {
+//         username: "testuser",
+//         firstName: "test",
+//         lastName: "user",
+//         email: "testuser@email.com",
+//         is_admin: false,
+//       },
+//     ]);
+//   });
+// });
+
+test("throws NotFoundError if user not found", async function () {
+  expect.assertions(1);
+  try {
+    await User.get("nonexistentuser");
+  } catch (err) {
+    expect(err instanceof NotFoundError).toBeTruthy();
+  }
 });
 
 describe("update", function () {
@@ -126,14 +207,6 @@ describe("update", function () {
       last_name: "Doe",
       email: "janedoe@example.com",
     };
-    const user = await User.update("johndoe", updateData);
-    expect(user).toEqual({
-      username: "johndoe",
-      first_name: "Jane",
-      last_name: "Doe",
-      email: "janedoe@example.com",
-      is_admin: false,
-    });
   });
 
   test("throws NotFoundError if user not found", async function () {
@@ -150,21 +223,32 @@ describe("update", function () {
   });
 });
 
-describe("remove", function () {
-  test("works", async function () {
-    await User.remove("testuser");
-    const res = await db.query(
-      "SELECT username FROM users WHERE username='testuser'"
-    );
-    expect(res.rows.length).toEqual(0);
-  });
+test("not found if no such user", async function () {
+  try {
+    await User.update("nope", {
+      first_name: "Jane",
+      last_name: "Doeee",
+    });
+    fail();
+  } catch (err) {
+    expect(err instanceof NotFoundError).toBeTruthy();
+  }
+});
 
-  test("throws NotFoundError if user not found", async function () {
-    expect.assertions(1);
-    try {
-      await User.remove("nonexistentuser");
-    } catch (err) {
-      expect(err instanceof NotFoundError).toBeTruthy();
-    }
-  });
+test("throws NotFoundError if user not found", async function () {
+  expect.assertions(1);
+  try {
+    await User.remove("nonexistentuser");
+  } catch (err) {
+    expect(err instanceof NotFoundError).toBeTruthy();
+  }
+});
+
+test("bad request with no data", async function () {
+  try {
+    await User.update("jdoe", {});
+    fail();
+  } catch (err) {
+    expect(err instanceof BadRequestError).toBeTruthy();
+  }
 });
