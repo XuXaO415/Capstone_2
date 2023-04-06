@@ -51,6 +51,25 @@ router.post("/register", async function (req, res, next) {
     //   throw new BadRequestError(errs);
     // }
 
+    const checkFields = [
+      "username",
+      "password",
+      "firstName",
+      "lastName",
+      "email",
+      "city",
+      "state",
+      "country",
+      "zipCode",
+      "hobbies",
+      "interests",
+    ];
+    checkFields.forEach((field) => {
+      if (!req.body[field]) {
+        throw new BadRequestError(`Missing ${field} in request body.`);
+      }
+    });
+
     const newUser = await User.register({
       ...req.body,
       isAdmin: false,
@@ -64,5 +83,18 @@ router.post("/register", async function (req, res, next) {
     return next(err);
   }
 });
+
+// router.delete(
+//   "/:username/matches/delete/:user_id",
+//   async function (req, res, next) {
+//     try {
+//       const { username, user_id } = req.params;
+//       const user = await User.removeMatch(username, user_id);
+//       return res.json({ user });
+//     } catch (err) {
+//       return next(err);
+//     }
+//   }
+// );
 
 module.exports = router;
