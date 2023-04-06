@@ -20,19 +20,24 @@ afterAll(commonAfterAll);
 //       username: "jdoe",
 //       password: "password",
 //     });
-//     expect(resp.body).toBe({
-//       token: expect.any(String),
-//     });
+//     console.log(resp.body);
+//     expect(resp.statusCode).toBe(200);
+//     expect(resp.body).toHaveProperty("token");
+
+//     const { token } = resp.body;
+
+//     const decode = jwt.decode(token);
+//     expect(decode).toHaveProperty("username");
+//     expect(decode.username).toEqual("jdoe");
 //   });
 
-//   test("unauth if no such user", async function () {
-//     const resp = await request(app).post("/auth/token").send({
-//       username: "no-such",
-//       password: "user",
-//     });
-//     expect(resp.statusCode).toEqual(401);
-//   });
-// });
+test("unauth if no such user", async function () {
+  const resp = await request(app).post("/auth/token").send({
+    username: "no-such",
+    password: "user",
+  });
+  expect(resp.statusCode).toEqual(401);
+});
 
 test("unauth if wrong password", async function () {
   const resp = await request(app).post("/auth/token").send({
