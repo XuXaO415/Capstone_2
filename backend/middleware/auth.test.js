@@ -81,8 +81,8 @@ describe("authenticateJWT", function () {
 describe("ensureAdmin", function () {
   test("works", function () {
     expect.assertions(1);
-    const req = {};
-    const res = { locals: { user: { username: "test", isAdmin: true } } };
+    const req = { params: { username: "admin" } };
+    const res = { locals: { user: { username: "admin", isAdmin: true } } };
     const next = function (err) {
       expect(err).toBeFalsy();
     };
@@ -90,8 +90,8 @@ describe("ensureAdmin", function () {
   });
 
   test("unauth if not admin", function () {
-    expect.assertions(1);
-    const req = {};
+    expect.assertions(2);
+    const req = { params: { username: "test" } };
     const res = { locals: { user: { username: "test", isAdmin: false } } };
     const next = function (err) {
       expect(err instanceof UnauthorizedError).toBeTruthy();
@@ -149,5 +149,15 @@ describe("ensureAdmin", function () {
       };
       ensureCorrectUserOrAdmin(req, res, next);
     });
+  });
+
+  test("unauth if not logged in", function () {
+    expect.assertions(1);
+    const req = { params: { username: "test" } };
+    const res = { locals: {} };
+    const next = function (err) {
+      expect(err instanceof UnauthorizedError).toBeTruthy();
+    };
+    ensureCorrectUserOrAdmin(req, res, next);
   });
 });
