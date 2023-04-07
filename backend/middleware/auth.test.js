@@ -11,7 +11,6 @@ const {
 } = require("./auth");
 
 const { SECRET_KEY } = require("../config");
-// const testJwt = jwt.JsonWebTokenError;
 const testToken = jwt.sign({ username: "test", isAdmin: false }, SECRET_KEY);
 const badToken = jwt.sign({ username: "test", isAdmin: false }, "wrong");
 
@@ -63,7 +62,7 @@ describe("authenticateJWT", function () {
       const next = function (err) {
         expect(err).toBeFalsy();
       };
-      console.log("res.locals.user", res.locals.user);
+      // console.log("res.locals.user", res.locals.user);
       ensureLoggedIn(req, res, next);
     });
   });
@@ -73,7 +72,7 @@ describe("authenticateJWT", function () {
     const req = {};
     const res = { locals: {} };
     const next = function (err) {
-      expect(err instanceof UnauthorizedError).toBeFalsy();
+      expect(err instanceof UnauthorizedError).toBeTruthy();
     };
     ensureLoggedIn(req, res, next);
   });
