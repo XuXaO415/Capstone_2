@@ -6,6 +6,14 @@ const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 const { UnauthorizedError } = require("../expressError");
 
+/** Middleware: Authenticate user.
+ *
+ * If a token was provided, verify it, and, if valid, store the token payload
+ * on res.locals (this will include the username and isAdmin field.)
+ *
+ * It's not an error if no token was provided or if the token is not valid.
+ */
+
 function authenticateJWT(req, res, next) {
   try {
     const authHeader = req.headers && req.headers.authorization;
@@ -20,6 +28,11 @@ function authenticateJWT(req, res, next) {
   }
 }
 
+/** Middleware: When user must be logged in.
+ *
+ * If not, raises Unauthorized.
+ */
+
 function ensureLoggedIn(req, res, next) {
   try {
     // if (!res.locals.user?.username === undefined) throw new UnauthorizedError();
@@ -30,10 +43,16 @@ function ensureLoggedIn(req, res, next) {
   }
 }
 
+/** Middleware: Ensures correct user is logged in.
+ *
+ * Must provide a valid token and be the user matching the username provided as route param.
+ *
+ * If not, raises Unauthorized.
+ */
+
 function ensureCorrectUser(req, res, next) {
   try {
     const user = res.locals.user;
-    // if (!(user && user.currentUser === req.params.currentUser)) {
     if (!(user && user.username === req.params.username)) {
       throw new UnauthorizedError();
     }
@@ -43,37 +62,10 @@ function ensureCorrectUser(req, res, next) {
   }
 }
 
-// function ensureCorrectUser(req, res, next) {
-//   try {
-//     let jwtStr = req.body._token || req.query._token;
-//     let token = jwt.verify(jwtStr, SECRET_KEY);
-//     req.username = token.username;
-//     if (!(req.username === req.params.username)) {
-//       throw new UnauthorizedError();
-//     } else {
-//       return next();
-//     }
-//   } catch (err) {
-//     return next(err);
-//   }
-// }
-
-/** Middleware to use when they are logged in as an admin user.
+/** Middleware to use when they be logged in as an admin user.
  *
  *  If not, raises Unauthorized.
- *
  */
-
-// function ensureAdmin(req, res, next) {
-//   try {
-//     if (res.locals.user && res.locals.user.isAdmin) {
-//       return next();
-//     }
-//     throw new UnauthorizedError();
-//   } catch (err) {
-//     return next(err);
-//   }
-// }
 
 function ensureAdmin(req, res, next) {
   try {
@@ -81,10 +73,7 @@ function ensureAdmin(req, res, next) {
       return next();
     } else if (!res.locals.user.isAdmin) {
       throw new UnauthorizedError();
-    }
-    // if (!res.locals.user || !res.locals.user.isAdmin) {
-    //   throw new UnauthorizedError();
-    else return next();
+    } else return next();
   } catch (err) {
     return next(err);
   }
@@ -99,7 +88,6 @@ function ensureAdmin(req, res, next) {
 function ensureCorrectUserOrAdmin(req, res, next) {
   try {
     const user = res.locals.user;
-    // if (!(user && (user.isAdmin || user.username === req.params.username))) {
     if (
       !(user && (user.isAdmin || user.currentUser === req.params.currentUser))
     ) {
