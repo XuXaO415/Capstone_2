@@ -33,6 +33,7 @@ const router = express.Router();
  *  {user: { username, firstName, lastName, email, isAdmin }, token }
  *
  * Authorization required: admin
+ * ensureAdmin,
  **/
 
 router.post("/", ensureAdmin, async function (req, res, next) {
@@ -85,7 +86,7 @@ router.post("/login", async function (req, res, next) {
  * ensureAdmin, authenticateJWT,
  * */
 
-router.get("/", async function (req, res, next) {
+router.get("/", ensureAdmin, authenticateJWT, async function (req, res, next) {
   try {
     const users = await User.findAll();
     return res.json({
@@ -106,19 +107,23 @@ router.get("/", async function (req, res, next) {
  *    ensureCorrectUser,
  **/
 
-router.get("/:username", async function (req, res, next) {
-  try {
-    let user = await User.get(req.params.username);
-
-    console.log("req.params.username=", req.params.username);
-    return res.json({
-      user,
-      currentUser: req.params.username,
-    });
-  } catch (err) {
-    return next(err);
+router.get(
+  "/:username",
+  ensureAdmin,
+  ensureCorrectUser,
+  async function (req, res, next) {
+    try {
+      let user = await User.get(req.params.username);
+      // console.log("req.params.username=", req.params.username);
+      return res.json({
+        user,
+        currentUser: req.params.username,
+      });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 /** PATCH /[username] { fld1, fld2, ... } => { user }
  *
