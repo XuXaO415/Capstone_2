@@ -7,6 +7,12 @@ async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
 
+  // await db.query(
+  //   `INSERT INTO users (first_name, last_name, username, email, password, city, state, zip_code, country, latitude, longitude, image_url, hobbies, interests, is_admin)
+  //       VALUES('Jane', 'Doe', 'jdoe', 'test@email.com', 'password', 'SF', 'CA', '94418', 'US', '000000', '000000', NULL,  NULL, NULL,  false)
+  //       RETURNING username`
+  // );
+
   await db.query(
     `INSERT INTO users(username, password, first_name, last_name, email, city, state, zip_code, country, latitude, longitude, image_url, hobbies, interests)
         VALUES('jdoe', $1, 'Jane', 'Doe', 'test@email.com', 'SF', 'CA', '94110', 'US', '000000', '000000', NULL,  NULL, NULL),

@@ -1,3 +1,5 @@
+
+
 \echo 'Do you want to delete and recreate the database?'
 \prompt 'Press return for y or control-c to cancel > ' foo 
 

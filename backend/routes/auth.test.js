@@ -14,23 +14,6 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-// describe("POST /auth/token", function () {
-//   test("works: login", async () => {
-//     const resp = await request(app).post("/auth/token").send({
-//       username: "jdoe",
-//       password: "password",
-//     });
-//     console.log(resp.body);
-//     expect(resp.statusCode).toBe(200);
-//     expect(resp.body).toHaveProperty("token");
-
-//     const { token } = resp.body;
-
-//     const decode = jwt.decode(token);
-//     expect(decode).toHaveProperty("username");
-//     expect(decode.username).toEqual("jdoe");
-//   });
-
 test("unauth if no such user", async function () {
   const resp = await request(app).post("/auth/token").send({
     username: "no-such",

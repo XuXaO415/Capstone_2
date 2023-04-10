@@ -17,6 +17,17 @@ CREATE TABLE users (
 	is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+-- DROP TABLE IF EXISTS users CASCADE;
+-- Temporally drop NOT NULL constraints
+-- ALTER TABLE users ALTER COLUMN first_name DROP NOT NULL;
+-- ALTER TABLE users ALTER COLUMN last_name DROP NOT NULL;
+-- ALTER TABLE users ALTER COLUMN username DROP NOT NULL;
+-- ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+-- ALTER TABLE users ALTER COLUMN email DROP NOT NULL;
+-- ALTER TABLE users ALTER COLUMN city DROP NOT NULL;
+-- ALTER TABLE users ALTER COLUMN state DROP NOT NULL;	
+-- ALTER TABLE users ALTER COLUMN country DROP NOT NULL;
+
 CREATE UNIQUE INDEX users_id_idx ON users (id);
 
 ALTER TABLE likes ADD CONSTRAINT fk_likes_user_id FOREIGN KEY (user_id) REFERENCES users(id);
@@ -57,7 +68,10 @@ ALTER TABLE likes ADD COLUMN liked_image_url TEXT REFERENCES users(image_url);
 CREATE TABLE dislikes (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
-	disliked_user INTEGER REFERENCES users(id)
+	disliked_user INTEGER REFERENCES users(id),
+	disliked_user_id INTEGER REFERENCES users(id),
+	UNIQUE (user_id, disliked_user)
+
 );
 
 CREATE TABLE matches (

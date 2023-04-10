@@ -1,4 +1,5 @@
 
+
 INSERT INTO users (first_name, last_name, username, password, email, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin)
 VALUES ('test', 'user', 'testuser', '123123123', 'testuser@email.com', 'testcity', 'teststate', 'testcountry', 12345, 12345, 12345, 'https://randomuser.me/api/portraits/men/63.jpg',  ARRAY['traveling', 'shopping'],  ARRAY['art', 'sightseeing'], FALSE),
 ('Izm', 'Mad', 'Channel2live', 'testPassword', 'bombBeatz@gmail.com', 'testcity', 'test', 'testcountry', 12345, 12345, 12345, 'https://randomuser.me/api/portraits/women/44.jpg', ARRAY['testhobbies', 'rock climbing'], ARRAY['pleasssse work'], TRUE),
@@ -26,13 +27,6 @@ VALUES ('test', 'user', 'testuser', '123123123', 'testuser@email.com', 'testcity
 ('Filberto', 'Tewkesbury.', 'ftewkesburyl', 'vRTqhpnh0wFb', 'ftewkesburyl@tonline.de', 'Gīdolē', 'Gīdolē', 'Ethiopia', NULL, 5.6497493, 37.3693679, 'https://randomuser.me/api/portraits/women/89.jpg', 'Sports', 'Flowdesk', FALSE),
 ('Jobie', 'Cloughton', 'jcloughtonm', 'IRuumJuq4n', 'jcloughtonm@yale.edu', 'Joubb Jannîne', 'Lebanon', 'Lebanon', 3025-511, 33.6328198, 35.7819158, 'https://randomuser.me/api/portraits/men/89.jpg', 'Sports', 'Latlux', FALSE),
 ('Cozmo', 'Carter', 'ccartern', 'xhJ3SrjaguDh', 'ccartern@w3.org', 'Yabluniv', 'Ukraine', 'Ukraine', '2425823', 48.4018664, 24.9415656, 'https://randomuser.me/api/portraits/women/35.jpg', 'Outdoors', 'Holdlamis', FALSE);
-
-
-
-
-
-
-
 
 
 

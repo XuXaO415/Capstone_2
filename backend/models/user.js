@@ -36,41 +36,12 @@ class User {
     if (user) {
       const isValid = await bcrypt.compare(password, user.password);
       if (isValid === true) {
+        console.log("password comparison is true");
         delete user.password;
         return user;
       }
     }
     throw new UnauthorizedError("Invalid username/password");
-  }
-
-  static async get(username) {
-    const userRes = await db.query(
-      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
-            FROM users
-            WHERE username = $1`,
-      [username]
-    );
-
-    const user = userRes.rows[0];
-
-    if (!user) throw new NotFoundError(`No user: ${username}`);
-
-    return user;
-  }
-
-  static async getUserById(id) {
-    const userRes = await db.query(
-      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
-            FROM users
-            WHERE id = $1`,
-      [id]
-    );
-
-    const user = userRes.rows[0];
-
-    if (!user) throw new NotFoundError(`No user id: ${id}`);
-
-    return user;
   }
 
   /** Register user with data.
@@ -97,11 +68,18 @@ class User {
     interests,
     isAdmin,
   }) {
+    // const duplicateCheck = await db.query(
+    //   `SELECT username, last_name
+    //         FROM users
+    //         WHERE username = $1 OR last_name = $2`,
+    //   [username, lastName]
+    // );
+    // only check for duplicate username
     const duplicateCheck = await db.query(
-      `SELECT username, last_name 
+      `SELECT username
             FROM users
-            WHERE username = $1 OR last_name = $2`,
-      [username, lastName]
+            WHERE username = $1`,
+      [username]
     );
 
     if (duplicateCheck.rows[0]) {
@@ -149,6 +127,37 @@ class User {
       ]
     );
     const user = result.rows[0];
+
+    return user;
+  }
+
+  static async get(username) {
+    const userRes = await db.query(
+      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
+            FROM users
+            WHERE username = $1`,
+      [username]
+    );
+
+    const user = userRes.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+
+    return user;
+  }
+
+  static async getUserById(id) {
+    const userRes = await db.query(
+      `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
+            FROM users
+            WHERE id = $1`,
+
+      [id]
+    );
+
+    const user = userRes.rows[0];
+
+    if (!user) throw new NotFoundError(`No user id: ${id}`);
 
     return user;
   }
