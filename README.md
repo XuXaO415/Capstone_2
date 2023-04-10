@@ -179,6 +179,11 @@ psql < urguide.sql
    node server.js
 ```
 
+To run complete backend testing
+```
+jest -i
+```
+
 
 <!-- GETTING STARTED ON THE CLIENT-SIDE -->
 ### Getting Started on the Client-Side
