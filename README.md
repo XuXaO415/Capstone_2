@@ -156,25 +156,25 @@ Why use UrGuide?
 ```
 git clone https://github.com/XuXaO415/Capstone_2.git
 ```
-2. 
+1. change directories
 ```
 cd into backend
 ```
-3. Create your database
+1. Create your database
 ``` 
 createdb <urguide>
 ```
-4. Seed data
+1. Seed data
 ``` 
 psql < urguide.sql
 ```
-5. Follow script instructions OR
-6. You can also manually add these commands in psql
+1. Follow script instructions OR
+2. You can also manually add these commands in psql
 ```
 \i urguide-schema.sql
 \i urguide-seed.sql
 ```
-7. Start your server
+1. Start your server
 ```
    node server.js
 ```
