@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
 import MatchCard from "./MatchCard";
@@ -96,18 +97,32 @@ const LikeMatchList = () => {
     })();
   }, [currentUser.username, user_id]);
 
-  // async function dislikeMatch(user_id) {
-  //   try {
-  //     setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // }
+  async function dislikeMatch(user_id) {
+    try {
+      await new Promise((resolve) => {
+        UrGuideApi.dislikeMatch(currentUser.username, user_id).then(() => {
+          setLikedMatches((m) =>
+            m.filter((match) => match.user_id !== user_id)
+          );
+          console.log("dislikeMatch: ", user_id);
+          setTimeout(() => {
+            setMatchInfo(user_id);
+            resolve();
+          }, 2000);
+        });
+      });
+    } catch (err) {
+      setError(err);
+    }
+  }
 
   // async function dislikeMatch(user_id) {
   //   try {
-  //     let matchInfo = await UrGuideApi.dislikeMatch(
+  //     await UrGuideApi.dislikeMatch(currentUser.username, user_id);
+  //     console.log(
+  //       "currentUser",
   //       currentUser.username,
+  //       "dislikeMatch: ",
   //       user_id
   //     );
   //     setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
@@ -116,23 +131,15 @@ const LikeMatchList = () => {
   //   }
   // }
 
-  async function dislikeMatch(user_id) {
-    try {
-      await UrGuideApi.dislikeMatch(currentUser.username, user_id);
-      setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
-    } catch (err) {
-      setError(err);
-    }
-  }
-
   if (error) return <p>Sorry, there was an error</p>;
 
   if (!likedMatches) return <p>Loading...</p>;
 
   return likedMatches.length ? (
-    <div className="MatchList-list">
+    <div className="Liked-matches">
       <div className="text-center">
         <h1 className="display-4">{currentUser.username}'s liked matches</h1>
+
         {likedMatches.map((l, idx) => (
           <MatchCard
             key={idx}
@@ -146,15 +153,12 @@ const LikeMatchList = () => {
             zip_code={l.zip_code}
             interests={l.interests}
             hobbies={l.hobbies}
+            dislike={dislikeMatch}
           />
         ))}
-        {/* 
-        <button
-          className="btn btn-danger"
-          onClick={() => dislikeMatch(user_id)}
-        >
-          Dislike
-        </button> */}
+        <Link to={`/matches`}>
+          <button className="btn btn-primary">Back to matches</button>
+        </Link>
       </div>
     </div>
   ) : (

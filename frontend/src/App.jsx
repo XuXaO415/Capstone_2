@@ -6,17 +6,24 @@ import Navigation from "./Nav/Navigation";
 import UserContext from "./context/UserContext";
 import jwt from "jsonwebtoken";
 import Routes from "./Routes";
+import SavePageLocation from "./hooks/savePageLocation";
 
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+
   const [currentUser, setCurrentUser] = useState({
     data: null,
     isLoaded: false,
   });
 
   const [potentialMatches, setPotentialMatches] = useState({
+    data: null,
+    isLoaded: false,
+  });
+
+  const [likedMatches, setLikedMatches] = useState({
     data: null,
     isLoaded: false,
   });
@@ -102,7 +109,6 @@ function App() {
       await UrGuideApi.likeMatch(username, user_id);
       let likePotentialMatches = await UrGuideApi.likeMatch(
         currentUser.username,
-        // username,
         user_id
       );
       setPotentialMatches(likePotentialMatches);
@@ -111,12 +117,24 @@ function App() {
     }
   }
 
+  // async function dislikeMatch(currentUser, user_id) {
+  //   try {
+  //     await UrGuideApi.dislikeMatch(currentUser, user_id);
+  //     let dislikeMatch = await UrGuideApi.dislikeMatch(
+  //       currentUser.username,
+  //       user_id
+  //     );
+  //     setPotentialMatches(dislikeMatch);
+  //   } catch (err) {
+  //     console.error("unlikeUser failed", err);
+  //   }
+  // }
+
   async function dislikeMatch(username, user_id) {
     try {
       await UrGuideApi.dislikeMatch(username, user_id);
       let dislikeMatch = await UrGuideApi.dislikeMatch(
         currentUser.username,
-        // username,
         user_id
       );
       setPotentialMatches(dislikeMatch);
@@ -125,43 +143,6 @@ function App() {
     }
   }
 
-  async function getLikedMatches() {
-    try {
-      let { username, user_id } = jwt.decode(token);
-      console.log("username", username, "user_id", user_id);
-      await UrGuideApi.getLikedMatches(username, user_id);
-      setPotentialMatches(
-        await UrGuideApi.getLikedMatches(currentUser.username, user_id)
-      );
-    } catch (err) {
-      console.error("getLikedMatches failed", err);
-    }
-  }
-
-  // async function getLikedMatches() {
-  //   if (token) {
-  //     try {
-  //       let { username, user_id } = jwt.decode(token);
-  //       console.log("username", username, "user_id", user_id);
-  //       let likedMatches = await UrGuideApi.getLikedMatches(username, user_id);
-  //       setPotentialMatches({
-  //         data: likedMatches,
-  //         isLoaded: true,
-  //       });
-  //     } catch (err) {
-  //       console.error("App loadPotentialMatches error", err);
-  //       setPotentialMatches((currPotentialMatches) => ({
-  //         ...currPotentialMatches,
-  //         isLoaded: true,
-  //       }));
-  //     }
-  //   } else {
-  //     setPotentialMatches({
-  //       data: null,
-  //       isLoaded: true,
-  //     });
-  //   }
-  // }
   return (
     <div className="App">
       <UserContext.Provider
@@ -170,8 +151,8 @@ function App() {
           setCurrentUser,
           potentialMatches,
           setPotentialMatches,
-          getLikedMatches,
-          // getLikedUsers,
+          likedMatches,
+          setLikedMatches,
           likeUser,
           dislikeMatch,
         }}
@@ -182,13 +163,6 @@ function App() {
             currentUser={currentUser.data}
             login={login}
             signup={signup}
-            // uploadImage={uploadImage}
-            // like={likeUser}
-            // dislike={dislikeMatch}
-
-            // potentialMatches={potentialMatches}
-            // matchUsers={matchUsers}
-            // getLikedMatches={getLikedMatches}
           />
         </BrowserRouter>
       </UserContext.Provider>

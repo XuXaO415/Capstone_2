@@ -19,49 +19,49 @@ import UserContext from "../context/UserContext";
  *
  */
 
-// function PrivateRoute({ exact, path, children }) {
-//   const { currentUser } = useContext(UserContext);
-
-//   console.debug(
-//     "PrivateRoute",
-//     "exact=",
-//     exact,
-//     "path=",
-//     path,
-//     "currentUser=",
-//     currentUser
-//   );
-
-//   if (!currentUser) {
-//     return <Link to="/login" />;
-//   }
-
-//   return (
-//     <Route exact={exact} path={path}>
-//       {children}
-//     </Route>
-//   );
-// }
-
-function PrivateRoute({ children, ...rest }) {
+function PrivateRoute({ exact, path, children }) {
   const { currentUser } = useContext(UserContext);
 
+  console.debug(
+    "PrivateRoute",
+    "exact=",
+    exact,
+    "path=",
+    path,
+    "currentUser=",
+    currentUser
+  );
+
+  if (!currentUser) {
+    return <Link to="/login" />;
+  }
+
   return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        currentUser ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
+    <Route exact={exact} path={path}>
+      {children}
+    </Route>
   );
 }
+
+// function PrivateRoute({ children, ...rest }) {
+//   const { currentUser } = useContext(UserContext);
+
+//   return (
+//     <Route
+//       {...rest}
+//       render={({ location }) =>
+//         currentUser ? (
+//           children
+//         ) : (
+//           <Redirect
+//             to={{
+//               pathname: "/login",
+//               state: { from: location },
+//             }}
+//           />
+//         )
+//       }
+//     />
+//   );
+// }
 export default PrivateRoute;

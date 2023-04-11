@@ -10,12 +10,7 @@ const userIds = [];
 
 async function commonBeforeAll() {
   // await db.query("DELETE FROM users");
-  // await db.query(
-  //   `INSERT INTO users(username, password, first_name, last_name, email, city, state, zip_code, country, latitude, longitude, image_url, hobbies, interests)
-  //       VALUES('jdoe', 'password', 'Jane', 'Doe', 'test@email.com', 'SF', 'CA', '94110', 'US', '000000', '000000', NULL,  NULL, NULL),
-  //             ('newuser', 'password2', 'New', 'User', 'test2@email.com', 'Oakland', 'CA', '94601', 'US', '100000', '100000', NULL,  NULL, NULL)
-  //       RETURNING username`
-  // );
+  //testing this section
 }
 
 async function commonBeforeEach() {
