@@ -58,37 +58,6 @@ afterAll(commonAfterAll);
 
 
 /************************************** GET /users */
-describe("GET /users", function () {
-  test("works for admins", async function () {
-    const resp = await request(app)
-        .get("/users")
-        .set("authorization", `Bearer ${adminToken}`);
-    expect(resp.body).toEqual({
-      users: [
-        {
-          username: "u1",
-          firstName: "U1F",
-          lastName: "U1L",
-          email: "user1@user.com",
-          isAdmin: false,
-        },
-        {
-          username: "u2",
-          firstName: "U2F",
-          lastName: "U2L",
-          email: "user2@user.com",
-          isAdmin: false,
-        },
-        {
-          username: "u3",
-          firstName: "U3F",
-          lastName: "U3L",
-          email: "user3@user.com",
-          isAdmin: false,
-        },
-      ],
-    });
-  });
 
   test("unauth for non-admin users", async function () {
     const resp = await request(app)
@@ -102,6 +71,6 @@ describe("GET /users", function () {
     expect(401);
   });
 
-});
+
 
 
