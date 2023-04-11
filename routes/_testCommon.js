@@ -10,6 +10,7 @@ const userIds = [];
 
 async function commonBeforeAll() {
   // await db.query("DELETE FROM users");
+  //testing deployment
 }
 
 async function commonBeforeEach() {
