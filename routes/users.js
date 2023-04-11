@@ -55,6 +55,26 @@ router.post("/", ensureAdmin, async function (req, res, next) {
   }
 });
 
+/** GET /users => { users: [ { username, firstName, lastName, email, isAdmin }, ...] }
+ *
+ * Returns list of all users.
+ *
+ * Authorization required: admin, auth with JWT
+ *
+ * ensureAdmin
+ * */
+
+router.get("/", ensureAdmin,  async function (req, res, next) {
+  try {
+    const users = await User.findAll();
+    return res.json({
+      users,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 /** POST /users/login { user } => { token }
  *
  * user should be { username, password, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests }
@@ -71,26 +91,6 @@ router.post("/login", async function (req, res, next) {
     const token = createToken(user);
     return res.json({
       token,
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** GET /users => { users: [ { username, firstName, lastName, email, isAdmin }, ...] }
- *
- * Returns list of all users.
- *
- * Authorization required: admin, auth with JWT
- *
- * ensureAdmin, authenticateJWT,
- * */
-
-router.get("/", ensureAdmin, authenticateJWT, async function (req, res, next) {
-  try {
-    const users = await User.findAll();
-    return res.json({
-      users,
     });
   } catch (err) {
     return next(err);

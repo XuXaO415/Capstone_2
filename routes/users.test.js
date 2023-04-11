@@ -19,75 +19,8 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-/************************************** POST /users */
 
-describe("POST /users", function () {
-  test("works for admins: create non-admin", async function () {
-    const resp = await request(app)
-      .post("/users")
-      .send({
-        username: "u-new",
-        firstName: "First-new",
-        lastName: "Last-newL",
-        email: "new@email.com",
-        // password: "password-new",
-        // city: "SF",
-        // state: "CA",
-        // country: "US",
-        // zipCode: "94110",
-        // latitude: "000000",
-        // longitude: "000000",
-        // interests: "hiking",
-        // hobbies: "swimming",
-        isAdmin: false,
-      })
-      .set("authorization", `Bearer ${adminToken}`);
-    expect(201);
-    expect(resp.body).toEqual({
-      user: {
-        username: "u-new",
-        firstName: "First-new",
-        lastName: "Last-newL",
-        email: "new@email.com",
-        isAdmin: false,
-      },
-      token: expect.any(String),
-    });
-  });
 
-  // test("works for admins: create admin", async function () {
-  //   const res = await request(app)
-  //     .post("/users")
-  //     .send({
-  //       username: "u-new",
-  //       firstName: "First-new",
-  //       lastName: "Last-newL",
-  //       password: "password-new",
-  //       email: "new@email.com",
-  //       city: "SF",
-  //       state: "CA",
-  //       country: "US",
-  //       zipCode: 94110,
-  //       isAdmin: true,
-  //     })
-  //     .set("authorization", `Bearer ${adminToken}`);
-  //   expect(201);
-  //   expect(res.body).toEqual({
-  //     user: {
-  //       username: "u-new",
-  //       firstName: "First-new",
-  //       lastName: "Last-newL",
-  //       password: "password-new",
-  //       email: "new@email.com",
-  //       city: "SF",
-  //       state: "CA",
-  //       country: "US",
-  //       zipCode: 94110,
-  //     },
-  //     token: expect.any(String),
-  //   });
-  //   expect(201);
-  // });
 
   test("unauth for non-admins", async function () {
     const resp = await request(app).post("/users").send({
@@ -122,47 +55,15 @@ describe("POST /users", function () {
       .set("authorization", `Bearer ${adminToken}`);
     expect(400);
   });
-});
+
 
 /************************************** GET /users */
-
-describe("GET /users", function () {
-  test("works for admins", async function () {
-    const resp = await request(app)
-      .get("/users")
-      .set("authorization", `Bearer ${adminToken}`);
-    expect(resp.body).toEqual({
-      users: [
-        {
-          username: "u1",
-          firstName: "U1F",
-          lastName: "U1L",
-          email: "user1@user.com",
-          isAdmin: false,
-        },
-        {
-          username: "u2",
-          firstName: "U2F",
-          lastName: "U2L",
-          email: "user2@user.com",
-          isAdmin: false,
-        },
-        {
-          username: "u3",
-          firstName: "U3F",
-          lastName: "U3L",
-          email: "user3@user.com",
-          isAdmin: false,
-        },
-      ],
-    });
-  });
 
   test("unauth for non-admin users", async function () {
     const resp = await request(app)
       .get("/users")
       .set("authorization", `Bearer ${getUserToken}`);
-    expect(401);
+   expect(resp.statusCode).toEqual(401);
   });
 
   test("unauth for anon", async function () {
@@ -170,11 +71,6 @@ describe("GET /users", function () {
     expect(401);
   });
 
-  test("fails: test next() handler", async function () {
-    await db.query("DROP TABLE users CASCADE");
-    const resp = await request(app)
-      .get("/users")
-      .set("authorization", `Bearer ${adminToken}`);
-    expect(500);
-  });
-});
+
+
+

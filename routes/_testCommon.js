@@ -2,10 +2,9 @@
 
 const db = require("../db.js");
 const User = require("../models/user");
-// const User = require("../routes/users");
 const { createToken } = require("../helpers/tokens");
 
-const userIds = [];
+
 // let getUserToken, adminToken;
 
 async function commonBeforeAll() {
@@ -44,5 +43,4 @@ module.exports = {
   commonBeforeEach,
   adminToken,
   getUserToken,
-  userIds,
 };
