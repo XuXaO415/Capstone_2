@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory, Route } from "react-router-dom";
 import UrGuideApi from "../api";
 import UserContext from "../context/UserContext";
@@ -7,6 +7,7 @@ import Alert from "../common/Alert";
 import MatchCard from "./MatchCard";
 import LikeMatchList from "./LikeMatchList";
 import { Button } from "react-bootstrap";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 /** Show page with a list of potential matches
  *
@@ -24,11 +25,6 @@ const MatchList = () => {
   const [matches, setMatches] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
   const [setError] = useState(null);
-
-  // const message = {
-  //   liked: `${currentUser.username} liked ${user_id}`,
-  //   disliked: `${currentUser.username} disliked ${user_id}`,
-  // };
 
   useEffect(() => {
     (async () => {
@@ -164,10 +160,9 @@ const MatchList = () => {
                 // handleLike={likeMatch}
               />
             ))}
-
-            {/* <Link to={`/likes`}>
-            <Button variant="primary">Liked Matches</Button>
-          </Link> */}
+            <Link to={`/likes`}>
+              <Button variant="primary">Liked Matches</Button>
+            </Link>
           </div>
         ) : (
           <p className="lead">No matches yet!</p>

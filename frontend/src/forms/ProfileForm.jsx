@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Alert from "../common/Alert";
+import "./ProfileForm.css";
 
 //create a form for the user to update their profile
 
@@ -81,8 +82,8 @@ function ProfileForm() {
 
   return (
     <div className="ProfileForm col-md-6 col-lg-4 offset-md-3 offset-lg-4">
-      <h1>Update Profile</h1>
-      <div className="container">
+      <h1 className="profile-header">Update Profile</h1>
+      <div className="profile-container">
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row} controlId="formHorizontalUsername">
             <Form.Label column sm={4}>

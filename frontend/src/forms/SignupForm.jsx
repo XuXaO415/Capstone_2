@@ -18,6 +18,7 @@ function SignupForm({ signup }) {
     email: "",
     city: "",
     country: "",
+    state: "",
     zipCode: "",
     hobbies: "",
     interests: "",
