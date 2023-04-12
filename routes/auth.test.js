@@ -14,6 +14,21 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
+
+describe("POST /auth/token", function () {
+  test("works", async function () {
+    const resp = await request(app)
+        .post("/auth/token")
+        .send({
+          username: "u1",
+          password: "password1",
+        });
+    expect(resp.body).toEqual({
+      "token": expect.any(String),
+    });
+  });
+});
+
 test("unauth if no such user", async function () {
   const resp = await request(app).post("/auth/token").send({
     username: "no-such",
