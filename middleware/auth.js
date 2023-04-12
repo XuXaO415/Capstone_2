@@ -67,17 +67,28 @@ function ensureCorrectUser(req, res, next) {
  *  If not, raises Unauthorized.
  */
 
+// function ensureAdmin(req, res, next) {
+//   try {
+//     if (res.locals.user.username === req.params.username) {
+//       return next();
+//     } else if (!res.locals.user.isAdmin) {
+//       throw new UnauthorizedError();
+//     } else return next();
+//   } catch (err) {
+//     return next(err);
+//   }
+// }
+
 function ensureAdmin(req, res, next) {
-  try {
-    if (res.locals.user.username === req.params.username) {
-      return next();
-    } else if (!res.locals.user.isAdmin) {
-      throw new UnauthorizedError();
-    } else return next();
-  } catch (err) {
-    return next(err);
+    try {
+        if (!res.locals.user || !res.locals.user.isAdmin) {
+            throw new UnauthorizedError();
+        }
+        return next();
+    } catch (err) {
+        return next(err);
+    }
   }
-}
 
 /** Middleware to use when they must provide a valid token & be user matching
  *  username provided as route param.
