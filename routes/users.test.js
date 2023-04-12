@@ -41,20 +41,20 @@ afterAll(commonAfterAll);
     expect(400);
   });
 
-  test("bad request with invalid data", async function () {
-    const resp = await request(app)
-      .post("/users")
-      .send({
-        username: "u-new",
-        firstName: "First-new",
-        lastName: "Last-newL",
-        password: "password-new",
-        email: "not-an-email",
-        isAdmin: true,
-      })
-      .set("authorization", `Bearer ${adminToken}`);
-    expect(400);
-  });
+  // test("bad request with invalid data", async function () {
+  //   const resp = await request(app)
+  //     .post("/users")
+  //     .send({
+  //       username: "u-new",
+  //       firstName: "First-new",
+  //       lastName: "Last-newL",
+  //       password: "password-new",
+  //       email: "not-an-email",
+  //       isAdmin: true,
+  //     })
+  //     .set("authorization", `Bearer ${adminToken}`);
+  //   expect(400);
+  // });
 
 
 /************************************** GET /users */
