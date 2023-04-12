@@ -1,0 +1,54 @@
+.Homepage {
+  /* put around the vertical center of page */
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+}
+
+.Homepage-background {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://images.pexels.com/photos/5098287/pexels-photo-5098287.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  /* background-image: url("https://images.pexels.com/photos/6760912/pexels-photo-6760912.jpeg"); */
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  flex-direction: absolute;
+  justify-content: center;
+  left: 0;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.Homepage h1 {
+  font-size: 3em;
+  opacity: 0.8;
+  color: white;
+  align-items: center;
+  text-shadow: 0px 0px 10px black;
+  font-family: "Zen Kaku Gothic Antique", "Nanum Gothic", sans-serif;
+}
+
+.lead-paragraph {
+  top: 50%;
+  font-size: 1.7em;
+  opacity: 0.8;
+  color: white;
+  text-shadow: 0px 0px 10px black;
+  align-items: center;
+  font-family: "Zen Kaku Gothic Antique", "Nanum Gothic", sans-serif;
+}
+
+.second-paragraph {
+  top: 50%;
+  font-size: 1.7em;
+  opacity: 0.8;
+  color: white;
+  text-shadow: 0px 0px 10px black;
+  align-items: center;
+  font-family: "Zen Kaku Gothic Antique", "Nanum Gothic", sans-serif;
+  font-weight: 100px;
+}

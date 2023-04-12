@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/userMatch.json",
+  "title": "User Matches",
+  "type": "object",
+  "properties": {
+    "matches": {
+      "description": "A list of users that match the current user based on likes, interests & hobbies",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The unique identifier (id) for a user",
+            "type": "integer"
+          },
+          "interests": {
+            "description": "A list of interests that the user has",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hobbies": {
+            "description": "A list of hobbies that the user has",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "like": {
+            "description": "A list of likes that the user has",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dislike": {
+            "description": "A list of dislikes that the user has",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true,
+        "required": ["id", "interests", "hobbies", "like", "dislike"]
+      }
+    }
+  }
+}
