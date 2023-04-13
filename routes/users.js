@@ -105,12 +105,14 @@ router.post("/login", async function (req, res, next) {
  *
  *   ensureCorrectUserOrAdmin,
  *    ensureCorrectUser,
+ * 
+ *   ensureAdmin,
+  ensureCorrectUser,
  **/
 
 router.get(
   "/:username",
-  ensureAdmin,
-  ensureCorrectUser,
+
   async function (req, res, next) {
     try {
       let user = await User.get(req.params.username);

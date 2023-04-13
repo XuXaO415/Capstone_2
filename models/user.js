@@ -79,8 +79,16 @@ class User {
       `SELECT username
             FROM users
             WHERE username = $1`,
-      [username]
+      [username],
     );
+
+    //     const duplicateCheck = await db.query(
+    //   `SELECT lastName
+    //         FROM users
+    //         WHERE lastName = $1`,
+    //   [lastName],
+    // );
+
 
     if (duplicateCheck.rows[0]) {
       throw new BadRequestError(`Duplicate username: ${username}`);

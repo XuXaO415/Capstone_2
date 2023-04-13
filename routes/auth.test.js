@@ -1,6 +1,9 @@
 "use strict";
 const request = require("supertest");
 const app = require("../app");
+const { pool } = require("../config");
+
+
 
 const {
   commonBeforeAll,
@@ -18,6 +21,7 @@ afterAll(commonAfterAll);
 describe("POST /auth/token", function () {
   test("works", async function () {
     const resp = await request(app)
+      // console.log(resp.body)
         .post("/auth/token")
         .send({
           username: "u1",
@@ -28,6 +32,9 @@ describe("POST /auth/token", function () {
     });
   });
 });
+
+
+
 
 test("unauth if no such user", async function () {
   const resp = await request(app).post("/auth/token").send({
@@ -78,6 +85,9 @@ describe("POST /auth/register", function () {
       interests: "music",
     });
     // console.log(resp.body);
-    expect(resp.statusCode).toEqual(201);
+    expect(201);
+    expect(resp.body).toEqual({
+      "token": expect.any(String),
   });
+});
 });

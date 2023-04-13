@@ -19,22 +19,22 @@ const { BadRequestError } = require("../expressError");
  * Authorization required: none
  */
 
-router.post("/token", async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body, userAuthSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
-      throw new BadRequestError(errs);
-    }
+router.post("/token", async function(req, res, next) {
+    try {
+        const validator = jsonschema.validate(req.body, userAuthSchema);
+        if (!validator.valid) {
+            const errs = validator.errors.map((e) => e.stack);
+            throw new BadRequestError(errs);
+        }
 
-    const { username, password } = req.body;
-    const user = await User.authenticate(username, password);
-    const token = createToken(user);
-    console.log("token created successfully:", token, "user is =", user);
-    return res.json({ token, user });
-  } catch (err) {
-    return next(err);
-  }
+        const { username, password } = req.body;
+        const user = await User.authenticate(username, password);
+        const token = createToken(user);
+        console.log("token created successfully:", token, "user is =", user);
+        return res.json({ token });
+    } catch (err) {
+        return next(err);
+    }
 });
 
 /** POST /auth/register:   user => { token }
@@ -43,45 +43,45 @@ router.post("/token", async function (req, res, next) {
  * Authorization required: none
  */
 
-router.post("/register", async function (req, res, next) {
-  try {
-    // const validator = jsonschema.validate(req.body, userRegisterSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map((e) => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
+router.post("/register", async function(req, res, next) {
+    try {
+        // const validator = jsonschema.validate(req.body, userRegisterSchema);
+        // if (!validator.valid) {
+        //   const errs = validator.errors.map((e) => e.stack);
+        //   throw new BadRequestError(errs);
+        // }
 
-    const checkFields = [
-      "username",
-      "password",
-      "firstName",
-      "lastName",
-      "email",
-      "city",
-      "state",
-      "country",
-      "zipCode",
-      "hobbies",
-      "interests",
-    ];
-    checkFields.forEach((field) => {
-      if (!req.body[field]) {
-        throw new BadRequestError(`Missing ${field} in request body.`);
-      }
-    });
+        const checkFields = [
+            "username",
+            "password",
+            "firstName",
+            "lastName",
+            "email",
+            "city",
+            "state",
+            "country",
+            "zipCode",
+            "hobbies",
+            "interests",
+        ];
+        checkFields.forEach((field) => {
+            if (!req.body[field]) {
+                throw new BadRequestError(`Missing ${field} in request body.`);
+            }
+        });
 
-    const newUser = await User.register({
-      ...req.body,
-      isAdmin: false,
-    });
+        const newUser = await User.register({
+            ...req.body,
+            isAdmin: false,
+        });
 
-    const token = createToken(newUser);
-    return res.status(201).json({
-      token,
-    });
-  } catch (err) {
-    return next(err);
-  }
+        const token = createToken(newUser);
+        return res.status(201).json({
+            token,
+        });
+    } catch (err) {
+        return next(err);
+    }
 });
 
 // router.delete(
