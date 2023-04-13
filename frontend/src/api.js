@@ -62,6 +62,8 @@ class UrGuideApi {
     return res.token;
   }
 
+
+
   static async signup(data) {
     let res = await this.request(`auth/register`, data, "POST");
     console.log(res, "res from signup was successful");
